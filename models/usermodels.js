@@ -8,6 +8,7 @@ function readFiles() {
     const temp = JSON.parse(usefile);
     return temp;
 }
+
 function writeFiles(Obj) {
     fs.writeFileSync(tempdata,JSON.stringify(Obj,null,3))
     return "file updated"

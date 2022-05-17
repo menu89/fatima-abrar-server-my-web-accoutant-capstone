@@ -7,6 +7,14 @@ function confirmRegisFields(username, email, password, confirmpassword) {
     return errorList
 }
 
+function confirmLoginFields(username,password) {
+    const errorList = []
+    if (!username) {errorList.push('username')}
+    if (!password) {errorList.push('password')}
+    return errorList
+}
+
 module.exports = {
-    confirmRegisFields
+    confirmRegisFields,
+    confirmLoginFields
 }

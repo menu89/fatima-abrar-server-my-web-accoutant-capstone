@@ -1,5 +1,5 @@
 const { writeFiles, readFiles} = require('../models/usermodels');
-const { confirmRegisFields } = require('../utilfuncs/confirmFields');
+const { confirmRegisFields, confirmLoginFields } = require('../utilfuncs/confirmFields');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -28,11 +28,16 @@ const userRegistration = (req,res) => {
     res.json(response)
 }
 
-const funcNameTwo = (req,res) => {
+const userLogin = (req,res) => {
+    const {username, password} = req.body
 
+    if (!username || !password) {
+        const errorList = confirmLoginFields(username, password)
+        res.status(400).send(`The following fields are missing: ${errorList.join(", ")}`)
+    }
 }
 
 module.exports = {
     userRegistration,
-    funcNameTwo
+    userLogin
 }
