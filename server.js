@@ -13,7 +13,7 @@ server.use(express.json())
 
 
 //routes
-server.use('/api/', userRoutes);
+server.use('/api', userRoutes);
 
 
 //initialize server

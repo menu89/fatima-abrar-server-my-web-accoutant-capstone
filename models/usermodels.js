@@ -5,8 +5,12 @@ const tempdata = './tempdata/tempdata.json';
 
 function readFiles() {
     const usefile = fs.readFileSync(tempdata);
-    const treeData = JSON.parse(usefile);
-    return treeData;
+    const temp = JSON.parse(usefile);
+    return temp;
+}
+function writeFiles(Obj) {
+    fs.writeFileSync(tempdata,JSON.stringify(Obj,null,3))
+    return "file updated"
 }
 
 const getAll = () => {
@@ -14,5 +18,6 @@ const getAll = () => {
 }
 
 module.exports = {
-    getAll
+    readFiles,
+    writeFiles
 }
