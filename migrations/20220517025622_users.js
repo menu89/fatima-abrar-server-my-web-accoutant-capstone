@@ -10,6 +10,20 @@ exports.up = function(knex) {
       table.string('email').notNullable();
       table.string('password').notNullable()
   })
+  .createTable('opening_bank_balances', (table) => {
+      table.increments('id').primary();
+      table.string('acc_type').notNullable();
+      table.string('acc_des').notNullable();
+      table.integer('amount').notNullable().defaultTo(0);
+      table
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users_list')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+  })
 };
 
 /**
@@ -17,42 +31,6 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTable('users_list');
+  return knex.schema.dropTable('opening_bank_balances').dropTable('users_list');
 };
 
-/**
-samples from codealong 
- exports.up = function(knex) {
-    return knex.schema
-    .createTable('warehouse', (table) => {
-      table.increments('id').primary();
-      table.string('name').notNullable();
-      table.string('position').notNullable().defaultTo('Store Manager');
-      table.string('manager').notNullable();
-      table.string('address').notNullable();
-      table.string('phone').notNullable();
-      table.string('email').notNullable();
-      table.timestamp('updated_at').defaultTo(knex.fn.now());
-    })
-    .createTable('inventory', (table) => {
-      table.increments('id').primary();
-      table.string('name').notNullable();
-      table.string('description').notNullable();
-      table
-        .integer('warehouse_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('warehouse')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE');
-      table.integer('quantity').notNullable().defaultTo(0);
-      table.string('status').notNullable();
-      table.timestamp('updated_at').defaultTo(knex.fn.now());
-    });
-};
- 
-exports.down = function(knex) {
-    return knex.schema.dropTable('inventory').dropTable('warehouse');
-};
-*/
