@@ -1,31 +1,25 @@
-const { writeFiles, readFiles} = require('../models/usermodels');
+const { writeFiles, readFiles, addNewUser} = require('../models/usermodels');
 const { confirmRegisFields, confirmLoginFields } = require('../utilfuncs/confirmFields');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const userRegistration = (req,res) => {
+const userRegistration = (req,res, next) => {
     const { username, email, password, confirmpassword } = req.body
 
-    if ( !username || !email || !password || !confirmpassword) {
-        const errorList = confirmRegisFields(username, email, password, confirmpassword)
-        return res.status(400).send(`Please enter all the required fields. The following fields are missing: ${errorList.join(", ")}`)
-    }
-
-    if ( password !== confirmpassword) {
-        return res.status(400).send("Passwords do not match")
+    let returnMsg = confirmRegisFields(username, email, password, confirmpassword)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).send(returnMsg.message)
     }
 
     const protectedPassword = bcrypt.hashSync(password, 12)
 
-    const newUser = {
+    req.newUser = {
         username: username,
         email: email,
         password: protectedPassword
     }
 
-    const response = writeFiles(newUser)
-
-    res.json(response)
+    next();    
 }
 
 const userLogin = (req,res) => {
