@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { userInfo } = require('os');
 const knex = require('knex')(require('../knexfile'));
 
 /** temporary functions to test end points */
@@ -46,9 +47,40 @@ function findUser(req,res,next) {
         })
 }
 
+function validateCredentials (req, res, next) {
+    const {id, email} = req.user
+    knex('users_list')
+        .where({email: email})
+        .then((userInfo) => {
+            if (userInfo.length === 0) {
+                return res.status(400).send("There is no user registered with this email")
+            }
+            if (id !== userInfo[0].id) {
+                return res.status(400).send('Invalid token')
+            }
+            next()
+        })
+        .catch((err) => {
+            res.status(400).send("Something wrong went with your request.")
+        })
+}
+
+function addBankAcc (req,res) {
+    knex('opening_bank_balances')
+    .insert(req.newAcc)
+    .then(() => { 
+        return res.status(201).json("Account added Successfully")
+    })
+    .catch((err) => { 
+        return res.status(400).json("Failed to add the requested record.")
+    })
+}
+
 module.exports = {
     readFiles,
     writeFiles,
     addNewUser,
-    findUser
+    findUser,
+    validateCredentials,
+    addBankAcc
 }

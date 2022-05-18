@@ -42,7 +42,25 @@ function confirmLoginFields(email, password) {
     return { code: 200}
 }
 
+function confirmBankingFields(accType, accDesc, amount) {
+    const errorList = []
+    if (!accType || !accDesc || !amount) {
+        if (!accType) {errorList.push('Account Type')}
+        if (!accDesc) {errorList.push('Account Description')}
+        if (!amount) {errorList.push('Amount')}
+        const errorString = errorList.join(", ")
+
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    return { code: 200}
+}
+
 module.exports = {
     confirmRegisFields,
-    confirmLoginFields
+    confirmLoginFields,
+    confirmBankingFields
 }
