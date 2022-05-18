@@ -7,7 +7,7 @@ exports.up = function(knex) {
   .createTable('users_list', (table) => {
       table.increments('id').primary();
       table.string('username').notNullable();
-      table.string('email').notNullable();
+      table.string('email').notNullable().unique();
       table.string('password').notNullable()
   })
   .createTable('opening_bank_balances', (table) => {

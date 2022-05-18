@@ -25,11 +25,21 @@ function confirmRegisFields(username, email, password, confirmpassword) {
     return { code: 200}
 }
 
-function confirmLoginFields(username,password) {
+function confirmLoginFields(email, password) {
     const errorList = []
-    if (!username) {errorList.push('username')}
-    if (!password) {errorList.push('password')}
-    return errorList
+    if (!email || !password) {
+        if (!email) {errorList.push('email')}
+        if (!password) {errorList.push('password')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    return { code: 200}
 }
 
 module.exports = {

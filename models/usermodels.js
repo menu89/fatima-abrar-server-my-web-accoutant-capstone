@@ -20,14 +20,35 @@ function addNewUser(req,res) {
         .then(() => { 
             return res.status(201).json("Registration Successfull")
         })
-        .catch(() => { 
+        .catch((err) => { 
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json("A user is already registered with this email")    
+            }
+
             return res.status(400).json("Registration Failed")
         })
 }
 
+function findUser(req,res,next) {
+    const {email, password} = req.body
+    knex('users_list')
+        // .select('id', 'username','password')
+        .where({email: email})
+        .then( (userInfo) => {
+            if (userInfo.length === 0) {
+                return res.status(400).send("There is no user registered with this email")
+            }
+            req.foundUser = userInfo[0]
+            next();
+        })
+        .catch((err) => {
+            res.status(400).send("Log In failed")
+        })
+}
 
 module.exports = {
     readFiles,
     writeFiles,
-    addNewUser
+    addNewUser,
+    findUser
 }
