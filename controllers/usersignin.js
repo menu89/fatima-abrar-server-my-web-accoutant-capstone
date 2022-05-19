@@ -1,4 +1,3 @@
-const { writeFiles, readFiles, addNewUser} = require('../models/usermodels');
 const { confirmRegisFields, confirmLoginFields, confirmBankingFields } = require('../utilfuncs/confirmFields');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');

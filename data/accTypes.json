@@ -1,0 +1,31 @@
+[
+    {
+        "type": "other",
+        "list": ["chequeing","credit-card","line-of-credit"]
+    },
+    {
+        "type": "expense",
+        "name": "groceries-food",
+        "descriptions": "this expense category covers amounts spent on groceries like food."
+    },
+    {
+        "type": "expense",
+        "name": "utilities",
+        "descriptions": "this expense category covers hydro, water, and gas utilities."
+    },
+    {
+        "type": "expense",
+        "name": "rent",
+        "description": "this expense category covers rental income if you are renting a property from a landlord (i.e. you pay rent)."
+    },
+    {
+        "type": "income",
+        "name": "employment-income",
+        "description": "this income category is for money received from a job you are employed at."
+    },
+    {
+        "type": "income",
+        "name": "misc-income",
+        "description": "this income category is for money received which cannot be categorized in any other income categories (i.e. tax refund)."
+    }
+]
