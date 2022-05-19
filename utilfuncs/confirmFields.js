@@ -1,5 +1,6 @@
 const accountListData = require('../data/accTypes.json');
 const accList = accountListData.filter((acc) => ( acc.type !== "other"))
+const startDate = Date.parse("Jan 1 2022")
 
 function confirmRegisFields(username, email, password, confirmpassword) {
     if ( !username || !email || !password || !confirmpassword) {
@@ -84,9 +85,7 @@ function confirmTransactionFields(transactionObject) {
             code: 400,
             message: `the bank type only accepts with "c" for credit or "d" for debit`
         }
-    }
-
-    const startDate = Date.parse("Jan 1 2022")
+    }    
 
     if (!parseInt(transaction_timestamp)) {
         const currentDate = Date.parse(transaction_timestamp)
@@ -147,9 +146,51 @@ function confirmTransactionFields(transactionObject) {
 
 }
 
+function confirmTranPeriodFields(fieldParameters) {
+    const {month, year} = fieldParameters
+
+    if (!month || !year) {
+        const errorList = []
+        if (!month) {errorList.push('month')}
+        if (!year) {errorList.push('year')}
+        
+        const errorString = errorList.join(", ")
+
+        return {
+            code: 400,
+            message: `The following fields are madatory: ${errorString}`
+        }
+    }
+
+    if (!parseInt(month) || !parseInt(year)) {
+        return {
+            code: 400,
+            message: 'check the format of the fields provided. They must be in numerical format. (i.e. 05 for May)'
+        }
+    }
+    
+    if ((parseInt(month) > 12) || (parseInt(year) > 2200) || (parseInt(month) <= 0)) {
+        
+        return {
+            code: 400,
+            message: 'invalid month and year provided.'
+        }
+    }
+
+    if (parseInt(year) < 2022) {
+        return {
+            code:400,
+            message: 'This API does not support transaction records prior to Jan 1, 2022'
+        }
+    }
+
+    return {code: 200}
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
     confirmBankingFields,
-    confirmTransactionFields
+    confirmTransactionFields,
+    confirmTranPeriodFields
 }
