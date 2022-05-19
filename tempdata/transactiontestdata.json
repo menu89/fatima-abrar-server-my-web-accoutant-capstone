@@ -1,0 +1,50 @@
+[
+    {
+        "amount": "500",
+        "debit": "rent",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "May 18, 2022"
+        
+    },
+    {
+        "amount": "50",
+        "debit": "groceries-food",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "May 10, 2022"
+        
+    },
+    {
+        "amount": "30",
+        "debit": "utilities",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "May 1, 2022"
+        
+    },
+    {
+        "amount": "40",
+        "debit": "groceries-food",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "Apr 30, 2022"
+        
+    },
+    {
+        "amount": "40",
+        "debit": "groceries-food",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "Apr 15, 2022"
+        
+    },
+    {
+        "amount": "300",
+        "debit": "rent",
+        "credit": "TDBank",
+        "bank_type": "c",
+        "transaction_timestamp": "Apr 1, 2022"
+        
+    }
+]

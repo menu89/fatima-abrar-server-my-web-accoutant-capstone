@@ -3,10 +3,11 @@ const router = express.Router();
 
 const {userRegistration, userLogin, authenticateUser, addBankInfo} = require('../controllers/usersignin');
 const {addNewUser, findUser, validateCredentials, addBankAcc, findBankAcc} = require('../models/usermodels');
-const decodeJWT = require('../controllers/decodeJWT');
-const {checkTransactions, addTransactions} = require('../controllers/transactions')
 
-const {addNewTran} = require('../models/transactionsmodels')
+const decodeJWT = require('../controllers/decodeJWT');
+
+const {checkTransactions, addTransactions, checkTranPeriod} = require('../controllers/transactions')
+const {addNewTran, findTranByPeriod} = require('../models/transactionsmodels')
 
 
 router
@@ -32,6 +33,12 @@ router
         findBankAcc, 
         addTransactions,
         addNewTran
+    )
+    .get('/user/transaction-by-period',
+        decodeJWT,
+        validateCredentials,
+        checkTranPeriod,
+        findTranByPeriod
     )
     //.get('/user/initial-set-up', decodeJWT, addBankInfo)
 

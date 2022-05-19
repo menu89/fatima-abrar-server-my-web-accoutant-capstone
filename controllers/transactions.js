@@ -1,4 +1,4 @@
-const {confirmTransactionFields} = require('../utilfuncs/confirmFields');
+const {confirmTransactionFields, confirmTranPeriodFields} = require('../utilfuncs/confirmFields');
 
 
 function checkTransactions (req, res, next) {
@@ -11,19 +11,19 @@ function checkTransactions (req, res, next) {
     next()
 }
 
-function addTransactions (req, res, next) {
+function addTransactions (req, _res, next) {
     const {id, email} = req.user
     const {amount, debit, credit, bank_type, transaction_timestamp, description} = req.body
 
     let tranTS = 0
     let amountInt = parseInt(amount)
-    const currentTime = new Date(Date.now()).toString()
+    const currentTime = Date.now()
     let tranDes = ""
 
     if (!parseInt(transaction_timestamp)) {
-        tranTS = Date.parse(transaction_timestamp).toString()
+        tranTS = Date.parse(transaction_timestamp)
     } else {
-        tranTS = new Date(parseInt(transaction_timestamp)).toString()
+        tranTS = parseInt(transaction_timestamp)
     }
 
     if (description) { tranDes = description}
@@ -43,7 +43,34 @@ function addTransactions (req, res, next) {
     next()
 }
 
+function checkTranPeriod (req,res,next) {
+    const dataReceipt = {...req.body}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+
+    const {month, year} = dataReceipt
+    const {id, email} = req.user
+    const nextM = parseInt(month)+1
+
+    const startDate = Date.parse(`${month}/1/${year}`)
+    const nextMonth = Date.parse(`${nextM}/1/${year}`)
+
+    const searchParameters = {
+        id: id,
+        startDate: startDate,
+        nextMonth: nextMonth
+    }
+
+    req.searchPara = {...searchParameters}
+
+    next()
+
+}
+
 module.exports = {
     checkTransactions,
-    addTransactions
+    addTransactions,
+    checkTranPeriod
 }
