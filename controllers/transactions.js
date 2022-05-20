@@ -1,5 +1,17 @@
 const {confirmTransactionFields, confirmTranPeriodFields} = require('../utilfuncs/confirmFields');
 
+const accountListData = require('../data/accTypes.json');
+const expList = []
+const incList = []
+accountListData.forEach((acc) => {
+    if ( acc.type === "expense") {
+        expList.push(acc.name)
+    }
+    if ( acc.type === "income") {
+        incList.push(acc.name)
+    }
+})
+
 
 function checkTransactions (req, res, next) {
     const dataReceipt = {...req.body}
@@ -69,8 +81,53 @@ function checkTranPeriod (req,res,next) {
 
 }
 
+function sendTotalByPeriod (req, res) {
+    const {debitInfo,creditInfo, searchPara,user} = req
+    
+    const listAccHashMap = []
+    for (let loopDebit =0; loopDebit < debitInfo.length; loopDebit++) {
+        if (!listAccHashMap[debitInfo[loopDebit]['Debit']]) {
+            listAccHashMap[debitInfo[loopDebit]['Debit']] = 0
+        }
+
+        listAccHashMap[debitInfo[loopDebit]['Debit']] += debitInfo[loopDebit]["sum(`amount`)"]
+    }
+
+    for (let loopCredit =0; loopCredit < creditInfo.length; loopCredit++) {
+        if (!listAccHashMap[creditInfo[loopCredit]['Credit']]) {
+            listAccHashMap[creditInfo[loopCredit]['Credit']] = 0
+        }
+        
+        listAccHashMap[creditInfo[loopCredit]['Credit']] -= creditInfo[loopCredit]["sum(`amount`)"]
+    }
+
+    const listAccKeys = Object.keys(listAccHashMap)
+    const responseObj = {
+        income:[],
+        expense:[],
+        email: user.email,
+        period: new Date(searchPara.startDate).toString(),
+        enquiry: 'actual'
+    }
+
+    for (let loopKey = 0; loopKey < listAccKeys.length; loopKey++) {
+        const currKey = listAccKeys[loopKey]
+        const accObj = {[currKey]: listAccHashMap[currKey]}
+
+        if (expList.includes(currKey)) {
+            responseObj.expense.push(accObj)
+        }
+        if (incList.includes(currKey)) {
+            responseObj.income.push(accObj)
+        }
+    }
+
+    res.status(200).json(responseObj)
+}
+
 module.exports = {
     checkTransactions,
     addTransactions,
-    checkTranPeriod
+    checkTranPeriod,
+    sendTotalByPeriod
 }
