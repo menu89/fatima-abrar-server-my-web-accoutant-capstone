@@ -30,7 +30,55 @@ function findTranByPeriod (req, res) {
     })
 }
 
+function findDebitByPeriod (req,res, next) {
+    const {id, startDate, nextMonth} = req.searchPara
+    knex('actual_transactions')
+    .sum('amount')
+    .groupBy('Debit')
+    .select('Debit')
+    .where(function(){
+        this.where('user_id', id)
+            .andWhere('Transaction_timestamp', '>=',startDate)
+            .andWhere('Transaction_timestamp', '<', nextMonth)
+    })
+    .then((info) => {
+        if (info.length === 0) {
+            return res.status(400).send('No records found.')
+        }
+        req.debitInfo = [...info]
+        next()
+    })
+    .catch((err) => { 
+        return res.status(400).json("Failed to find the requested records.")
+    })
+}
+
+function findCreditByPeriod (req,res,next) {
+    const {id, startDate, nextMonth} = req.searchPara
+    knex('actual_transactions')
+    .sum('amount')
+    .groupBy('Credit')
+    .select('Credit')
+    .where(function(){
+        this.where('user_id', id)
+            .andWhere('Transaction_timestamp', '>=',startDate)
+            .andWhere('Transaction_timestamp', '<', nextMonth)
+    })
+    .then((info) => {
+        if (info.length === 0) {
+            return res.status(400).send('No records found.')
+        }
+        req.creditInfo = [...info]
+        next()
+    })
+    .catch((err) => { 
+        return res.status(400).json("Failed to find the requested records.")
+    })
+}
+
 module.exports = {
     addNewTran,
-    findTranByPeriod
+    findTranByPeriod,
+    findDebitByPeriod,
+    findCreditByPeriod
 }

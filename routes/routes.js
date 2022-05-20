@@ -6,8 +6,8 @@ const {addNewUser, findUser, validateCredentials, addBankAcc, findBankAcc} = req
 
 const decodeJWT = require('../controllers/decodeJWT');
 
-const {checkTransactions, addTransactions, checkTranPeriod} = require('../controllers/transactions')
-const {addNewTran, findTranByPeriod} = require('../models/transactionsmodels')
+const {checkTransactions, addTransactions, checkTranPeriod, sendTotalByPeriod} = require('../controllers/transactions')
+const {addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = require('../models/transactionsmodels')
 
 
 router
@@ -39,6 +39,14 @@ router
         validateCredentials,
         checkTranPeriod,
         findTranByPeriod
+    )
+    .get('/user/total-by-period',
+        decodeJWT,
+        validateCredentials,
+        checkTranPeriod,
+        findDebitByPeriod,
+        findCreditByPeriod,
+        sendTotalByPeriod
     )
     //.get('/user/initial-set-up', decodeJWT, addBankInfo)
 
