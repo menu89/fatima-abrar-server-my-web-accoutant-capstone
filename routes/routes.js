@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+router.use(express.static('public'));
+
+const {sendAPIDoc} = require('../controllers/general')
+
 const {userRegistration, userLogin, authenticateUser, addBankInfo} = require('../controllers/usersignin');
 const {addNewUser, findUser, validateCredentials, addBankAcc, findBankAcc} = require('../models/usermodels');
 
@@ -11,6 +15,7 @@ const {addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = re
 
 
 router
+    .get('/', sendAPIDoc)
     .post('/user/register', 
         userRegistration, 
         addNewUser

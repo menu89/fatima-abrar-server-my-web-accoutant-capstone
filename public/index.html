@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>API Documentation</title>
+</head>
+<body>
+    <header>
+        <h1>My Web Accountant - API Documentation</h1>
+        <h2>Routes</h2>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#register">POST /user/register</a>
+                </li>
+                <li>
+                    <a href="#login">GET /user/login</a>
+                </li>
+                <li>
+                    <a href="#initial-set-up">POST /user/initial-set-up</a>
+                </li>
+                <li>
+                    <a href="#transaction">POST /user/transaction</a>
+                </li>
+                <li>
+                    <a href="#transaction-by-period">GET /user/transaction-by-period</a>
+                </li>
+                <li>
+                    <a href="#total-by-period">GET /user/total-by-period</a>
+                </li>
+            </ul>
+        </nav>
+        
+    </header>
+    
+    <main>
+        <article>
+            <h3 id="register">POST /user/register</h3>
+            <div>
+                <P>This endpoint is for registering a user for the first time.</P>
+                <p>It has 4 mandatory fields: username, email, password, confirmpassword</p>
+                <p>If any of the mandatory fields are missing, it will return an error.</p>
+                <p>If the passwords do not match, it will return an error</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"username": "hello",</span>
+                    <span>"email": "hello@gamil.com",</span>
+                    <span>"password":"test",</span>
+                    <span>"confirmpassword":"test"</span>
+                }</p>
+            </div>
+            <div>
+                <p class="bold">Response Body Example:</p>
+                <p>"Registration Successfull"</p>
+            </div>
+        </article>
+        
+        <article>
+            <h3 id="login">GET /user/login</h3>
+            <div>
+                <p>This endpoint sends back a token which is needed to make requests for any other endpoints.</p>
+                <p>It has 2 mandatory fields: email, password</p>
+                <p>The endpoint will return an error if any of the fields are missing.</p>
+                <p>The endpoint will return an error if there is no user registered with the email provided.</p>
+                <p>The endpoint will return an error if the incorrect password is provided</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"email": "hello@gamil.com",</span>
+                    <span>"password":"test"</span>
+                }</p>
+            </div>
+            <div>
+                <p class="bold">Response Body Example:</p>
+                <p>
+                    {
+                        <span>"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJoZWxsb0BnYW1pbC5jb20iLCJpYXQiOjE2NTMzNTgzMjksImV4cCI6MTY1MzQ0NDcyOX0.R6XUw-8n7mf_BUdWN6mu7zm8DS2blaFlZan0UJOgf4Q"</span>
+                    }
+                </p>
+            </div>
+        </article>
+        
+        <article>
+            <h3 id="initial-set-up">POST /user/initial-set-up</h3>
+            <div>
+                <p>This endpoint is to set up the different types of payment methods</p>
+                <p>It has three mandatory endpoints: accType, accDesc, amount</p>
+                <p>You also require an authorization token to be able to use this end point. Reger to '/user/login' endpoint to get a toekn.</p>
+                <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit'</p>
+                <p>you must set up at least one account to proceed with the remaining endpoints</p>
+                <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints which will be introduced in the future.</p>
+                <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple types of accounts if you set up more then one.</p>
+                <p>If you are missing any of the fields or there is a problem with the fields, the api will return a 400 response with some information regarding what went wrong.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p  class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"accType": "credit-card",</span>
+                    <span>"accDesc":"Walmart Rewards",</span>
+                    <span>"amount": "0"</span>
+                }</p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>"Account added Successfully"</p>
+            </div>
+        </article>
+        
+        <article>
+            <h3 id="transaction">POST /user/transaction</h3>
+            <div>
+                <p>This endpoint allows you to add transaction records for a specific user.</p>
+                <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
+                <p>The is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
+                <p>The list of accounts that can be used for this request is limited to the following at this time:</p>
+                <ul>
+                    <li>Espense: 'rent', 'groceries-food','utilities'</li>
+                    <li>Income: 'employment-income','misc-income'</li>
+                </ul>
+                <p>Note: This API does not support records older then Jan 1, 2022.</p>
+                <p>If any of the mandatory fields are missing, then the endpoint will retunr an error with some information about what went wrong.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"debit": "rent",</span>
+                    <span>"credit":"Walmart Rewards",</span>
+                    <span>"bank_type": "c",</span>
+                    <span>"transaction_timestamp": "May 20, 2022",</span>
+                    <span>"amount": "500"</span>
+                }</p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>"Transaction Successfully Added"</p>
+            </div>
+        </article>
+        
+        <article>
+            <h3 id="transaction-by-period">GET /user/transaction-by-period</h3>
+            <div>
+                <p>This endpoint allows you to access the records for a particular user by month.</p>
+                <p>There are 2 mandatory fields: month, year.</p>
+                <p>If any of the fields are missing or incorrect then the API will return an error with some information about what went wrong.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"month": "05",</span>
+                    <span>"year":"2022"</span>
+                }</p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>[
+                    {
+                        <span>"id": 8,</span>
+                        <span>"amount": 500,</span>
+                        <span>"Debit": "rent",</span>
+                        <span>"Credit": "Walmart Rewards",</span>
+                        <span>"Description": "",</span>
+                        <span>"Record_timestamp": 1653361205010,</span>
+                        <span>"Transaction_timestamp": 1653019200000,</span>
+                        <span>"user_id": 9</span>
+                    }
+                ]</p>
+            </div>
+        </article>
+    
+        <article>
+            <h3 id="total-by-period">GET /user/total-by-period</h3>
+            <div>
+                <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
+                <p>There are 2 mandatory fields: month, year</p>
+                <p>If you are missing fields, then the endpoint will return an error.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"month": "05",</span>
+                    <span>"year":"2022"</span>
+                }</p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>{
+                    <span>"income": [],</span>
+                    <span>"expense": [
+                        <span>{</span>
+                            <span>"rent": 500</span>
+                        <span>}</span>
+                    ],</span>
+                    <span>"email": "hello@gamil.com",</span>
+                    <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
+                    <span>"enquiry": "actual"</span>
+                }</p>
+            </div>
+        </article>
+    </main>
+    
+</body>
+</html>
