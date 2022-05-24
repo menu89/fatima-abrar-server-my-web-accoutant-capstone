@@ -16,19 +16,22 @@
                     <a href="#register">POST /user/register</a>
                 </li>
                 <li>
-                    <a href="#login">GET /user/login</a>
+                    <a href="#login">**POST /user/login</a>
                 </li>
                 <li>
                     <a href="#initial-set-up">POST /user/initial-set-up</a>
                 </li>
                 <li>
+                    <a href="#bank-list">GET /user/bank-list</a>
+                </li>
+                <li>
                     <a href="#transaction">POST /user/transaction</a>
                 </li>
                 <li>
-                    <a href="#transaction-by-period">GET /user/transaction-by-period</a>
+                    <a href="#transaction-by-period">**POST /user/transaction-by-period</a>
                 </li>
                 <li>
-                    <a href="#total-by-period">GET /user/total-by-period</a>
+                    <a href="#total-by-period">**POST /user/total-by-period</a>
                 </li>
             </ul>
         </nav>
@@ -61,7 +64,10 @@
         </article>
         
         <article>
-            <h3 id="login">GET /user/login</h3>
+            <h3 id="login">**POST /user/login</h3>
+            <div>
+                <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
+            </div>
             <div>
                 <p>This endpoint sends back a token which is needed to make requests for any other endpoints.</p>
                 <p>It has 2 mandatory fields: email, password</p>
@@ -116,6 +122,28 @@
         </article>
         
         <article>
+            <h3 id="bank-list">GET /user/bank-list</h3>
+            <div>
+                <p>This endpoint returns a list of accounts with initial set up balances for a given user.</p>
+            </div>
+            <div>
+                <p>Required Request Headers:</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+            </div>
+            <div>
+                <p>[
+                    {
+                        <span>"id": 3,</span>
+                        <span>"acc_type": "credit-card",</span>
+                        <span>"acc_des": "Walmart Rewards",</span>
+                        <span>"amount": 0,</span>
+                        <span>"user_id": 9</span>
+                    }
+                ]</p>
+            </div>
+        </article>
+
+        <article>
             <h3 id="transaction">POST /user/transaction</h3>
             <div>
                 <p>This endpoint allows you to add transaction records for a specific user.</p>
@@ -149,7 +177,10 @@
         </article>
         
         <article>
-            <h3 id="transaction-by-period">GET /user/transaction-by-period</h3>
+            <h3 id="transaction-by-period">**POST /user/transaction-by-period</h3>
+            <div>
+                <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
+            </div>
             <div>
                 <p>This endpoint allows you to access the records for a particular user by month.</p>
                 <p>There are 2 mandatory fields: month, year.</p>
@@ -182,7 +213,10 @@
         </article>
     
         <article>
-            <h3 id="total-by-period">GET /user/total-by-period</h3>
+            <h3 id="total-by-period">**POST /user/total-by-period</h3>
+            <div>
+                <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
+            </div>
             <div>
                 <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
                 <p>There are 2 mandatory fields: month, year</p>

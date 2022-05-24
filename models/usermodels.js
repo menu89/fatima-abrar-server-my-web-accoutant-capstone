@@ -64,6 +64,21 @@ function validateCredentials (req, res, next) {
         })
 }
 
+function findBankList (req,res) {
+    const {id, email} = req.user
+    knex('opening_bank_balances')
+        .where({user_id:id})
+        .then( (userInfo) => {
+            if (userInfo.length === 0) {
+                return res.status(400).send("The specified account does not exist for the user mentioned")
+            }
+            res.status(400).send(userInfo)
+        })
+        .catch((err) => {
+            res.status(400).send("We ran into difficulties searching for account info")
+        })
+}
+
 function addBankAcc (req,res) {
     knex('opening_bank_balances')
     .insert(req.newAcc)
@@ -104,5 +119,6 @@ module.exports = {
     findUser,
     validateCredentials,
     addBankAcc,
-    findBankAcc
+    findBankAcc,
+    findBankList
 }
