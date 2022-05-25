@@ -72,7 +72,7 @@ function findBankList (req,res) {
             if (userInfo.length === 0) {
                 return res.status(400).send("The specified account does not exist for the user mentioned")
             }
-            res.status(400).send(userInfo)
+            res.status(200).send(userInfo)
         })
         .catch((err) => {
             res.status(400).send("We ran into difficulties searching for account info")

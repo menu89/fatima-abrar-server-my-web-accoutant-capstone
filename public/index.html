@@ -13,6 +13,9 @@
         <nav>
             <ul>
                 <li>
+                    <a href="#acclist">GET /account-list</a>
+                </li>
+                <li>
                     <a href="#register">POST /user/register</a>
                 </li>
                 <li>
@@ -39,6 +42,13 @@
     </header>
     
     <main>
+        <article>
+            <h3 id="acclist">GET /account-list</h3>
+            <div>
+                <p>This end point send bank a list of expense and income categories that can be used to post transactions in endpoints further down the list.</p>
+                <p>Since this is general information, there are no mandatory fields and it does not require a request token.</p>
+            </div>
+        </article>
         <article>
             <h3 id="register">POST /user/register</h3>
             <div>
