@@ -1,0 +1,41 @@
+*,*::after,*::before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    margin:1rem;
+}
+
+article {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: lightblue;
+    margin: 2rem;
+    padding: 0rem 1rem 1rem 1rem;
+}
+
+p {
+    margin: 0rem;
+    font-size: 0.75rem;
+}
+
+div {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+div ul {
+    font-size: 0.75rem;
+}
+
+span {
+    display: block;
+    margin-left: 1rem;
+    overflow-wrap: break-word;
+}
+
+.bold {
+    font-weight: bolder;
+    font-size: 0.8rem;
+}
