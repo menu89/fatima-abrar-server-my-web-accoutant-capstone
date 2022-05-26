@@ -3,10 +3,10 @@ const router = express.Router();
 
 router.use(express.static('public'));
 
-const {sendAPIDoc} = require('../controllers/general')
+const {sendAPIDoc, sendAccountList} = require('../controllers/general')
 
 const {userRegistration, userLogin, authenticateUser, addBankInfo} = require('../controllers/usersignin');
-const {addNewUser, findUser, validateCredentials, addBankAcc, findBankAcc} = require('../models/usermodels');
+const {addNewUser, findUser, validateCredentials, addBankAcc, findBankAcc, findBankList} = require('../models/usermodels');
 
 const decodeJWT = require('../controllers/decodeJWT');
 
@@ -16,11 +16,13 @@ const {addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = re
 
 router
     .get('/', sendAPIDoc)
+    .get('/account-list', sendAccountList)
     .post('/user/register', 
         userRegistration, 
         addNewUser
     )
-    .get('/user/login', 
+    //get
+    .post('/user/login', 
         userLogin, 
         findUser, 
         authenticateUser
@@ -31,6 +33,11 @@ router
         addBankInfo, 
         addBankAcc
     )
+    .get('/user/bank-list',
+        decodeJWT,
+        validateCredentials,
+        findBankList
+    )
     .post('/user/transaction', 
         decodeJWT, 
         validateCredentials, 
@@ -39,13 +46,15 @@ router
         addTransactions,
         addNewTran
     )
-    .get('/user/transaction-by-period',
+    //get
+    .post('/user/transaction-by-period',
         decodeJWT,
         validateCredentials,
         checkTranPeriod,
         findTranByPeriod
     )
-    .get('/user/total-by-period',
+    //get
+    .post('/user/total-by-period',
         decodeJWT,
         validateCredentials,
         checkTranPeriod,
