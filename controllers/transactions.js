@@ -56,7 +56,7 @@ function addTransactions (req, _res, next) {
 }
 
 function checkTranPeriod (req,res,next) {
-    const dataReceipt = {...req.body}
+    const dataReceipt = {...req.query}
     const returnMsg = confirmTranPeriodFields(dataReceipt)
     if (returnMsg.code === 400) {
         return res.status(returnMsg.code).json(returnMsg.message)

@@ -1,5 +1,27 @@
 const knex = require('knex')(require('../knexfile'));
 
+function findBankAcc(req,res,next) {
+    const {id, email} = req.user
+    const {debit, credit, bank_type} = req.body
+    
+    let searchAcc = ""
+    if (bank_type === "c") { searchAcc = credit}
+    if (bank_type === "d") { searchAcc = debit}
+
+    knex('opening_bank_balances')
+        .where({user_id:id, acc_des: searchAcc})
+        .then( (userInfo) => {
+            if (userInfo.length === 0) {
+                return res.status(400).send("The specified account does not exist for the user mentioned")
+            }
+
+            next();
+        })
+        .catch((err) => {
+            res.status(400).send("We ran into difficulties searching for account info")
+        })
+}
+
 function addNewTran (req,res) {
     knex('actual_transactions')
     .insert(req.transaction)
@@ -77,6 +99,7 @@ function findCreditByPeriod (req,res,next) {
 }
 
 module.exports = {
+    findBankAcc,
     addNewTran,
     findTranByPeriod,
     findDebitByPeriod,

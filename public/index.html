@@ -28,13 +28,13 @@
                     <a href="#bank-list">GET /user/bank-list</a>
                 </li>
                 <li>
-                    <a href="#transaction">POST /user/transaction</a>
+                    <a href="#transaction">POST /actual/transaction</a>
                 </li>
                 <li>
-                    <a href="#transaction-by-period">**POST /user/transaction-by-period</a>
+                    <a href="#transaction-by-period">GET /actual/transaction-by-period</a>
                 </li>
                 <li>
-                    <a href="#total-by-period">**POST /user/total-by-period</a>
+                    <a href="#total-by-period">GET /actual/total-by-period</a>
                 </li>
             </ul>
         </nav>
@@ -141,6 +141,7 @@
                 <p>Authorization: Bearer 'JWT Token'</p>
             </div>
             <div>
+                <p  class="bold">Response Body Example:</p>
                 <p>[
                     {
                         <span>"id": 3,</span>
@@ -154,7 +155,7 @@
         </article>
 
         <article>
-            <h3 id="transaction">POST /user/transaction</h3>
+            <h3 id="transaction">POST /actual/transaction</h3>
             <div>
                 <p>This endpoint allows you to add transaction records for a specific user.</p>
                 <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
@@ -187,10 +188,7 @@
         </article>
         
         <article>
-            <h3 id="transaction-by-period">**POST /user/transaction-by-period</h3>
-            <div>
-                <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
-            </div>
+            <h3 id="transaction-by-period">GET /actual/transaction-by-period</h3>
             <div>
                 <p>This endpoint allows you to access the records for a particular user by month.</p>
                 <p>There are 2 mandatory fields: month, year.</p>
@@ -199,11 +197,13 @@
             <div>
                 <p>Required Request Headers: Content-Type: application/json</p>
                 <p>Authorization: Bearer 'JWT Token'</p>
-                <p class="bold">Example of data to send for request:</p>
+                <p class="bold">Example of parameters to send for request:</p>
                 <p>{
                     <span>"month": "05",</span>
                     <span>"year":"2022"</span>
                 }</p>
+                <p class="bold">Alternatively add params to end of URL</p>
+                <p><span>'/actual/transaction-by-period?month=05&year=2022</span></p>
             </div>
             <div>
                 <p  class="bold">Response Body Example:</p>
@@ -223,10 +223,7 @@
         </article>
     
         <article>
-            <h3 id="total-by-period">**POST /user/total-by-period</h3>
-            <div>
-                <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
-            </div>
+            <h3 id="total-by-period">GET /actual/total-by-period</h3>
             <div>
                 <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
                 <p>There are 2 mandatory fields: month, year</p>
@@ -235,11 +232,13 @@
             <div>
                 <p>Required Request Headers: Content-Type: application/json</p>
                 <p>Authorization: Bearer 'JWT Token'</p>
-                <p class="bold">Example of data to send for request:</p>
+                <p class="bold">Example of parameters to send for request:</p>
                 <p>{
                     <span>"month": "05",</span>
                     <span>"year":"2022"</span>
                 }</p>
+                <p class="bold">Alternatively add params to end of URL</p>
+                <p><span>'/actual/total-by-period?month=05&year=2022</span></p>
             </div>
             <div>
                 <p  class="bold">Response Body Example:</p>
