@@ -1,7 +1,10 @@
 const express = require ('express');
 const server = express();
 const cors = require('cors');
-const userRoutes = require('./routes/routes');
+
+const generalRoutes = require('./routes/generalRoutes');
+const userRoutes = require('./routes/userRoutes');
+const transactionRoutes = require('./routes/transactionsRoutes');
 
 
 //middleware
@@ -13,7 +16,9 @@ server.use(express.json())
 
 
 //routes
-server.use('/api', userRoutes);
+server.use('/api', generalRoutes);
+server.use('/api/user', userRoutes);
+server.use('/api/actual',transactionRoutes);
 
 
 //initialize server
