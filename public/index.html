@@ -11,12 +11,12 @@
         <h1>My Web Accountant - API Documentation</h1>
         <h2>Routes</h2>
         <nav>
-            <ul>
+            <ul> <!-- general endpoint-->
                 <li>
                     <a href="#acclist">GET /account-list</a>
                 </li>
             </ul>
-            <ul>
+            <ul> <!-- user related enquiries-->
                 <li>
                     <a href="#register">POST /user/register</a>
                 </li>
@@ -30,15 +30,15 @@
                     <a href="#bank-list">GET /user/bank-list</a>
                 </li>
             </ul>
-            <ul>
-                <li>
-                    <a href="#transaction">POST /actual/transaction</a>
-                </li>
+            <ul> <!-- transaction related enquiries-->
                 <li>
                     <a href="#transaction-by-period">GET /actual/transaction-by-period</a>
                 </li>
                 <li>
                     <a href="#total-by-period">GET /actual/total-by-period</a>
+                </li>
+                <li>
+                    <a href="#transaction">POST /actual/transaction</a>
                 </li>
                 <li>
                     <a href="#single-tran">GET /actual/single-transaction</a>
@@ -163,39 +163,6 @@
                 ]</p>
             </div>
         </article>
-
-        <article> <!-- Post a transaction-->
-            <h3 id="transaction">POST /actual/transaction</h3>
-            <div>
-                <p>This endpoint allows you to add transaction records for a specific user.</p>
-                <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
-                <p>The is an optional field 'description' in which you can add details about the transaction if you want.</p>
-                <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
-                <p>The list of accounts that can be used for this request is limited to the following at this time:</p>
-                <ul>
-                    <li>Espense: 'rent', 'groceries-food','utilities'</li>
-                    <li>Income: 'employment-income','misc-income'</li>
-                </ul>
-                <p>Note: This API does not support records older then Jan 1, 2022.</p>
-                <p>If any of the mandatory fields are missing, then the endpoint will retunr an error with some information about what went wrong.</p>
-            </div>
-            <div>
-                <p>Required Request Headers: Content-Type: application/json</p>
-                <p>Authorization: Bearer 'JWT Token'</p>
-                <p class="bold">Example of data to send for request:</p>
-                <p>{
-                    <span>"debit": "rent",</span>
-                    <span>"credit":"Walmart Rewards",</span>
-                    <span>"bank_type": "c",</span>
-                    <span>"transaction_timestamp": "May 20, 2022",</span>
-                    <span>"amount": "500"</span>
-                }</p>
-            </div>
-            <div>
-                <p  class="bold">Response Body Example:</p>
-                <p>"Transaction Successfully Added"</p>
-            </div>
-        </article>
         
         <article> <!-- Get a list of transactions-->
             <h3 id="transaction-by-period">GET /actual/transaction-by-period</h3>
@@ -263,6 +230,39 @@
                     <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
                     <span>"enquiry": "actual"</span>
                 }</p>
+            </div>
+        </article>
+
+        <article> <!-- Post a transaction-->
+            <h3 id="transaction">POST /actual/transaction</h3>
+            <div>
+                <p>This endpoint allows you to add transaction records for a specific user.</p>
+                <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
+                <p>The is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
+                <p>The list of accounts that can be used for this request is limited to the following at this time:</p>
+                <ul>
+                    <li>Espense: 'rent', 'groceries-food','utilities'</li>
+                    <li>Income: 'employment-income','misc-income'</li>
+                </ul>
+                <p>Note: This API does not support records older then Jan 1, 2022.</p>
+                <p>If any of the mandatory fields are missing, then the endpoint will retunr an error with some information about what went wrong.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of data to send for request:</p>
+                <p>{
+                    <span>"debit": "rent",</span>
+                    <span>"credit":"Walmart Rewards",</span>
+                    <span>"bank_type": "c",</span>
+                    <span>"transaction_timestamp": "May 20, 2022",</span>
+                    <span>"amount": "500"</span>
+                }</p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>"Transaction Successfully Added"</p>
             </div>
         </article>
 

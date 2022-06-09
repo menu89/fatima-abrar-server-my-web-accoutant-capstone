@@ -1,7 +1,7 @@
 const fs = require('fs');
 const accList = './data/accTypes.json';
 
-const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = require('../models/transactionsmodels')
+const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod, deleteSingleTran, findSingleTran} = require('../models/transactionsmodels')
 const {confirmTransactionFields, confirmTranPeriodFields} = require('../utilfuncs/confirmFields');
 
 function getLists () {
@@ -19,20 +19,8 @@ function getLists () {
     return {expList, incList}
 }
 
-
-function checkTransactions (req, res, next) {
-    const dataReceipt = {...req.body}
-    const returnMsg = confirmTransactionFields(dataReceipt)
-    if (returnMsg.code === 400) {
-        return res.status(returnMsg.code).json(returnMsg.message)
-    }
-
-    next()
-}
-
-function addTransactions (req, _res, next) {
-    const {id, email} = req.user
-    const {amount, debit, credit, bank_type, transaction_timestamp, description} = req.body
+function organizeTranInfo (dataReceipt) {
+    const {id, amount, debit, credit, transaction_timestamp, description} = dataReceipt
 
     let tranTS = 0
     let amountInt = parseInt(amount)
@@ -57,39 +45,63 @@ function addTransactions (req, _res, next) {
         user_id: id
     }
     
-    req.transaction = {...transactionInfo}
-
-    next()
+    return transactionInfo
 }
 
-function checkTranPeriod (req,res,next) {
-    const dataReceipt = {...req.query}
-    const returnMsg = confirmTranPeriodFields(dataReceipt)
+function postTransaction (req, res) {
+    const dataReceipt = {...req.body, ...req.user}
+    const returnMsg = confirmTransactionFields(dataReceipt)
     if (returnMsg.code === 400) {
         return res.status(returnMsg.code).json(returnMsg.message)
     }
 
-    const {month, year} = dataReceipt
-    const {id, email} = req.user
+    findBankAcc(dataReceipt)
+    .then(response => {
+        return addNewTran(organizeTranInfo(dataReceipt))
+    })
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
+function arrangePeriodSearchInfo(dataReceipt) {
+    const {month, year, id} = dataReceipt
     const nextM = parseInt(month)+1
 
     const startDate = Date.parse(`${month}/1/${year}`)
     const nextMonth = Date.parse(`${nextM}/1/${year}`)
-
+    
     const searchParameters = {
         id: id,
         startDate: startDate,
         nextMonth: nextMonth
     }
 
-    req.searchPara = {...searchParameters}
-
-    next()
-
+    return searchParameters
 }
 
-function sendTotalByPeriod (req, res) {
-    const {debitInfo,creditInfo, searchPara,user} = req
+function findTranPeriod (req,res) {
+    const dataReceipt = {...req.query, ...req.user}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+    
+    const result = arrangePeriodSearchInfo(dataReceipt)
+
+    findTranByPeriod(result)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
+function arrangeTotalByPeriod (debitInfo,creditInfo,dataReceipt,searchPara) {
     
     const listAccHashMap = []
     for (let loopDebit =0; loopDebit < debitInfo.length; loopDebit++) {
@@ -107,12 +119,11 @@ function sendTotalByPeriod (req, res) {
         
         listAccHashMap[creditInfo[loopCredit]['Credit']] -= creditInfo[loopCredit]["sum(`amount`)"]
     }
-
     const listAccKeys = Object.keys(listAccHashMap)
     const responseObj = {
         income:[],
         expense:[],
-        email: user.email,
+        email: dataReceipt.email,
         period: new Date(searchPara.startDate).toString(),
         enquiry: 'actual'
     }
@@ -131,23 +142,76 @@ function sendTotalByPeriod (req, res) {
         }
     }
 
-    res.status(200).json(responseObj)
+    return ({
+        status:200,
+        message:responseObj
+    })
 }
 
-function checkSingleTranParams (req,res,next) {
-    const dataReceipt = {...req.query}
+function getPeriodTotal(req, res) {
+    const dataReceipt = {...req.query, ...req.user}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+    
+    const result = arrangePeriodSearchInfo(dataReceipt)
+    
+    let debitInfo = []
+    let creditInfo = []
 
+    
+    findDebitByPeriod(result)
+    .then(response =>{
+        debitInfo =[...response.debitInfo]
+        return findCreditByPeriod(result)
+    })
+    .then(response => {
+        creditInfo = [...response.creditInfo]
+        const searchPara = {...result}
+        const {status,message} = arrangeTotalByPeriod(debitInfo,creditInfo,dataReceipt, searchPara)
+        return res.status(status).json(message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
+function getSingleTransaction (req,res) {
+    const dataReceipt = {...req.query, ...req.user}
     if (!dataReceipt.tranid) {
         return res.status(400).json('Please provide the transaction  id')
     }
 
-    next ()
+    findSingleTran(dataReceipt)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
+function deleteSingleTransaction (req,res) {
+    const dataReceipt = {...req.query, ...req.user}
+    if (!dataReceipt.tranid) {
+        return res.status(400).json('Please provide the transaction  id')
+    }
+
+    deleteSingleTran(dataReceipt)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
 }
 
 module.exports = {
-    checkTransactions,
-    addTransactions,
-    checkTranPeriod,
-    sendTotalByPeriod,
-    checkSingleTranParams
+    postTransaction,
+    findTranPeriod,
+    getPeriodTotal,
+    deleteSingleTransaction,
+    getSingleTransaction,
+    deleteSingleTransaction
 }

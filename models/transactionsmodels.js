@@ -1,137 +1,206 @@
 const knex = require('knex')(require('../knexfile'));
 
-function findBankAcc(req,res,next) {
-    const {id, email} = req.user
-    const {debit, credit, bank_type} = req.body
-    
+function findBankAcc(dataReceipt) {
+    const {id,debit,credit,bank_type} = dataReceipt
+        
     let searchAcc = ""
     if (bank_type === "c") { searchAcc = credit}
     if (bank_type === "d") { searchAcc = debit}
 
-    knex('opening_bank_balances')
+    return new Promise((resolve, reject) => {
+        knex('opening_bank_balances')
         .where({user_id:id, acc_des: searchAcc})
         .then( (userInfo) => {
             if (userInfo.length === 0) {
-                return res.status(400).send("The specified account does not exist for the user mentioned")
+                return reject({
+                    status:400,
+                    message:'The specified account does not exist for the user mentioned'
+                })
             }
 
-            next();
+            return resolve({status:200});
         })
         .catch((err) => {
-            res.status(400).send("We ran into difficulties searching for account info")
+            return reject({
+                status:400,
+                message:'We ran into difficulties searching for account info'
+            })
         })
+    })
+    
 }
 
-function addNewTran (req,res) {
-    knex('actual_transactions')
-    .insert(req.transaction)
-    .then(() => { 
-        return res.status(201).json("Transaction Successfully Added")
-    })
-    .catch((err) => { 
-        return res.status(400).json("Failed to add the requested record.")
-    })
-}
-
-function findTranByPeriod (req, res) {
-    const {id, startDate, nextMonth} = req.searchPara
-    knex('actual_transactions')
-    .where(function(){
-        this.where('user_id', id)
-            .andWhere('Transaction_timestamp', '>=',startDate)
-            .andWhere('Transaction_timestamp', '<', nextMonth)
-    })
-    .then((info) => {
-        if (info.length === 0) {
-            return res.status(400).send('No records found.')
-        }
-        return res.status(200).json(info)
-    })
-    .catch((err) => { 
-        return res.status(400).json("Failed to find the requested records.")
+function addNewTran (transactionInfo) {
+    return new Promise((resolve,reject) => {
+        knex('actual_transactions')
+        .insert(transactionInfo)
+        .then(() => { 
+            return resolve({
+                status:201,
+                message:'Transaction Successfully Added'
+            })
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to add the requested record.'
+            })
+        })
     })
 }
 
-function findDebitByPeriod (req,res, next) {
-    const {id, startDate, nextMonth} = req.searchPara
-    knex('actual_transactions')
-    .sum('amount')
-    .groupBy('Debit')
-    .select('Debit')
-    .where(function(){
-        this.where('user_id', id)
-            .andWhere('Transaction_timestamp', '>=',startDate)
-            .andWhere('Transaction_timestamp', '<', nextMonth)
-    })
-    .then((info) => {
-        if (info.length === 0) {
-            return res.status(400).send('No records found.')
-        }
-        req.debitInfo = [...info]
-        next()
-    })
-    .catch((err) => { 
-        return res.status(400).json("Failed to find the requested records.")
+function findTranByPeriod (searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise ((resolve, reject) => {
+        knex('actual_transactions')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=',startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found.'
+                })
+            }
+            return resolve({
+                status:200,
+                message:info
+            })
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
     })
 }
 
-function findCreditByPeriod (req,res,next) {
-    const {id, startDate, nextMonth} = req.searchPara
-    knex('actual_transactions')
-    .sum('amount')
-    .groupBy('Credit')
-    .select('Credit')
-    .where(function(){
-        this.where('user_id', id)
-            .andWhere('Transaction_timestamp', '>=',startDate)
-            .andWhere('Transaction_timestamp', '<', nextMonth)
-    })
-    .then((info) => {
-        if (info.length === 0) {
-            return res.status(400).send('No records found.')
-        }
-        req.creditInfo = [...info]
-        next()
-    })
-    .catch((err) => { 
-        return res.status(400).json("Failed to find the requested records.")
+function findDebitByPeriod (searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise((resolve, reject) => {
+        knex('actual_transactions')
+        .sum('amount')
+        .groupBy('Debit')
+        .select('Debit')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=',startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject ({
+                    status:400,
+                    message:'No Records Found.'
+                })
+            }
+            return resolve({debitInfo:info})
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
     })
 }
 
-function findSingleTran (req, res) {
-    const {tranid} = req.query
-    const {id, email} = req.user
+function findCreditByPeriod (searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
 
-    knex('actual_transactions')
-    .where({user_id:id, id:tranid})
-    .then((info) => {
-        if (info.length === 0) {
-            return res.status(400).send('No records found.')
-        }
-        return res.status(200).json(info)
-    })
-    .catch((err) => { 
-        return res.status(400).json("Failed to find the requested records.")
+    return new Promise((resolve, reject) => {
+        knex('actual_transactions')
+        .sum('amount')
+        .groupBy('Credit')
+        .select('Credit')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=',startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No records found.'
+                })
+            }
+            return resolve({creditInfo:info})
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
     })
 }
 
-function deleteSingleTran (req, res) {
-    const {tranid} = req.query
-    const {id, email} = req.user
+function findSingleTran (dataReceipt) {
+    const {tranid, id} = dataReceipt
 
-    knex('actual_transactions')
-    .where({user_id:id, id:tranid})
-    .del()
-    .then((info) => {
-        if (info === 0) {
-            return res.status(400).send('No records found.')
-        }
-        return res.status(200).json(`${info} record deleted`)
+    return new Promise((resolve,reject) => {
+        knex('actual_transactions')
+        .where({user_id:id, id:tranid})
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+
+            return resolve({
+                status:200,
+                message:info
+            })
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
     })
-    .catch((err) => { 
-        return res.status(400).json("Unknown server error")
-    })
+
 }
+
+function deleteSingleTran (dataReceipt) {
+    const{tranid, id} = dataReceipt
+
+    return new Promise ((resolve,reject) =>{
+        knex('actual_transactions')
+        .where({user_id:id, id:tranid})
+        .del()
+        .then((info) => {
+            if (info === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            return resolve({
+                status:200,
+                message:`${info} record deleted`
+            })
+        })
+        .catch((err) => { 
+            return reject ({
+                status:400,
+                message:'Unknown Server Error'
+            })
+        })
+    })
+    
+    
+}
+
 
 module.exports = {
     findBankAcc,
