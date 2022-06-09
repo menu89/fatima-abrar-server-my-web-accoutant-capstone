@@ -4,8 +4,8 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {checkTransactions, addTransactions, checkTranPeriod, sendTotalByPeriod} = require('../controllers/transactions')
-const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = require('../models/transactionsmodels')
+const {checkTransactions, addTransactions, checkTranPeriod, sendTotalByPeriod,checkSingleTranParams} = require('../controllers/transactions')
+const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod, findSingleTran} = require('../models/transactionsmodels')
 
 router
     .post('/transaction', 
@@ -16,14 +16,12 @@ router
         addTransactions,
         addNewTran
     )
-    //get
     .get('/transaction-by-period',
         decodeJWT,
         validateCredentials,
         checkTranPeriod,
         findTranByPeriod
     )
-    //get
     .get('/total-by-period',
         decodeJWT,
         validateCredentials,
@@ -32,6 +30,13 @@ router
         findCreditByPeriod,
         sendTotalByPeriod
     )
+    .get('/single-transaction',
+        decodeJWT,
+        validateCredentials,
+        checkSingleTranParams,
+        findSingleTran
+    )
+    
 
 
 module.exports = router;

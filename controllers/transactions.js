@@ -1,16 +1,23 @@
+const fs = require('fs');
+const accList = './data/accTypes.json';
+
+const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = require('../models/transactionsmodels')
 const {confirmTransactionFields, confirmTranPeriodFields} = require('../utilfuncs/confirmFields');
 
-const accountListData = require('../data/accTypes.json');
-const expList = []
-const incList = []
-accountListData.forEach((acc) => {
-    if ( acc.type === "expense") {
-        expList.push(acc.name)
-    }
-    if ( acc.type === "income") {
-        incList.push(acc.name)
-    }
-})
+function getLists () {
+    const accountListData = JSON.parse(fs.readFileSync(accList))
+    const expList = []
+    const incList = []
+    accountListData.forEach((acc) => {
+        if ( acc.type === "expense") {
+            expList.push(acc.name)
+        }
+        if ( acc.type === "income") {
+            incList.push(acc.name)
+        }
+    })
+    return {expList, incList}
+}
 
 
 function checkTransactions (req, res, next) {
@@ -110,6 +117,8 @@ function sendTotalByPeriod (req, res) {
         enquiry: 'actual'
     }
 
+    const {expList, incList} = getLists()
+
     for (let loopKey = 0; loopKey < listAccKeys.length; loopKey++) {
         const currKey = listAccKeys[loopKey]
         const accObj = {[currKey]: listAccHashMap[currKey]}
@@ -125,9 +134,20 @@ function sendTotalByPeriod (req, res) {
     res.status(200).json(responseObj)
 }
 
+function checkSingleTranParams (req,res,next) {
+    const dataReceipt = {...req.query}
+
+    if (!dataReceipt.tranid) {
+        return res.status(400).json('Please provide the transaction  id')
+    }
+
+    next ()
+}
+
 module.exports = {
     checkTransactions,
     addTransactions,
     checkTranPeriod,
-    sendTotalByPeriod
+    sendTotalByPeriod,
+    checkSingleTranParams
 }

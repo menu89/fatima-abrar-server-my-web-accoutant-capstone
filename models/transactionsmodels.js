@@ -98,10 +98,28 @@ function findCreditByPeriod (req,res,next) {
     })
 }
 
+function findSingleTran (req, res) {
+    const {tranid} = req.query
+    const {id, email} = req.user
+
+    knex('actual_transactions')
+    .where({user_id:id, id:tranid})
+    .then((info) => {
+        if (info.length === 0) {
+            return res.status(400).send('No records found.')
+        }
+        return res.status(200).json(info)
+    })
+    .catch((err) => { 
+        return res.status(400).json("Failed to find the requested records.")
+    })
+}
+
 module.exports = {
     findBankAcc,
     addNewTran,
     findTranByPeriod,
     findDebitByPeriod,
-    findCreditByPeriod
+    findCreditByPeriod,
+    findSingleTran
 }
