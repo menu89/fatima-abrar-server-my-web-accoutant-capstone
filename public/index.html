@@ -15,6 +15,8 @@
                 <li>
                     <a href="#acclist">GET /account-list</a>
                 </li>
+            </ul>
+            <ul>
                 <li>
                     <a href="#register">POST /user/register</a>
                 </li>
@@ -27,6 +29,8 @@
                 <li>
                     <a href="#bank-list">GET /user/bank-list</a>
                 </li>
+            </ul>
+            <ul>
                 <li>
                     <a href="#transaction">POST /actual/transaction</a>
                 </li>
@@ -36,20 +40,26 @@
                 <li>
                     <a href="#total-by-period">GET /actual/total-by-period</a>
                 </li>
+                <li>
+                    <a href="#single-tran">GET /actual/single-transaction</a>
+                </li>
+                <li>
+                    <a href="#delete-single-tran">DELETE /actual/single-transaction</a>
+                </li>
             </ul>
         </nav>
         
     </header>
     
     <main>
-        <article>
+        <article> <!--GET Account List-->
             <h3 id="acclist">GET /account-list</h3>
             <div>
                 <p>This end point send bank a list of expense and income categories that can be used to post transactions in endpoints further down the list.</p>
                 <p>Since this is general information, there are no mandatory fields and it does not require a request token.</p>
             </div>
         </article>
-        <article>
+        <article> <!--POST user registration-->
             <h3 id="register">POST /user/register</h3>
             <div>
                 <P>This endpoint is for registering a user for the first time.</P>
@@ -73,7 +83,7 @@
             </div>
         </article>
         
-        <article>
+        <article> <!--User Log In-->
             <h3 id="login">**POST /user/login</h3>
             <div>
                 <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
@@ -103,7 +113,7 @@
             </div>
         </article>
         
-        <article>
+        <article> <!--Initial Bank Set Up-->
             <h3 id="initial-set-up">POST /user/initial-set-up</h3>
             <div>
                 <p>This endpoint is to set up the different types of payment methods</p>
@@ -131,7 +141,7 @@
             </div>
         </article>
         
-        <article>
+        <article> <!-- Get the list of banks-->
             <h3 id="bank-list">GET /user/bank-list</h3>
             <div>
                 <p>This endpoint returns a list of accounts with initial set up balances for a given user.</p>
@@ -154,7 +164,7 @@
             </div>
         </article>
 
-        <article>
+        <article> <!-- Post a transaction-->
             <h3 id="transaction">POST /actual/transaction</h3>
             <div>
                 <p>This endpoint allows you to add transaction records for a specific user.</p>
@@ -187,7 +197,7 @@
             </div>
         </article>
         
-        <article>
+        <article> <!-- Get a list of transactions-->
             <h3 id="transaction-by-period">GET /actual/transaction-by-period</h3>
             <div>
                 <p>This endpoint allows you to access the records for a particular user by month.</p>
@@ -222,7 +232,7 @@
             </div>
         </article>
     
-        <article>
+        <article> <!-- Total by period for actuals-->
             <h3 id="total-by-period">GET /actual/total-by-period</h3>
             <div>
                 <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
@@ -253,6 +263,67 @@
                     <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
                     <span>"enquiry": "actual"</span>
                 }</p>
+            </div>
+        </article>
+
+        <article> <!-- Get the record for a single transaction-->
+            <h3 id="single-tran">GET /actual/single-transaction</h3>
+            <div>
+                <p>This endpoint seraches for transaction by id and returns the transaction that matches the id provided.</p>
+                <p>There is 1 mandatory field: tranid</p>
+                <p>An error is returned if the field is missing.</p>
+                <p>If the the user does not have a transaction with the specified id, then no records will be returned.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of parameters to send for request:</p>
+                <p>{
+                    <span>"tranid": "1",</span>
+                }</p>
+                <p class="bold">Alternatively add params to end of URL</p>
+                <p><span>'/actual/total-by-period?tranid=1</span></p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>[
+                    {
+                        <span>"id": 1,</span>
+                        <span>"amount": 500,</span>
+                        <span>"Debit": "rent",</span>
+                        <span>"Credit": "Walmart Rewards",</span>
+                        <span>"Description": "",</span>
+                        <span>"Record_timestamp": 1653361205010,</span>
+                        <span>"Transaction_timestamp": 1653019200000,</span>
+                        <span>"user_id": 9</span>
+                    }
+                ]</p>
+            </div>
+        </article>
+
+        <article> <!-- Delete the record for a single transaction-->
+            <h3 id="delete-single-tran">DELETE /actual/single-transaction</h3>
+            <div>
+                <p>This endpoint seraches for transaction by id and deletes the transaction that matches the id provided.</p>
+                <p>There is 1 mandatory field: tranid</p>
+                <p>An error is returned if the field is missing.</p>
+                <p>If the the user does not have a transaction with the specified id, then no records will be deleted.</p>
+            </div>
+            <div>
+                <p>Required Request Headers: Content-Type: application/json</p>
+                <p>Authorization: Bearer 'JWT Token'</p>
+                <p class="bold">Example of parameters to send for request:</p>
+                <p>{
+                    <span>"tranid": "5",</span>
+                }</p>
+                <p class="bold">Alternatively add params to end of URL</p>
+                <p><span>'/actual/total-by-period?tranid=5</span></p>
+            </div>
+            <div>
+                <p  class="bold">Response Body Example:</p>
+                <p>
+                    <span>"1 record deleted"</span>
+                </p>
             </div>
         </article>
     </main>

@@ -115,11 +115,30 @@ function findSingleTran (req, res) {
     })
 }
 
+function deleteSingleTran (req, res) {
+    const {tranid} = req.query
+    const {id, email} = req.user
+
+    knex('actual_transactions')
+    .where({user_id:id, id:tranid})
+    .del()
+    .then((info) => {
+        if (info === 0) {
+            return res.status(400).send('No records found.')
+        }
+        return res.status(200).json(`${info} record deleted`)
+    })
+    .catch((err) => { 
+        return res.status(400).json("Unknown server error")
+    })
+}
+
 module.exports = {
     findBankAcc,
     addNewTran,
     findTranByPeriod,
     findDebitByPeriod,
     findCreditByPeriod,
-    findSingleTran
+    findSingleTran,
+    deleteSingleTran
 }

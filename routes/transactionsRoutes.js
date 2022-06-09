@@ -5,7 +5,7 @@ const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
 const {checkTransactions, addTransactions, checkTranPeriod, sendTotalByPeriod,checkSingleTranParams} = require('../controllers/transactions')
-const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod, findSingleTran} = require('../models/transactionsmodels')
+const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod, findSingleTran, deleteSingleTran} = require('../models/transactionsmodels')
 
 router
     .post('/transaction', 
@@ -35,6 +35,12 @@ router
         validateCredentials,
         checkSingleTranParams,
         findSingleTran
+    )
+    .delete('/single-transaction',
+        decodeJWT,
+        validateCredentials,
+        checkSingleTranParams,
+        deleteSingleTran
     )
     
 
