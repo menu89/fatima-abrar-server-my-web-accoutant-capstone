@@ -19,8 +19,9 @@ function getLists () {
     return {expList, incList}
 }
 
+//supplementary function to organize data for posting transactions
 function organizeTranInfo (dataReceipt) {
-    const {id, amount, debit, credit, transaction_timestamp, description} = dataReceipt
+    const {id, amount, debit, credit, transaction_timestamp, description, bank_type} = dataReceipt
 
     let tranTS = 0
     let amountInt = parseInt(amount)
@@ -40,6 +41,7 @@ function organizeTranInfo (dataReceipt) {
         Debit: debit,
         Credit: credit,
         Description: tranDes,
+        bank_type:bank_type,
         transaction_timestamp: tranTS,
         Record_timestamp: currentTime,
         user_id: id
@@ -67,6 +69,7 @@ function postTransaction (req, res) {
     })
 }
 
+//supplementary function for repeating code in findTranPeriod and getPeriodTotal
 function arrangePeriodSearchInfo(dataReceipt) {
     const {month, year, id} = dataReceipt
     const nextM = parseInt(month)+1
@@ -101,6 +104,7 @@ function findTranPeriod (req,res) {
     })
 }
 
+//supplementary function for getPeriodTotal
 function arrangeTotalByPeriod (debitInfo,creditInfo,dataReceipt,searchPara) {
     
     const listAccHashMap = []
@@ -211,7 +215,6 @@ module.exports = {
     postTransaction,
     findTranPeriod,
     getPeriodTotal,
-    deleteSingleTransaction,
     getSingleTransaction,
     deleteSingleTransaction
 }

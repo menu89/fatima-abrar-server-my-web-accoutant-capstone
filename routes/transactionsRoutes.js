@@ -4,7 +4,7 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postTransaction, findTranPeriod, getPeriodTotal, sendTotalByPeriod,getSingleTransaction, deleteSingleTransaction} = require('../controllers/transactions')
+const {postTransaction, findTranPeriod, getPeriodTotal, getSingleTransaction, deleteSingleTransaction} = require('../controllers/transactions')
 
 router
     .post('/transaction', 

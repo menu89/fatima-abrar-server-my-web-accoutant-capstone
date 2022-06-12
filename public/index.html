@@ -117,12 +117,13 @@
             <h3 id="initial-set-up">POST /user/initial-set-up</h3>
             <div>
                 <p>This endpoint is to set up the different types of payment methods</p>
-                <p>It has three mandatory endpoints: accType, accDesc, amount</p>
+                <p>It has four mandatory endpoints: accType, accDesc, amount, balance_timestamp</p>
                 <p>You also require an authorization token to be able to use this end point. Reger to '/user/login' endpoint to get a toekn.</p>
                 <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit'</p>
                 <p>you must set up at least one account to proceed with the remaining endpoints</p>
                 <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints which will be introduced in the future.</p>
-                <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple types of accounts if you set up more then one.</p>
+                <p>Specify the date of the balnce entered. (i.e. if you are using your credit card statment balnce, then use the statement end date.)</p>
+                <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple accounts if you set up more then one.</p>
                 <p>If you are missing any of the fields or there is a problem with the fields, the api will return a 400 response with some information regarding what went wrong.</p>
             </div>
             <div>
@@ -132,7 +133,8 @@
                 <p>{
                     <span>"accType": "credit-card",</span>
                     <span>"accDesc":"Walmart Rewards",</span>
-                    <span>"amount": "0"</span>
+                    <span>"amount": "0",</span>
+                    <span>"balance_timestamp": "Apr 1, 2022"</span>
                 }</p>
             </div>
             <div>
@@ -158,6 +160,7 @@
                         <span>"acc_type": "credit-card",</span>
                         <span>"acc_des": "Walmart Rewards",</span>
                         <span>"amount": 0,</span>
+                        <span>"balance_timestamp": 1648785600000,</span>
                         <span>"user_id": 9</span>
                     }
                 ]</p>
@@ -190,6 +193,7 @@
                         <span>"amount": 500,</span>
                         <span>"Debit": "rent",</span>
                         <span>"Credit": "Walmart Rewards",</span>
+                        <span>"Bank_type": "c",</span>
                         <span>"Description": "",</span>
                         <span>"Record_timestamp": 1653361205010,</span>
                         <span>"Transaction_timestamp": 1653019200000,</span>
@@ -292,6 +296,7 @@
                         <span>"amount": 500,</span>
                         <span>"Debit": "rent",</span>
                         <span>"Credit": "Walmart Rewards",</span>
+                        <span>"Bank_type": "c",</span>
                         <span>"Description": "",</span>
                         <span>"Record_timestamp": 1653361205010,</span>
                         <span>"Transaction_timestamp": 1653019200000,</span>
