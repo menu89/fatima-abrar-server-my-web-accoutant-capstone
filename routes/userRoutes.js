@@ -4,32 +4,25 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {userRegistration, userLogin, authenticateUser, addBankInfo} = require('../controllers/usersignin');
-const {addNewUser, findUser, addBankAcc, findBankList} = require('../models/usermodels');
+const {userRegistration, userLogin, addBankInfo, findBanks} = require('../controllers/usersignin');
 
 router
     .post('/register', 
-        userRegistration, 
-        addNewUser
+        userRegistration
     )
     //get
     .post('/login', 
-        userLogin, 
-        findUser, 
-        authenticateUser
+        userLogin
     )
     .post('/initial-set-up', 
         decodeJWT, 
         validateCredentials, 
-        addBankInfo, 
-        addBankAcc
+        addBankInfo
     )
     .get('/bank-list',
         decodeJWT,
         validateCredentials,
-        findBankList
+        findBanks
     )
-
-    //.get('/user/initial-set-up', decodeJWT, addBankInfo)
 
 module.exports = router;

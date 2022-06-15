@@ -45,18 +45,53 @@ function confirmLoginFields(email, password) {
     return { code: 200}
 }
 
-function confirmBankingFields(accType, accDesc, amount) {
+//checking the format etc for the timestamp sent
+function checkTimeStatmp (timestamp) {
+    if (!parseInt(timestamp)) {
+        const currentDate = Date.parse(timestamp)
+        if (!currentDate) {
+            return {
+                code: 400,
+                message: 'Invalid date format'
+            }
+        } else if (currentDate < startDate) {
+            return {
+                code:400,
+                message: 'This API does not support entering records prior to Jan 1 2022'
+            }
+        }       
+    }
+
+    if (parseInt(timestamp) < startDate) {
+        return {
+            code:400,
+            message: 'This API does not support entering records prior to Jan 1 2022'
+        }
+    }
+
+    return {code:200}
+
+}
+
+function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
     const errorList = []
-    if (!accType || !accDesc || !amount) {
+    if (!accType || !accDesc || !amount || !balance_timestamp) {
         if (!accType) {errorList.push('Account Type')}
         if (!accDesc) {errorList.push('Account Description')}
         if (!amount) {errorList.push('Amount')}
+        if (!balance_timestamp) {errorList.push("balance date is a madatory field")}
         const errorString = errorList.join(", ")
 
         return { 
             code: 400, 
             message:`Please enter all the required fields. The following fields are missing: ${errorString}`
         }
+    }
+
+    const results = checkTimeStatmp(balance_timestamp)
+
+    if (results.code === 400) {
+        return results
     }
 
     return { code: 200}
@@ -85,28 +120,12 @@ function confirmTransactionFields(transactionObject) {
             code: 400,
             message: `the bank type only accepts with "c" for credit or "d" for debit`
         }
-    }    
-
-    if (!parseInt(transaction_timestamp)) {
-        const currentDate = Date.parse(transaction_timestamp)
-        if (!currentDate) {
-            return {
-                code: 400,
-                message: 'Invalid date format'
-            }
-        } else if (currentDate < startDate) {
-            return {
-                code:400,
-                message: 'This API does not support entering records prior to Jan 1 2022'
-            }
-        }       
     }
+    
+    const results = checkTimeStatmp(transaction_timestamp)
 
-    if (parseInt(transaction_timestamp) < startDate) {
-        return {
-            code:400,
-            message: 'This API does not support entering records prior to Jan 1 2022'
-        }
+    if (results.code === 400) {
+        return results
     }
 
     if (debit === credit) {
@@ -187,10 +206,98 @@ function confirmTranPeriodFields(fieldParameters) {
     return {code: 200}
 }
 
+function confirmUpdateTranFields(updateParams) {
+    const {amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = updateParams
+
+    if (!tranid) {
+        return ({
+            code:400,
+            message:"Please provide the id of the transaction being updated."
+        })
+    }
+
+    if (!!tranid && !parseInt(tranid)) {
+        return {
+            code: 400,
+            message: 'Please recheck tranid entered.'
+        }
+    }
+
+    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+        return ({
+            code: 400,
+            message: "Please provide at least one field that you are looking to update."
+        })
+    }
+
+    if (!!debit || !!credit) {
+        if (!bank_type) {
+            return ({
+                code:400,
+                message:"To update the debit or credit account, please provide the bank_type field as well."
+            })
+        }
+
+        if ((bank_type !== "c") && (bank_type !== "d")) {
+            return ({
+                code: 400,
+                message:`The bank type only accepts "c" for credit or "d" for debit`
+            })
+        }
+
+        if ((bank_type === "c") && (!!debit)) {
+            const checkDebit = accList.find((acc) => (acc.name === debit))
+            if (!checkDebit) {
+                return {
+                    code: 400,
+                    message: 'Invalid Debit category. Please refer to API documentation for full list of acceptable accounts'
+                }
+            }
+        } 
+
+        if ((bank_type === "d") && (!!credit)) {
+            const checkCredit = accList.find((acc) => (acc.name === credit))
+            if (!checkCredit) {
+                return {
+                    code: 400,
+                    message: 'Invalid Credit category. Please refer to API documentation for full list of acceptable accounts'
+                }
+            }
+        }
+
+        if (!!debit && !!credit) {
+            if (debit === credit) {
+                return {
+                    code: 400,
+                    message: `Debit and Credit fields cannot have the same value`
+                }
+            }
+        }
+    }
+
+    if (!!amount && !parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+    if (!!transaction_timestamp) {
+        const results = checkTimeStatmp(transaction_timestamp)
+
+        if (results.code === 400) {
+            return results
+        }
+    }
+
+    return ({code: 200})
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
     confirmBankingFields,
     confirmTransactionFields,
-    confirmTranPeriodFields
+    confirmTranPeriodFields,
+    confirmUpdateTranFields
 }

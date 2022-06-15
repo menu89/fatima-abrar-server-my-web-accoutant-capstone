@@ -11,11 +11,16 @@ NodeJS, Express, Knex, MySQL
 This end point allows you to:
 
 - Register a user.
-- Individual Users can log in and have access to the follow:
+
+Individual Users can log in and have access to the follow:
+
 - Set up payment account information,
-- Record purchases,
-- View a breakdown of expenses by category and period,
 - View a list of payment accounts set up,
+- View a breakdown of expenses by category and period,
+- View a list of transactions by period,
+- Record a transaction,
+- View a single transaction,
+- Delete a single transaction,
 - Users only have access to information for their own user only.
 
 # Run Locally

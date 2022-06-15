@@ -1,4 +1,4 @@
-const {readAccountList} = require('../models/general');
+const {readAccountList} = require('../models/generalmodels');
 
 const sendAPIDoc = (_req,res) => {
     return res.status(200).sendFile(_dirname+'../public/index.html')

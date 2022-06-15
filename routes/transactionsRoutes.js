@@ -4,34 +4,45 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {checkTransactions, addTransactions, checkTranPeriod, sendTotalByPeriod} = require('../controllers/transactions')
-const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCreditByPeriod} = require('../models/transactionsmodels')
+const {postTransaction, getTranPeriod, getPeriodTotal, getSingleTransaction, deleteSingleTransaction, getAllTransactions, putSingleTransaction} = require('../controllers/transactions')
 
 router
-    .post('/transaction', 
+    .post('/transaction-single', 
         decodeJWT, 
         validateCredentials, 
-        checkTransactions, 
-        findBankAcc, 
-        addTransactions,
-        addNewTran
+        postTransaction
     )
-    //get
-    .get('/transaction-by-period',
+    .get('/transactions-by-period',
         decodeJWT,
         validateCredentials,
-        checkTranPeriod,
-        findTranByPeriod
+        getTranPeriod
     )
-    //get
     .get('/total-by-period',
         decodeJWT,
         validateCredentials,
-        checkTranPeriod,
-        findDebitByPeriod,
-        findCreditByPeriod,
-        sendTotalByPeriod
+        getPeriodTotal
     )
+    .get('/transactions-all',
+        decodeJWT,
+        validateCredentials,
+        getAllTransactions
+    )
+    .get('/transaction-single',
+        decodeJWT,
+        validateCredentials,
+        getSingleTransaction
+    )
+    .put('/transaction-single',
+        decodeJWT,
+        validateCredentials,
+        putSingleTransaction
+    )
+    .delete('/transaction-single',
+        decodeJWT,
+        validateCredentials,
+        deleteSingleTransaction
+    )
+    
 
 
 module.exports = router;
