@@ -142,6 +142,28 @@ function findCreditByPeriod (searchParameters) {
     })
 }
 
+function findAllTransactions (id) {
+    return new Promise((resolve, reject) => {
+        knex('actual_transactions')
+        .where({user_id:id})
+        .then((info) =>{
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            resolve(info)
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
+    })
+}
+
 function findSingleTran (dataReceipt) {
     const {tranid, id} = dataReceipt
 
@@ -168,7 +190,41 @@ function findSingleTran (dataReceipt) {
             })
         })
     })
+}
 
+function updateSingleTran (tranId, id, updateCriterion) {
+    return new Promise((resolve, reject) => {
+        knex('actual_transactions')
+        .where({user_id:id, id: tranId})
+        .update(updateCriterion)
+        .then( response => {
+            resolve(response)
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to update the requested record."
+            })
+        })
+    })
+}
+
+function findLastTransaction (id) {
+    return new Promise((resolve, reject) =>{
+        knex('actual_transactions')
+        .where({user_id:id})
+        .orderBy('id', 'desc')
+        .first()
+        .then(response => {
+            return resolve({response})
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to update the requested record."
+            })
+        })
+    })
 }
 
 function deleteSingleTran (dataReceipt) {
@@ -208,6 +264,9 @@ module.exports = {
     findTranByPeriod,
     findDebitByPeriod,
     findCreditByPeriod,
+    findAllTransactions,
     findSingleTran,
+    updateSingleTran,
+    findLastTransaction,
     deleteSingleTran
 }

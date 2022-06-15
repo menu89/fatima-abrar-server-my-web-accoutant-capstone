@@ -206,10 +206,98 @@ function confirmTranPeriodFields(fieldParameters) {
     return {code: 200}
 }
 
+function confirmUpdateTranFields(updateParams) {
+    const {amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = updateParams
+
+    if (!tranid) {
+        return ({
+            code:400,
+            message:"Please provide the id of the transaction being updated."
+        })
+    }
+
+    if (!!tranid && !parseInt(tranid)) {
+        return {
+            code: 400,
+            message: 'Please recheck tranid entered.'
+        }
+    }
+
+    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+        return ({
+            code: 400,
+            message: "Please provide at least one field that you are looking to update."
+        })
+    }
+
+    if (!!debit || !!credit) {
+        if (!bank_type) {
+            return ({
+                code:400,
+                message:"To update the debit or credit account, please provide the bank_type field as well."
+            })
+        }
+
+        if ((bank_type !== "c") && (bank_type !== "d")) {
+            return ({
+                code: 400,
+                message:`The bank type only accepts "c" for credit or "d" for debit`
+            })
+        }
+
+        if ((bank_type === "c") && (!!debit)) {
+            const checkDebit = accList.find((acc) => (acc.name === debit))
+            if (!checkDebit) {
+                return {
+                    code: 400,
+                    message: 'Invalid Debit category. Please refer to API documentation for full list of acceptable accounts'
+                }
+            }
+        } 
+
+        if ((bank_type === "d") && (!!credit)) {
+            const checkCredit = accList.find((acc) => (acc.name === credit))
+            if (!checkCredit) {
+                return {
+                    code: 400,
+                    message: 'Invalid Credit category. Please refer to API documentation for full list of acceptable accounts'
+                }
+            }
+        }
+
+        if (!!debit && !!credit) {
+            if (debit === credit) {
+                return {
+                    code: 400,
+                    message: `Debit and Credit fields cannot have the same value`
+                }
+            }
+        }
+    }
+
+    if (!!amount && !parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+    if (!!transaction_timestamp) {
+        const results = checkTimeStatmp(transaction_timestamp)
+
+        if (results.code === 400) {
+            return results
+        }
+    }
+
+    return ({code: 200})
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
     confirmBankingFields,
     confirmTransactionFields,
-    confirmTranPeriodFields
+    confirmTranPeriodFields,
+    confirmUpdateTranFields
 }
