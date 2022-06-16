@@ -5,6 +5,7 @@ const cors = require('cors');
 const generalRoutes = require('./routes/generalRoutes');
 const userRoutes = require('./routes/userRoutes');
 const transactionRoutes = require('./routes/transactionsRoutes');
+const budgetRoutes = require('./routes/budgetRoutes');
 
 
 //middleware
@@ -18,8 +19,8 @@ server.use(express.json())
 //routes
 server.use('/api', generalRoutes);
 server.use('/api/user', userRoutes);
-server.use('/api/actual',transactionRoutes);
-
+server.use('/api/actual', transactionRoutes);
+server.use('/api/budget', budgetRoutes)
 
 //initialize server
 server.listen(PORT, () => {
