@@ -57,6 +57,9 @@
                 <li>
                     <a href="#post-single-budget-tran">POST /budget/transaction-single</a>
                 </li>
+                <li>
+                    <a href="#get-single-budget-tran">GET /budget/transaction-single</a>
+                </li>
             </ul>
         </nav>
         
@@ -485,6 +488,44 @@
                             <span>"Record_timestamp": 1655339870698,</span>
                             <span>"Transaction_timestamp": 1656648000000,</span>
                             <span>"mandatory": 1</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </div>
+            </article>
+
+            <article> <!-- Get the record for a single budget record-->
+                <h3 id="get-single-budget-tran">GET /budget/transaction-single</h3>
+                <div>
+                    <p>This endpoint seraches for budget records by id and returns the transaction that matches the id provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a transaction with the specified id, then no records will be returned.</p>
+                    <p>The field named 'mandatory' is a boolean. 1 means 'true' and 0 means 'false'.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"tranid": "3",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>[
+                        {
+                            <span>"id": 3,</span>
+                            <span>"amount": 50,</span>
+                            <span>"Debit": "utilities",</span>
+                            <span>"Credit": "RBC",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655340208867,</span>
+                            <span>"Transaction_timestamp": 1656648000000,</span>
+                            <span>"mandatory":0,</span>
                             <span>"user_id": 1</span>
                         }
                     ]</p>
