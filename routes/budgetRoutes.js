@@ -4,7 +4,7 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postBudgetTransaction, getSingleBudgetTran} = require('../controllers/budget');
+const {postBudgetTransaction, getSingleBudgetTran, deleteSingleBudgetTranansation} = require('../controllers/budget');
 
 router
     .route('/transaction-single')
@@ -19,7 +19,11 @@ router
         getSingleBudgetTran
     )
     .put(decodeJWT,validateCredentials)
-    .delete(decodeJWT,validateCredentials)
+    .delete(
+        decodeJWT,
+        validateCredentials,
+        deleteSingleBudgetTranansation
+    )
 
 router
     .get('transactions-by-period',

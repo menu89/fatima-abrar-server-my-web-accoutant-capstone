@@ -65,8 +65,37 @@ function findSingleBudgetTran(dataReceipt) {
     })
 }
 
+function deleteSingleBudgetTran(dataReceipt) {
+    const {tranid, id} = dataReceipt
+
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .where({user_id:id, id:tranid})
+        .del()
+        .then((info) => {
+            if (info === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            return resolve({
+                status:200,
+                message:`${info} record deleted`
+            })
+        })
+        .catch((err) => { 
+            return reject ({
+                status:400,
+                message:'Unknown Server Error'
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewBudgetTran,
     findLastBudgetTran,
-    findSingleBudgetTran
+    findSingleBudgetTran,
+    deleteSingleBudgetTran
 }

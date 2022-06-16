@@ -60,6 +60,9 @@
                 <li>
                     <a href="#get-single-budget-tran">GET /budget/transaction-single</a>
                 </li>
+                <li>
+                    <a href="#delete-single-budget-tran">DELETE /budget/transaction-single</a>
+                </li>
             </ul>
         </nav>
         
@@ -529,6 +532,32 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </div>
+            </article>
+
+            <article> <!-- Delete a single budget record-->
+                <h3 id="delete-single-budget-tran">DELETE /budget/transaction-single</h3>
+                <div>
+                    <p>This endpoint seraches for budget records by id and deletes the record that matches the id provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a transaction with the specified id, then no records will be deleted.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"tranid": "3",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>
+                        <span>"1 record deleted"</span>
+                    </p>
                 </div>
             </article>
 

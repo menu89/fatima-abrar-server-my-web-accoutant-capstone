@@ -1,6 +1,6 @@
 const {findBankAcc} = require('../models/transactionsmodels');
 
-const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran} = require('../models/budgetmodels');
+const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran} = require('../models/budgetmodels');
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
@@ -51,7 +51,23 @@ function getSingleBudgetTran (req, res) {
     })
 }
 
+function deleteSingleBudgetTranansation(req, res) {
+    const dataReceipt = {...req.query,...req.user}
+    if (!dataReceipt.tranid) {
+        return res.status(400).json("Please provide the transaction id")
+    }
+
+    deleteSingleBudgetTran(dataReceipt)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
 module.exports = {
     postBudgetTransaction,
-    getSingleBudgetTran
+    getSingleBudgetTran,
+    deleteSingleBudgetTranansation
 }
