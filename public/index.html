@@ -63,6 +63,9 @@
                 <li>
                     <a href="#delete-single-budget-tran">DELETE /budget/transaction-single</a>
                 </li>
+                <li>
+                    <a href="#update-single-budget-tran">PATCH /budget/transaction-single</a>
+                </li>
             </ul>
         </nav>
         
@@ -558,6 +561,45 @@
                     <p>
                         <span>"1 record deleted"</span>
                     </p>
+                </div>
+            </article>
+
+            <article class="article__budget"> <!-- Update a single budget record-->
+                <h3 id="update-single-budget-tran">PATCH /budget/transaction-single</h3>
+                <div>
+                    <p>This endpoint searches for the budget records by id and updates the parameters provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp, mandatory. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>If the debit or credit fields are to be updated, then you must provide the bank_type as well. Note that bank_type cannot be changed so when changing the credit or debit accounts, you cannot switch the two. i.e. if credit was a payment account, then you can only update it to another payment account.</p>
+                    <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
+                    <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of body to send for request:</p>
+                    <p>{
+                        <span>"tranid": "2",</span>
+                        <span>"debit": "rent",</span>
+                        <span>"bank_type": "c"</span>
+                    }</p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>[
+                        {
+                            <span>"id": 2,</span>
+                            <span>"amount": 700,</span>
+                            <span>"Debit": "rent",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655339870698,</span>
+                            <span>"Transaction_timestamp": 1656648000000,</span>
+                            <span>"mandatory": 0,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
                 </div>
             </article>
 

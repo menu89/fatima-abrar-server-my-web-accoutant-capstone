@@ -93,9 +93,27 @@ function deleteSingleBudgetTran(dataReceipt) {
     })
 }
 
+function updateSingleBudgetTran (tranId, id, updateCriterion) {
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .where({user_id:id, id:tranId})
+        .update(updateCriterion)
+        .then( response => {
+            resolve(response)
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to update the requested record."
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewBudgetTran,
     findLastBudgetTran,
     findSingleBudgetTran,
-    deleteSingleBudgetTran
+    deleteSingleBudgetTran,
+    updateSingleBudgetTran
 }

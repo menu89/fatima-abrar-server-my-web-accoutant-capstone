@@ -1,6 +1,6 @@
 const {findBankAcc} = require('../models/transactionsmodels');
 
-const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran} = require('../models/budgetmodels');
+const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran} = require('../models/budgetmodels');
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
@@ -66,8 +66,92 @@ function deleteSingleBudgetTranansation(req, res) {
     })
 }
 
+function patchSingleBudgetTransaction (req, res) {
+    const dataReceipt = {...req.user, ...req.body}
+    const returnMsg = confirmUpdateTranFields(dataReceipt)
+
+    if (returnMsg.code === 400) {
+        if (returnMsg.message === "Please provide at least one field that you are looking to update.") {
+            if (!dataReceipt.mandatory) {
+                return res.status(returnMsg.code).json(returnMsg.message)
+            } else if (!!dataReceipt.mandatory && !'nNyY'.includes(dataReceipt.mandatory)) {
+                return res.status(400).json("Please check the format of the field.")
+            }
+        } else {
+            return res.status(returnMsg.code).json(returnMsg.message)
+        }
+    }
+
+    const updateCriterion = organizeUpdateTranInfo(dataReceipt)
+
+    const {tranid, id} = dataReceipt
+    const {debit, credit, bank_type} = updateCriterion
+
+    if (!!dataReceipt.mandatory) {
+        if ((dataReceipt.mandatory === "y") || (dataReceipt.mandatory === "Y")) {
+            updateCriterion.mandatory = true
+        } else if ((dataReceipt.mandatory === "n") || (dataReceipt.mandatory === "N")) {
+            updateCriterion.mandatory = false
+        }
+    }
+
+    if((bank_type === "c" && !!credit) || (bank_type === "d" && !!debit)) {
+        findBankAcc(dataReceipt)
+        .then( response => {
+            return findSingleBudgetTran(dataReceipt)
+        })
+        .then(response => {
+            if (dataReceipt.bank_type !== response.message[0]['Bank_type']) {
+                return res.status(400).json("This API does not support switching the bank_type. Please delete the transaction in question and create a new one.")
+            }
+
+            return updateSingleBudgetTran(tranid, id, updateCriterion)
+        })
+        .then( response => {
+            return findSingleBudgetTran(dataReceipt)
+        })
+        .then(response => {
+            return res.status(response.status).json(response.message)
+            })
+        .catch(error=>{
+            return res.status(error.status).json(error.message)
+        })
+    } else if (!!bank_type) {
+        findSingleBudgetTran(dataReceipt)
+        .then(response => {
+            if (dataReceipt.bank_type !== response.message[0]['Bank_type']) {
+                return res.status(400).json("This API does not support switching the bank_type. Please delete the transaction in question and create a new one.")
+            }
+
+            return updateSingleBudgetTran(tranid, id, updateCriterion)
+        })
+        .then( response => {
+            return findSingleBudgetTran(dataReceipt)
+        })
+        .then(response => {
+            return res.status(response.status).json(response.message)
+            })
+        .catch(error=>{
+            return res.status(error.status).json(error.message)
+        })
+    } else {
+        updateSingleBudgetTran(tranid, id, updateCriterion)
+        .then( response => {
+            return findSingleBudgetTran(dataReceipt)
+        })
+        .then(response => {
+            return res.status(response.status).json(response.message)
+            })
+        .catch(error=>{
+            return res.status(error.status).json(error.message)
+        })
+    }
+
+}
+
 module.exports = {
     postBudgetTransaction,
     getSingleBudgetTran,
-    deleteSingleBudgetTranansation
+    deleteSingleBudgetTranansation,
+    patchSingleBudgetTransaction
 }
