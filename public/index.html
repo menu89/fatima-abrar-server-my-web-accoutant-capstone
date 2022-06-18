@@ -50,7 +50,7 @@
                     <a href="#delete-single-tran">DELETE /actual/transaction-single</a>
                 </li>
                 <li>
-                    <a href="#update-single-tran">PUT /actual/transaction-single</a>
+                    <a href="#update-single-tran">PATCH /actual/transaction-single</a>
                 </li>
             </ul>
             <ul> <!-- budget transaction related enquiries-->
@@ -79,7 +79,7 @@
 
         <section> <!--user related enquiries-->
 
-            <article> <!--POST user registration-->
+            <article class="article__users"> <!--POST user registration-->
                 <h3 id="register">POST /user/register</h3>
                 <div>
                     <P>This endpoint is for registering a user for the first time.</P>
@@ -103,7 +103,7 @@
                 </div>
             </article>
             
-            <article> <!--User Log In-->
+            <article class="article__users"> <!--User Log In-->
                 <h3 id="login">**POST /user/login</h3>
                 <div>
                     <P>GET - this API actually only sends back information so should technically be a GET request but axios does not support sending 'body' information with GET</P>
@@ -133,7 +133,7 @@
                 </div>
             </article>
             
-            <article> <!--Initial Bank Set Up-->
+            <article class="article__users"> <!--Initial Bank Set Up-->
                 <h3 id="initial-set-up">POST /user/initial-set-up</h3>
                 <div>
                     <p>This endpoint is to set up the different types of payment methods</p>
@@ -163,7 +163,7 @@
                 </div>
             </article>
             
-            <article> <!-- Get the list of banks-->
+            <article class="article__users"> <!-- Get the list of banks-->
                 <h3 id="bank-list">GET /user/bank-list</h3>
                 <div>
                     <p>This endpoint returns a list of accounts with initial set up balances for a given user.</p>
@@ -191,7 +191,7 @@
 
         <section> <!-- actual transaction related enquiries -->
 
-            <article> <!-- Get a list of transactions by period-->
+            <article class="article__actual"> <!-- Get a list of transactions by period-->
                 <h3 id="transaction-by-period">GET /actual/transactions-by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the records for a particular user by month.</p>
@@ -227,7 +227,7 @@
                 </div>
             </article>
         
-            <article> <!-- Total by period for actuals-->
+            <article class="article__actual"> <!-- Total by period for actuals-->
                 <h3 id="total-by-period">GET /actual/total-by-period</h3>
                 <div>
                     <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
@@ -261,7 +261,7 @@
                 </div>
             </article>
     
-            <article> <!-- Get a list of all transactions-->
+            <article class="article__actual"> <!-- Get a list of all transactions-->
                 <h3 id="transactions-all">GET /actual/transactions-all</h3>
                 <div>
                     <p>This endpoint allows you to access the all the transaction records for a particular user.</p>
@@ -299,7 +299,7 @@
                 </div>
             </article>
     
-            <article> <!-- Post a transaction-->
+            <article class="article__actual"> <!-- Post a transaction-->
                 <h3 id="transaction">POST /actual/transaction-single</h3>
                 <div>
                     <p>This endpoint allows you to add transaction records for a specific user.</p>
@@ -344,7 +344,7 @@
                 </div>
             </article>
     
-            <article> <!-- Get the record for a single transaction-->
+            <article class="article__actual"> <!-- Get the record for a single transaction-->
                 <h3 id="single-tran">GET /actual/transaction-single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and returns the transaction that matches the id provided.</p>
@@ -380,7 +380,7 @@
                 </div>
             </article>
     
-            <article> <!-- Delete the record for a single transaction-->
+            <article class="article__actual"> <!-- Delete the record for a single transaction-->
                 <h3 id="delete-single-tran">DELETE /actual/transaction-single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and deletes the transaction that matches the id provided.</p>
@@ -406,8 +406,8 @@
                 </div>
             </article>
     
-            <article> <!-- Update the record for a single transaction-->
-                <h3 id="update-single-tran">PUT /actual/transaction-single</h3>
+            <article class="article__actual"> <!-- Update the record for a single transaction-->
+                <h3 id="update-single-tran">PATCH /actual/transaction-single</h3>
                 <div>
                     <p>This endpoint searches for the transaction by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -447,7 +447,7 @@
         
         <section> <!-- budget related enquires-->
 
-            <article> <!-- POST a budget record/transaction -->
+            <article class="article__budget"> <!-- POST a budget record/transaction -->
                 <h3 id="post-single-budget-tran">POST /budget/transaction-single</h3>
                 <div>
                     <p>This endpoint allows you to add budget transaction records for a specific user.</p>
@@ -497,7 +497,7 @@
                 </div>
             </article>
 
-            <article> <!-- Get the record for a single budget record-->
+            <article class="article__budget"> <!-- Get the record for a single budget record-->
                 <h3 id="get-single-budget-tran">GET /budget/transaction-single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and returns the transaction that matches the id provided.</p>
@@ -535,7 +535,7 @@
                 </div>
             </article>
 
-            <article> <!-- Delete a single budget record-->
+            <article class="article__budget"> <!-- Delete a single budget record-->
                 <h3 id="delete-single-budget-tran">DELETE /budget/transaction-single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and deletes the record that matches the id provided.</p>

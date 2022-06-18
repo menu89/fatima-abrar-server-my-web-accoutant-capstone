@@ -4,7 +4,7 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postTransaction, getTranPeriod, getPeriodTotal, getSingleTransaction, deleteSingleTransaction, getAllTransactions, putSingleTransaction} = require('../controllers/transactions')
+const {postTransaction, getTranPeriod, getPeriodTotal, getSingleTransaction, deleteSingleTransaction, getAllTransactions, patchSingleTransaction} = require('../controllers/transactions')
 
 router
     .post('/transaction-single', 
@@ -32,10 +32,10 @@ router
         validateCredentials,
         getSingleTransaction
     )
-    .put('/transaction-single',
+    .patch('/transaction-single',
         decodeJWT,
         validateCredentials,
-        putSingleTransaction
+        patchSingleTransaction
     )
     .delete('/transaction-single',
         decodeJWT,
