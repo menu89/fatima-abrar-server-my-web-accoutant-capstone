@@ -8,13 +8,15 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.string('username').notNullable();
       table.string('email').notNullable().unique();
-      table.string('password').notNullable()
+      table.string('password').notNullable();
+      table.boolean('account-verified').notNullable().defaultTo(false)
   })
   .createTable('opening_bank_balances', (table) => {
       table.increments('id').primary();
       table.string('acc_type').notNullable();
       table.string('acc_des').notNullable();
       table.integer('amount').notNullable().defaultTo(0).unsigned();
+      table.bigint('Balance_timestamp').notNullable();
       table
         .integer('user_id')
         .unsigned()

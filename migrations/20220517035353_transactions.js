@@ -13,6 +13,7 @@ exports.up = function(knex) {
         .unsigned();
       table.string('Debit').notNullable();
       table.string('Credit').notNullable();
+      table.string('Bank_type').notNullable();
       table.string('Description');
       table.bigint('Record_timestamp').notNullable();
       table.bigint('Transaction_timestamp').notNullable();
@@ -34,7 +35,9 @@ exports.up = function(knex) {
       .unsigned();
     table.string('Debit').notNullable();
     table.string('Credit').notNullable();
+    table.string('Bank_type').notNullable();
     table.string('Description');
+    table.bigint('Record_timestamp');
     table.bigint('Transaction_timestamp').notNullable();
     table.boolean('mandatory').defaultTo(false);
     table
