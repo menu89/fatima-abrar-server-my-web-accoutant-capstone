@@ -133,11 +133,43 @@ function findAllBudgetRecords(id) {
     })
 }
 
+function findBudgetRecordsByPeriod(searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .where(function(){
+            this.where('user_id',id)
+                .andWhere('Transaction_timestamp', '>=', startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:"No Records Found."
+                })
+            }
+            return resolve({
+                status:200,
+                message:info
+            })
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewBudgetTran,
     findLastBudgetTran,
     findSingleBudgetTran,
     deleteSingleBudgetTran,
     updateSingleBudgetTran,
-    findAllBudgetRecords
+    findAllBudgetRecords,
+    findBudgetRecordsByPeriod
 }

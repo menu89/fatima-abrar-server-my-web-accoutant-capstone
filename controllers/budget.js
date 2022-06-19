@@ -1,6 +1,6 @@
 const {findBankAcc} = require('../models/transactionsmodels');
 
-const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran, findAllBudgetRecords} = require('../models/budgetmodels');
+const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran, findAllBudgetRecords, findBudgetRecordsByPeriod} = require('../models/budgetmodels');
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
@@ -160,10 +160,29 @@ function getAllBudgetRecords (req,res) {
     })
 }
 
+function getBudgetRecordsByPeriod(req, res) {
+    const dataReceipt = {...req.query, ...req.user}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+    
+    const result = arrangePeriodSearchInfo(dataReceipt)
+
+    findBudgetRecordsByPeriod(result)
+    .then( response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(err => {
+        return res.status(err.status).json(err.message)
+    })
+}
+
 module.exports = {
     postBudgetTransaction,
     getSingleBudgetTran,
     deleteSingleBudgetTranansation,
     patchSingleBudgetTransaction,
-    getAllBudgetRecords
+    getAllBudgetRecords,
+    getBudgetRecordsByPeriod
 }
