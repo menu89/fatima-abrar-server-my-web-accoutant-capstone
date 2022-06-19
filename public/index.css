@@ -15,6 +15,18 @@ article {
     padding: 0rem 1rem 1rem 1rem;
 }
 
+.article__users {
+    background-color: lightseagreen;
+}
+
+.article__actual {
+    background-color: lightpink;
+}
+
+.article__budget {
+    background-color: lightgreen;
+}
+
 p {
     margin: 0rem;
     font-size: 0.75rem;
@@ -38,4 +50,21 @@ span {
 .bold {
     font-weight: bolder;
     font-size: 0.8rem;
+}
+
+.back-to-top {
+    max-width: 2.5rem;
+    text-overflow: wrap;
+    position: fixed;
+    right: 0%;
+    bottom: 0%;
+}
+
+.back-to-top__image {
+    max-height: 2rem;
+}
+
+.back-to-top__text {
+    text-decoration: none;
+    font-size: 0.6rem;
 }

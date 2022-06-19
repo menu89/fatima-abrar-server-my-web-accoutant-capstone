@@ -2,7 +2,7 @@ const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCredit
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
-const { response } = require('express');
+//const { response } = require('express');
 
 function postTransaction (req, res) {
     const dataReceipt = {...req.body, ...req.user}
@@ -100,7 +100,7 @@ function getSingleTransaction (req,res) {
     })
 }
 
-function putSingleTransaction (req,res) {
+function patchSingleTransaction (req,res) {
     const dataReceipt  = {...req.user, ...req.body}
     const returnMsg = confirmUpdateTranFields(dataReceipt)
 
@@ -185,6 +185,6 @@ module.exports = {
     getPeriodTotal,
     getAllTransactions,
     getSingleTransaction,
-    putSingleTransaction,
+    patchSingleTransaction,
     deleteSingleTransaction
 }

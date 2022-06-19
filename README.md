@@ -2,9 +2,17 @@
 
 This API is developed specifically for the client side app but documentation for the endpoints can be found at the '/api' endpoint.
 
+<br />
+
 # Tech Stack
 
-NodeJS, Express, Knex, MySQL
+NodeJS, Express, Knex, MySQL, HTML, CSS, JavaScript
+
+<a href="https://skillicons.dev">
+<img src="https://skillicons.dev/icons?i=html,css,js,nodejs,express,mysql&perline=9" />
+</a>
+
+<br />
 
 # Features
 
@@ -18,10 +26,17 @@ Individual Users can log in and have access to the follow:
 - View a list of payment accounts set up,
 - View a breakdown of expenses by category and period,
 - View a list of transactions by period,
-- Record a transaction,
-- View a single transaction,
-- Delete a single transaction,
+- Record, View, Edit, or Delete a transaction,
+- View all transactons for a specific user,
+
+- View a breakdown of budget totals by category and period,
+- View a list of budget records by period,
+- Record, View, Edit, or Delete a budget record,
+- View all budget records for a specific user,
+
 - Users only have access to information for their own user only.
+
+<br />
 
 # Run Locally
 
@@ -33,6 +48,8 @@ Individual Users can log in and have access to the follow:
 6. Run the following command line in terminal to generate a key: node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
 7. Update the .env file with the Key generated in point 6.
 8. Refer to temp data files for test data to be included.
+
+<br />
 
 # General
 
