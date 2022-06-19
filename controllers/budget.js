@@ -1,6 +1,6 @@
 const {findBankAcc} = require('../models/transactionsmodels');
 
-const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran} = require('../models/budgetmodels');
+const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran, findAllBudgetRecords} = require('../models/budgetmodels');
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
@@ -149,9 +149,21 @@ function patchSingleBudgetTransaction (req, res) {
 
 }
 
+function getAllBudgetRecords (req,res) {
+    const{id} = req.user
+    findAllBudgetRecords(id)
+    .then(tranData => {
+        return res.status(200).json(tranData)
+    })
+    .catch(err => {
+        return res.status(err.status).json(err.message)
+    })
+}
+
 module.exports = {
     postBudgetTransaction,
     getSingleBudgetTran,
     deleteSingleBudgetTranansation,
-    patchSingleBudgetTransaction
+    patchSingleBudgetTransaction,
+    getAllBudgetRecords
 }

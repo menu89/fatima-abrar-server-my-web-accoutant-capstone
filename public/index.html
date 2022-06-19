@@ -66,6 +66,9 @@
                 <li>
                     <a href="#update-single-budget-tran">PATCH /budget/transaction-single</a>
                 </li>
+                <li>
+                    <a href="#budget-records-all">GET /budget/transactions-all</a>
+                </li>
             </ul>
         </nav>
         
@@ -587,6 +590,46 @@
                 <div>
                     <p  class="bold">Response Body Example:</p>
                     <p>[
+                        {
+                            <span>"id": 2,</span>
+                            <span>"amount": 700,</span>
+                            <span>"Debit": "rent",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655339870698,</span>
+                            <span>"Transaction_timestamp": 1656648000000,</span>
+                            <span>"mandatory": 0,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </div>
+            </article>
+
+            <article class="article__budget"> <!-- Get a list of all transactions-->
+                <h3 id="budget-records-all">GET /budget/transactions-all</h3>
+                <div>
+                    <p>This endpoint allows you to access all the budget records records for a particular user.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 1200,</span>
+                            <span>"Debit": "rent",</span>
+                            <span>"Credit": "RBC",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655339847332,</span>
+                            <span>"Transaction_timestamp": 1656648000000,</span>
+                            <span>"mandatory": 1,</span>
+                            <span>"user_id": 1</span>
+                        },
                         {
                             <span>"id": 2,</span>
                             <span>"amount": 700,</span>

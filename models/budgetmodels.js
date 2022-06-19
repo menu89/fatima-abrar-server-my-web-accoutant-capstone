@@ -110,10 +110,34 @@ function updateSingleBudgetTran (tranId, id, updateCriterion) {
     })
 }
 
+function findAllBudgetRecords(id) {
+    return new Promise ((resolve, reject) => {
+        knex('budget_entries')
+        .where({user_id:id})
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:"No Records Found."
+                })
+            }
+
+            resolve(info)
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewBudgetTran,
     findLastBudgetTran,
     findSingleBudgetTran,
     deleteSingleBudgetTran,
-    updateSingleBudgetTran
+    updateSingleBudgetTran,
+    findAllBudgetRecords
 }
