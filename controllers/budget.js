@@ -1,6 +1,6 @@
 const {findBankAcc} = require('../models/transactionsmodels');
 
-const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran, findAllBudgetRecords, findBudgetRecordsByPeriod} = require('../models/budgetmodels');
+const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleBudgetTran, updateSingleBudgetTran, findAllBudgetRecords, findBudgetRecordsByPeriod, findDebitByPeriodForBudgets, findCreditByPeriodForBudgets} = require('../models/budgetmodels');
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
@@ -178,11 +178,41 @@ function getBudgetRecordsByPeriod(req, res) {
     })
 }
 
+function getBudgetTotalsByPeriod(req, res) {
+    const dataReceipt = {...req.query, ...req.user}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+    
+    const result = arrangePeriodSearchInfo(dataReceipt)
+    
+    let debitInfo = []
+    let creditInfo = []
+
+    findDebitByPeriodForBudgets(result)
+    .then(response =>{
+        debitInfo =[...response.debitInfo]
+        return findCreditByPeriodForBudgets(result)
+    })
+    .then(response => {
+        creditInfo = [...response.creditInfo]
+        const searchPara = {...result}
+        const {status,message} = arrangeTotalByPeriod(debitInfo,creditInfo,dataReceipt, searchPara)
+        message.enquiry = "budget"
+        return res.status(status).json(message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
 module.exports = {
     postBudgetTransaction,
     getSingleBudgetTran,
     deleteSingleBudgetTranansation,
     patchSingleBudgetTransaction,
     getAllBudgetRecords,
-    getBudgetRecordsByPeriod
+    getBudgetRecordsByPeriod,
+    getBudgetTotalsByPeriod
 }

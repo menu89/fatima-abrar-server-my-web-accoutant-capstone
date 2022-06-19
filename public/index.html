@@ -72,6 +72,9 @@
                 <li>
                     <a href="#budget-records-by-period">GET /budget/transactions-by-period</a>
                 </li>
+                <li>
+                    <a href="#budgetTotals-by-period">GET /budget/totals-by-period</a>
+                </li>
             </ul>
         </nav>
         
@@ -665,7 +668,7 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/transaction-by-period?month=05&year=2022</span></p>
+                    <p><span>'/budget/transaction-by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -683,6 +686,40 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </div>
+            </article>
+
+            <article class="article__budget"> <!-- Budget Totals by period for actuals-->
+                <h3 id="budgetTotals-by-period">GET /budget/totals-by-period</h3>
+                <div>
+                    <p>This endpoint takes all the budget records in a given period for a specific user and returns totals by categories.</p>
+                    <p>There are 2 mandatory fields: month, year</p>
+                    <p>If you are missing fields, then the endpoint will return an error.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"month": "05",</span>
+                        <span>"year":"2022"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/budget/totals-by-period?month=05&year=2022</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>{
+                        <span>"income": [],</span>
+                        <span>"expense": [
+                            <span>{</span>
+                                <span>"rent": 800</span>
+                            <span>}</span>
+                        ],</span>
+                        <span>"email": "hello@gamil.com",</span>
+                        <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
+                        <span>"enquiry": "budget"</span>
+                    }</p>
                 </div>
             </article>
 

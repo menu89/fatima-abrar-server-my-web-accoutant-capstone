@@ -164,6 +164,70 @@ function findBudgetRecordsByPeriod(searchParameters) {
     })
 }
 
+function findDebitByPeriodForBudgets(searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .sum('amount')
+        .groupBy('Debit')
+        .select('Debit')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=', startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject ({
+                    status:400,
+                    message:'No Records Found.'
+                })
+            }
+            return resolve({debitInfo:info})
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
+
+    })
+}
+
+function findCreditByPeriodForBudgets(searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .sum('amount')
+        .groupBy('Credit')
+        .select('Credit')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=', startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject ({
+                    status:400,
+                    message:'No Records Found.'
+                })
+            }
+            return resolve({creditInfo:info})
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
+
+    })
+}
+
 module.exports = {
     addNewBudgetTran,
     findLastBudgetTran,
@@ -171,5 +235,7 @@ module.exports = {
     deleteSingleBudgetTran,
     updateSingleBudgetTran,
     findAllBudgetRecords,
-    findBudgetRecordsByPeriod
+    findBudgetRecordsByPeriod,
+    findDebitByPeriodForBudgets,
+    findCreditByPeriodForBudgets
 }
