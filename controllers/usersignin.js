@@ -1,5 +1,5 @@
-const {addNewUser, findUser, addBankAcc, findBankList} = require('../models/usermodels');
-const { confirmRegisFields, confirmLoginFields, confirmBankingFields } = require('../utilfuncs/confirmFields');
+const {addNewUser, findUser} = require('../models/usermodels');
+const { confirmRegisFields, confirmLoginFields } = require('../utilfuncs/confirmFields');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -60,55 +60,10 @@ const userLogin = (req,res) => {
     })
 }
 
-const addBankInfo = (req, res) => {
-    const {accType, accDesc, amount, balance_timestamp} = req.body
-    const returnMsg = confirmBankingFields(accType, accDesc, amount, balance_timestamp)
-    
-    if (returnMsg.code === 400) {
-        return res.status(returnMsg.code).send(returnMsg.message)
-    }
 
-    const convertNo = parseInt(amount)
-    let balTS = 0
 
-    if (!parseInt(balance_timestamp)) {
-        balTS = Date.parse(balance_timestamp)
-    } else {
-        balTS = parseInt(balance_timestamp)
-    }
-
-    const newAcc = {
-        acc_type: accType,
-        acc_des: accDesc,
-        amount: convertNo,
-        balance_timestamp:balTS,
-        user_id: req.user.id
-    };
-
-    addBankAcc(newAcc)
-    .then( response => {
-        res.status(response.status).json(response.message)
-    })
-    .catch(err => {
-        res.status(err.status).json(err.message)
-    })
-}
-
-const findBanks = (req,res) => {
-    const {id} = req.user
-
-    findBankList(id)
-    .then(userInfo => {
-        res.status(400).json(userInfo)
-    })
-    .catch(err =>{
-        res.status(err.status).json(err.message)
-    })
-}
 
 module.exports = {
     userRegistration,
-    userLogin,
-    addBankInfo,
-    findBanks
+    userLogin
 }

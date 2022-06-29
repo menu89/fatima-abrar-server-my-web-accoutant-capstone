@@ -27,6 +27,10 @@ article {
     background-color: lightgreen;
 }
 
+.article__banks {
+    background-color: orchid;
+}
+
 p {
     margin: 0rem;
     font-size: 0.75rem;

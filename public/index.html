@@ -23,11 +23,13 @@
                 <li>
                     <a href="#login">**POST /user/login</a>
                 </li>
+            </ul>
+            <ul> <!-- bank related enquiries-->
                 <li>
-                    <a href="#initial-set-up">POST /user/initial-set-up</a>
+                    <a href="#add-bank-account">POST /banks/add-bank-account</a>
                 </li>
                 <li>
-                    <a href="#bank-list">GET /user/bank-list</a>
+                    <a href="#bank-list">GET /banks/list</a>
                 </li>
             </ul>
             <ul> <!-- transaction related enquiries-->
@@ -144,9 +146,11 @@
                     </p>
                 </div>
             </article>
-            
-            <article class="article__users"> <!--Initial Bank Set Up-->
-                <h3 id="initial-set-up">POST /user/initial-set-up</h3>
+        </section>
+        
+        <section> <!-- bank related enquiries-->
+            <article class="article__banks"> <!--Initial Bank Set Up-->
+                <h3 id="add-bank-account">POST /banks/add-bank-account</h3>
                 <div>
                     <p>This endpoint is to set up the different types of payment methods</p>
                     <p>It has four mandatory endpoints: accType, accDesc, amount, balance_timestamp</p>
@@ -175,8 +179,8 @@
                 </div>
             </article>
             
-            <article class="article__users"> <!-- Get the list of banks-->
-                <h3 id="bank-list">GET /user/bank-list</h3>
+            <article class="article__banks"> <!-- Get the list of banks-->
+                <h3 id="bank-list">GET /banks/list</h3>
                 <div>
                     <p>This endpoint returns a list of accounts with initial set up balances for a given user.</p>
                 </div>
@@ -408,7 +412,7 @@
                         <span>"tranid": "5",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/total-by-period?tranid=5</span></p>
+                    <p><span>'/actual/transaction-single?tranid=5</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -563,7 +567,7 @@
                         <span>"tranid": "3",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                    <p><span>'/budget/transaction-single?tranid=3</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
