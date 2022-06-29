@@ -8,6 +8,8 @@ const bankRoutes = require('./routes/bankReoutes');
 const transactionRoutes = require('./routes/transactionsRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
 
+const testArea = require('./test.js');
+
 
 //middleware
 require('dotenv').config();
@@ -23,6 +25,8 @@ server.use('/api/user', userRoutes);
 server.use('/api/banks', bankRoutes)
 server.use('/api/actual', transactionRoutes);
 server.use('/api/budget', budgetRoutes)
+
+server.use('/api/test', testArea)
 
 //initialize server
 server.listen(PORT, () => {

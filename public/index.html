@@ -31,6 +31,9 @@
                 <li>
                     <a href="#bank-list">GET /banks/list</a>
                 </li>
+                <li>
+                    <a href="#delete-single-bank">DELETE /banks/single-account</a>
+                </li>
             </ul>
             <ul> <!-- transaction related enquiries-->
                 <li>
@@ -200,6 +203,34 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </div>
+            </article>
+
+            <article class="article__banks"> <!-- Delete the record for a single transaction-->
+                <h3 id="delete-single-bank">DELETE /banks/single-account</h3>
+                <div>
+                    <p>This endpoint seraches for banks by id. It then searches the transaction and budget records to see if it has been used in the past. If it hasn't been used then the bank account is deleted.</p>
+                    <p>There is 1 mandatory field: bankid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a bank account with the specified id, then no records will be deleted.</p>
+                    <p>If the bank account has been used in the past in transaction or budget records, then no records will be deleted.</p>
+                    
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"bankid": "5",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/banks/single-account?bankid=5</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>
+                        <span>"1 record deleted"</span>
+                    </p>
                 </div>
             </article>
 
