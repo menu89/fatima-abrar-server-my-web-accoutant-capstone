@@ -16,6 +16,10 @@ article {
 }
 
 .article__users {
+    background-color: orchid;
+}
+
+.article__banks {
     background-color: lightseagreen;
 }
 
@@ -25,10 +29,6 @@ article {
 
 .article__budget {
     background-color: lightgreen;
-}
-
-.article__banks {
-    background-color: orchid;
 }
 
 p {

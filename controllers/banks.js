@@ -1,6 +1,6 @@
-const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank} = require('../models/bankmodels');
+const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions} = require('../models/bankmodels');
 
-const { confirmBankingFields } = require('../utilfuncs/confirmFields');
+const { confirmBankingFields, confirmBankTranByDate } = require('../utilfuncs/confirmFields');
 
 const postBankInfo = (req, res) => {
     const {accType, accDesc, amount, balance_timestamp} = req.body
@@ -76,8 +76,53 @@ const deleteBankAccount = (req, res) => {
     })
 }
 
+const getTransactionsByDate = (req, res) => {
+    const {id} = req.user
+    const {bankid, balance_timestamp} = req.query
+
+    const validationData = {...req.query}
+
+    const returnMsg = confirmBankTranByDate(validationData)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).send(returnMsg.message)
+    }
+    
+    let searchDate = 0
+    if (!parseInt(balance_timestamp)) {
+        searchDate = Date.parse(balance_timestamp)
+    } else {
+        searchDate = parseInt(balance_timestamp)
+    }
+
+    let bankName = ''
+    let responseData = {}
+    findOneBank(id,bankid)
+    .then((bankInfo) => {
+        bankName = bankInfo[0]['acc_des']
+        responseData = {...bankInfo[0]}
+        return getBankActivityByDate(id,bankName,searchDate)
+    })
+    .then((response) => {
+        responseData.money_paid = response.message[0][0]['CreditTotal']
+        responseData.money_received = response.message[0][0]['DebitTotal']
+        return searchTopFiveActualTransactions(id,bankName, searchDate)
+    })
+    .then((response) => {
+        if (response.message === "No matches found") {
+            responseData.top_five = []
+        } else {
+            responseData.top_five = [...response.message]
+        }
+        return res.status(response.status).json(responseData)
+    })
+    .catch(err => {
+        return res.status(err.status).json(err.message)
+    })
+}
+
 module.exports = {
     postBankInfo,
     getBankList,
-    deleteBankAccount
+    deleteBankAccount,
+    getTransactionsByDate
 }

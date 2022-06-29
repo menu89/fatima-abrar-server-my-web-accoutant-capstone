@@ -84,7 +84,6 @@ function searchActualTransactions (id, bankName) {
             })
         })
         .catch(err => {
-            console.log(err)
             reject({
                 status:400,
                 message:"We ran into difficulties searching for the requested information."
@@ -149,11 +148,69 @@ function deleteSingleBank(id, bankid) {
     })
 }
 
+function getBankActivityByDate(id,bankName,searchDate) {
+
+    let queryParamater = `SELECT SUM(CASE WHEN user_id=${id} THEN (CASE WHEN Transaction_timestamp < ${searchDate} THEN (CASE WHEN Credit='${bankName}' THEN -amount END) END) ELSE 0 END) AS CreditTotal, SUM((CASE WHEN user_id = ${id} THEN (CASE WHEN Transaction_timestamp < ${searchDate} THEN (CASE WHEN Debit='${bankName}' THEN amount END) END) ELSE 0 END)) AS DebitTotal FROM actual_transactions`
+
+    return new Promise ((resolve, reject) => {
+        knex.raw(queryParamater)
+        .then((response) => {
+            resolve({
+                status:200,
+                message:response
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            reject({
+                status:400,
+                message:"We ran into issues executing your request."
+            })
+        })
+    })
+}
+
+function searchTopFiveActualTransactions (id, bankName,searchDate) {
+    return new Promise((resolve, reject) => {
+        knex('actual_transactions')
+        .where(function(){
+            this.where('user_id',id)
+                .andWhere('Transaction_timestamp', '<=',searchDate)
+                .andWhere(function(){
+                    this.where('Debit', `${bankName}`)
+                        .orWhere('Credit', `${bankName}`)
+                })
+        })
+        .orderBy('Transaction_timestamp','desc')
+        .limit(5)
+        .then(response => {
+            if (response.length === 0) {
+                resolve({
+                    status:200,
+                    message:"No matches found"
+                })
+            }
+            resolve({
+                status:200,
+                message:response
+            })
+        })
+        .catch(err => {
+            reject({
+                status:400,
+                message:"We ran into difficulties searching for the requested information."
+            })
+        })
+    })
+}
+
 module.exports = {
     addBankAcc,
     findBankList,
     findOneBank,
     searchActualTransactions,
     searchBudgetEntries,
-    deleteSingleBank
+    deleteSingleBank,
+    getBankActivityByDate,
+    searchTopFiveActualTransactions
 }

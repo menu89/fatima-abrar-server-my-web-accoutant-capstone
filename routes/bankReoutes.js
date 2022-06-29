@@ -4,7 +4,7 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postBankInfo, getBankList, deleteBankAccount} = require('../controllers/banks');
+const {postBankInfo, getBankList, deleteBankAccount, getTransactionsByDate} = require('../controllers/banks');
 
 router
     .post('/add-bank-account', 
@@ -21,6 +21,11 @@ router
         decodeJWT,
         validateCredentials,
         deleteBankAccount
+    )
+    .get('/account-details-by-date',
+        decodeJWT,
+        validateCredentials,
+        getTransactionsByDate
     )
 
 module.exports = router;

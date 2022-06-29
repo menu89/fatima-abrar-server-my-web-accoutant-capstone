@@ -293,11 +293,37 @@ function confirmUpdateTranFields(updateParams) {
     return ({code: 200})
 }
 
+function confirmBankTranByDate (validationData) {
+    const {bankid, balance_timestamp} = validationData
+    if (!bankid || !balance_timestamp) {
+        return({
+            code:400,
+            message:"Please provide all mandatory fields."
+        })
+    }
+
+    if (!parseInt(bankid)) {
+        return({
+            code:400,
+            message:"Please provide a valid id."
+        })
+    }
+    
+    const results = checkTimeStatmp(balance_timestamp)
+
+    if (results.code === 400) {
+        return results
+    }
+
+    return { code: 200}
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
     confirmBankingFields,
     confirmTransactionFields,
     confirmTranPeriodFields,
-    confirmUpdateTranFields
+    confirmUpdateTranFields,
+    confirmBankTranByDate
 }
