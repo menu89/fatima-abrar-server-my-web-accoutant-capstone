@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this function searches for the bank account to see if it exists for the given user.
 function findBankAcc(dataReceipt) {
     const {id,debit,credit,bank_type} = dataReceipt
         
@@ -30,6 +31,7 @@ function findBankAcc(dataReceipt) {
     
 }
 
+//this function adds a new transaction to the actuals table for a given user
 function addNewTran (transactionInfo) {
     return new Promise((resolve,reject) => {
         knex('actual_transactions')
@@ -49,6 +51,7 @@ function addNewTran (transactionInfo) {
     })
 }
 
+//this function searches for transactions for a given user for a specified period.
 function findTranByPeriod (searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 
@@ -80,6 +83,7 @@ function findTranByPeriod (searchParameters) {
     })
 }
 
+//this function totals the 'amount' column for each distinct heading under 'Debit' for a given user.
 function findDebitByPeriod (searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 
@@ -111,6 +115,7 @@ function findDebitByPeriod (searchParameters) {
     })
 }
 
+//this function totals the 'amount' column for each distinct heading under 'Credit' for a given user.
 function findCreditByPeriod (searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 
@@ -142,6 +147,7 @@ function findCreditByPeriod (searchParameters) {
     })
 }
 
+//this function searches for all transactions in the actuals table for a given user.
 function findAllTransactions (id) {
     return new Promise((resolve, reject) => {
         knex('actual_transactions')
@@ -164,6 +170,7 @@ function findAllTransactions (id) {
     })
 }
 
+//this function searches for a single transaction in the actuals table for a given user for the specified transaction id.
 function findSingleTran (dataReceipt) {
     const {tranid, id} = dataReceipt
 
@@ -192,6 +199,7 @@ function findSingleTran (dataReceipt) {
     })
 }
 
+//thsi function updates the transaction in the actuals table for a given user.
 function updateSingleTran (tranId, id, updateCriterion) {
     return new Promise((resolve, reject) => {
         knex('actual_transactions')
@@ -209,6 +217,7 @@ function updateSingleTran (tranId, id, updateCriterion) {
     })
 }
 
+//this function searches for the last transaction posted for a given user and returns it.
 function findLastTransaction (id) {
     return new Promise((resolve, reject) =>{
         knex('actual_transactions')
@@ -227,6 +236,7 @@ function findLastTransaction (id) {
     })
 }
 
+//this function deletes a single transaction for a given user.
 function deleteSingleTran (dataReceipt) {
     const{tranid, id} = dataReceipt
 

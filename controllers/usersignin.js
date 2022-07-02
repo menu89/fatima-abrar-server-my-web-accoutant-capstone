@@ -3,11 +3,11 @@ const { confirmRegisFields, confirmLoginFields } = require('../utilfuncs/confirm
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { response } = require('express');
 require('dotenv').config();
 
 const JWT_KEY = process.env.SECRET_KEY
 
+//this function checks the parameters for a new user registration to see if they meet certain conditions. if it does, then it encrypts the password and creates a entry in the users table.
 const userRegistration = (req,res) => {
     const { username, email, password, confirmpassword } = req.body
 
@@ -33,6 +33,7 @@ const userRegistration = (req,res) => {
     })
 }
 
+//this function takes the email and password. decrypts the password to see if it matches the one in the users table and returns a JWT token if it does.
 const userLogin = (req,res) => {
     const {email, password} = req.body
 

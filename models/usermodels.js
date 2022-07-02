@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this function adds a new user to the users table.
 function addNewUser(userInfo) {
 
     return new Promise((resolve,reject) => {
@@ -26,6 +27,7 @@ function addNewUser(userInfo) {
     })
 }
 
+//this function looks for a user by id in the users table.
 function findUser(email) {
     
     return new Promise((resolve, reject)=>{

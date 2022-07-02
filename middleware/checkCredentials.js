@@ -1,5 +1,7 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this middleware function searches for a users record by email. if no records are returned, then the user doesn't exist. if a user is returned by the id does not match the one drcypted from the token, then there is a problem with the token.
+//if all validation is successful, then it moves onto the next step.
 function validateCredentials (req, res, next) {
     const {id, email} = req.user
     knex('users_list')

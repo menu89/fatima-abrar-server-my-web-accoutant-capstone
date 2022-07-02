@@ -2,6 +2,7 @@ const accountListData = require('../data/accTypes.json');
 const accList = accountListData.filter((acc) => ( acc.type !== "other"))
 const startDate = Date.parse("Jan 1 2022")
 
+//this function takes tot fields provided for a new user registration and checks to see if they are all there and that they meet certain criterion.
 function confirmRegisFields(username, email, password, confirmpassword) {
     if ( !username || !email || !password || !confirmpassword) {
         const errorList = []
@@ -28,6 +29,7 @@ function confirmRegisFields(username, email, password, confirmpassword) {
     return { code: 200}
 }
 
+//this function takes the log in fields and checks them.
 function confirmLoginFields(email, password) {
     const errorList = []
     if (!email || !password) {
@@ -73,6 +75,7 @@ function checkTimeStatmp (timestamp) {
 
 }
 
+//this function checks bank account fields to see if they are missing or in the wrong formation. (for posting a new bank account.)
 function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
     const errorList = []
     if (!accType || !accDesc || !amount || !balance_timestamp) {
@@ -97,6 +100,7 @@ function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
     return { code: 200}
 }
 
+////this function checks the transaction/budget fields to see if they are missing or in the wrong formation. (for posting a new transaction/record.)
 function confirmTransactionFields(transactionObject) {
     const {amount, debit, credit, bank_type, transaction_timestamp} = transactionObject
 
@@ -165,6 +169,7 @@ function confirmTransactionFields(transactionObject) {
 
 }
 
+//this function checks to see that the parameters provided for an endpoint that searches for information by period, meets certain criterion.
 function confirmTranPeriodFields(fieldParameters) {
     const {month, year} = fieldParameters
 
@@ -206,6 +211,8 @@ function confirmTranPeriodFields(fieldParameters) {
     return {code: 200}
 }
 
+//this function is for updating a transaction or budget item.
+//it checks to see if the fields required are present and in the right format.
 function confirmUpdateTranFields(updateParams) {
     const {amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = updateParams
 
@@ -293,6 +300,7 @@ function confirmUpdateTranFields(updateParams) {
     return ({code: 200})
 }
 
+//this function checks the parameters for searches bank transactions by date to see if they meet certain criterion.
 function confirmBankTranByDate (validationData) {
     const {bankid, balance_timestamp} = validationData
     if (!bankid || !balance_timestamp) {

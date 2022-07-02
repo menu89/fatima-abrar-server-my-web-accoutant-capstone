@@ -5,7 +5,7 @@ const {addNewBudgetTran, findLastBudgetTran, findSingleBudgetTran, deleteSingleB
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
 
-
+//this function takes the paramets for one budget record and checks to see if all the fields are there and meet certain criterion. If they do, then it checks to see if the bank account used exists for the given user. if it exists, then it posts the record entry to the table. the function then seraches for the most recent record posted (i.e. the one that was just created), and returns it in the response body.
 function postBudgetTransaction (req, res) {
     const dataReceipt = {...req.body, ...req.user}
     const returnMsg = confirmTransactionFields(dataReceipt)
@@ -36,6 +36,7 @@ function postBudgetTransaction (req, res) {
     })
 }
 
+//this function searchs for a budget records by userid and record id and returns the record if it exists.
 function getSingleBudgetTran (req, res) {
     const dataReceipt = { ...req.user, ...req.query}
     if(!dataReceipt.tranid) {
@@ -51,6 +52,7 @@ function getSingleBudgetTran (req, res) {
     })
 }
 
+//this function searches for a budget record by user id and record id and deletes the record if it is found.
 function deleteSingleBudgetTranansation(req, res) {
     const dataReceipt = {...req.query,...req.user}
     if (!dataReceipt.tranid) {
@@ -66,6 +68,10 @@ function deleteSingleBudgetTranansation(req, res) {
     })
 }
 
+//this function receaives edit parameters, checks to see if the parameters meet certain conditions. if it meets the conditions, then there are three possible situations.
+//if a debit or credit is changed, then it checks to see if we are changing the bank account. if it is, then it checks to see if the new bank account specified exists for the given user. if it exists, it then searches for the given budget record. checks to see if bank type is being switched( this is not supported ). if the bank type is not being switched, then updates the specified record, finds the updated record and returns it as a response.
+//if the bank account is not the one being changed, then it skips the step of looking for the bank account and the reaminder of the steps remain the same.
+//if fields other the debit and credit are being updated, then it updates the record and returns the updated record as a response.
 function patchSingleBudgetTransaction (req, res) {
     const dataReceipt = {...req.user, ...req.body}
     const returnMsg = confirmUpdateTranFields(dataReceipt)
@@ -149,6 +155,7 @@ function patchSingleBudgetTransaction (req, res) {
 
 }
 
+//this function searches for all budget records for a given user and returns it.
 function getAllBudgetRecords (req,res) {
     const{id} = req.user
     findAllBudgetRecords(id)
@@ -160,6 +167,7 @@ function getAllBudgetRecords (req,res) {
     })
 }
 
+//this function searchs for budget records for a user fi they fall within a given period.
 function getBudgetRecordsByPeriod(req, res) {
     const dataReceipt = {...req.query, ...req.user}
     const returnMsg = confirmTranPeriodFields(dataReceipt)
@@ -178,6 +186,7 @@ function getBudgetRecordsByPeriod(req, res) {
     })
 }
 
+//this function provides the totals of the amount column by distinct records. It searches for debit and credit separately and nets the two to arrive and the wanted totals.
 function getBudgetTotalsByPeriod(req, res) {
     const dataReceipt = {...req.query, ...req.user}
     const returnMsg = confirmTranPeriodFields(dataReceipt)

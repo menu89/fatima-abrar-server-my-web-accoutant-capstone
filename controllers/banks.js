@@ -2,6 +2,7 @@ const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBud
 
 const { confirmBankingFields, confirmBankTranByDate } = require('../utilfuncs/confirmFields');
 
+//this function takes the parameters for creating a bank/payment account. checks them for accurancy, then organizes them, then interacts with the database to add the bank account..
 const postBankInfo = (req, res) => {
     const {accType, accDesc, amount, balance_timestamp} = req.body
     const returnMsg = confirmBankingFields(accType, accDesc, amount, balance_timestamp)
@@ -36,6 +37,7 @@ const postBankInfo = (req, res) => {
     })
 }
 
+//this function takes the user id and returns a list af all bank accounts that exist under it.
 const getBankList = (req,res) => {
     const {id} = req.user
 
@@ -48,6 +50,7 @@ const getBankList = (req,res) => {
     })
 }
 
+//this endpoint thats a user id and the bank record id and checks to see if it is being used anywhere. if it isn't being used anywhere, then it deletes the specific record.
 const deleteBankAccount = (req, res) => {
     const {id} = req.user
     const {bankid} = req.query
@@ -76,6 +79,7 @@ const deleteBankAccount = (req, res) => {
     })
 }
 
+//gets a breakdown of debits and credits up-to a the specified date. It also returns the most recent transaction activity.
 const getTransactionsByDate = (req, res) => {
     const {id} = req.user
     const {bankid, balance_timestamp} = req.query

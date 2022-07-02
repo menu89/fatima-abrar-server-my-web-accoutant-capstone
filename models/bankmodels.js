@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this function looks for the bank accounts for a specific user and returns the records found.
 function findBankList (id) {
     return new Promise((resolve, reject) => {
         knex('opening_bank_balances')
@@ -22,6 +23,7 @@ function findBankList (id) {
     })
 }
 
+//this function takes the information received and adds a bank records for a spcific user.
 function addBankAcc (newAcc) {
     return new Promise ((resolve, reject) =>{
         knex('opening_bank_balances')
@@ -41,6 +43,7 @@ function addBankAcc (newAcc) {
     })
 }
 
+//this function looks for one specific bank records for a given user.
 function findOneBank (id, bankid) {
     return new Promise((resolve, reject) => {
         knex('opening_bank_balances')
@@ -63,6 +66,7 @@ function findOneBank (id, bankid) {
     })
 }
 
+//this function checks to see if a specific account has been used in the 'actual_transactions' table. returns a positive if no records are found.
 function searchActualTransactions (id, bankName) {
     return new Promise((resolve, reject) => {
         knex('actual_transactions')
@@ -92,6 +96,7 @@ function searchActualTransactions (id, bankName) {
     })
 }
 
+//this function checks to see if a specific bank account has been used in the 'budget_entries' table. returns a positive if no records are found.
 function searchBudgetEntries (id, bankName) {
     return new Promise((resolve, reject) => {
         knex('budget_entries')
@@ -122,6 +127,7 @@ function searchBudgetEntries (id, bankName) {
     })
 }
 
+//deletes the bank records from the table.
 function deleteSingleBank(id, bankid) {
     return new Promise((resolve, reject) => {
         knex('opening_bank_balances')
@@ -148,6 +154,7 @@ function deleteSingleBank(id, bankid) {
     })
 }
 
+//this function searches through actual transactions and returns a sum of the 'amount' column separately for all instances of 'Debit' and 'Credit'
 function getBankActivityByDate(id,bankName,searchDate) {
 
     let queryParamater = `SELECT SUM(CASE WHEN user_id=${id} THEN (CASE WHEN Transaction_timestamp < ${searchDate} THEN (CASE WHEN Credit='${bankName}' THEN -amount END) END) ELSE 0 END) AS CreditTotal, SUM((CASE WHEN user_id = ${id} THEN (CASE WHEN Transaction_timestamp < ${searchDate} THEN (CASE WHEN Debit='${bankName}' THEN amount END) END) ELSE 0 END)) AS DebitTotal FROM actual_transactions`
@@ -170,6 +177,7 @@ function getBankActivityByDate(id,bankName,searchDate) {
     })
 }
 
+//this function searchs through actual transactions and returns the 5 most recent transactions (by transaction date, not record date).
 function searchTopFiveActualTransactions (id, bankName,searchDate) {
     return new Promise((resolve, reject) => {
         knex('actual_transactions')
