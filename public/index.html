@@ -38,6 +38,11 @@
                     <a href="#get-bank-details">GET /banks/account-details-by-date</a>
                 </li>
             </ul>
+            <ul> <!--transfer related enquiries-->
+                <li>
+                    <a href="#post-single-transfer">POST /transfer/transaction-single</a>
+                </li>
+            </ul>
             <ul> <!-- transaction related enquiries-->
                 <li>
                     <a href="#transaction-by-period">GET /actual/transactions-by-period</a>
@@ -338,6 +343,50 @@
 
         </section>
 
+        <section> <!-- transfer related enquiries-->
+            <article classname=""> <!-- Post a single transfer-->
+                <h3 id="post-single-transfer">POST /transfer/transaction-single</h3>
+                <div>
+                    <p>This endpoint allows you to add transfer records for a specific user. This is the movement between payment account. (i.e. a credit card payment using your chequeing account would fall under this category)</p>
+                    <p>It has 4 mandatory fields: amount, debit, credit, transaction_timestamp</p>
+                    <p>There is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                    <p>Only Payment accounts can be used for debit or credit.</p>
+                    <p>Note: This API does not support records older then Jan 1, 2022.</p>
+                    <p>If any of the mandatory fields are missing, then the endpoint will retunr an error with some information about what went wrong.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"debit": "RBC",</span>
+                        <span>"credit":"TD Bank",</span>
+                        <span>"transaction_timestamp": "May 1, 2022",</span>
+                        <span>"amount": "200"</span>
+                    }</p>
+                </div>
+                <div>
+                    <details>
+                        <summary>
+                            <p  class="bold">Response Body Example:</p>
+                        </summary>
+                        <p>[
+                            {
+                                <span>"id": 1,</span>
+                                <span>"amount": 200,</span>
+                                <span>"Debit": "RBC",</span>
+                                <span>"Credit": "TD Bank",</span>
+                                <span>"Description": "",</span>
+                                <span>"Record_timestamp": 1657680197080,</span>
+                                <span>"Transaction_timestamp": 1651377600000,</span>
+                                <span>"user_id": 1</span>
+                            }
+                        ]</p>
+                    </details>
+                    </div>
+            </article>
+        </section>
+
         <section> <!-- actual transaction related enquiries -->
 
             <article class="article__actual"> <!-- Get a list of transactions by period-->
@@ -465,7 +514,7 @@
                 <div>
                     <p>This endpoint allows you to add transaction records for a specific user.</p>
                     <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
-                    <p>The is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                    <p>There is an optional field 'description' in which you can add details about the transaction if you want.</p>
                     <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
                     <p>The list of accounts that can be used for this request is limited. Please make a request to 'GET /account-list' for a full list of accounts. Some examples of accounts are as follows:</p>
                     <ul>

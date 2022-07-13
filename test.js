@@ -9,17 +9,11 @@ const querySting = (req, res) => {
     //const nextMonth = Date.parse('6/1/2022')
     const searchDate = Date.parse('6/1/2022')
     const bankName = 'TD Bank'
-    let query = knex('actual_transactions')
+    let query = knex('opening_bank_balances')
     .where(function(){
         this.where('user_id',id)
-            .andWhere('Transaction_timestamp', '<=',searchDate)
-            .andWhere(function(){
-                this.orWhere('Debit', `${bankName}`)
-                    .orWhere('Credit', `${bankName}`)
-            })
+            .whereIn('acc_des',['TD Bank', 'RBC'])
     })
-    .orderBy('Transaction_timestamp','desc')
-    .limit(5)
     
 
     let returnMsg = query.toString()
@@ -53,3 +47,15 @@ module.exports = router;
 //     console.log(returnMsg)
 //     return res.status(200).json(returnMsg)
 // }
+
+// let query = knex('actual_transactions')
+//     .where(function(){
+//         this.where('user_id',id)
+//             .andWhere('Transaction_timestamp', '<=',searchDate)
+//             .andWhere(function(){
+//                 this.orWhere('Debit', `${bankName}`)
+//                     .orWhere('Credit', `${bankName}`)
+//             })
+//     })
+//     .orderBy('Transaction_timestamp','desc')
+//     .limit(5)

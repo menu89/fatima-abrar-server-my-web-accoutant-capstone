@@ -20,6 +20,11 @@ function postBudgetTransaction (req, res) {
             postData.mandatory = true
         }
     }
+
+    const convertTimestampMonth = new Date(postData.transaction_timestamp).getMonth()+1
+    const convertTimestampYear = new Date(postData.transaction_timestamp).getFullYear()
+    const modifyDate = Date.parse(`${convertTimestampMonth}/1/${convertTimestampYear}`)
+    postData.transaction_timestamp = modifyDate
     
     findBankAcc(dataReceipt)
     .then(response => {
@@ -99,6 +104,13 @@ function patchSingleBudgetTransaction (req, res) {
         } else if ((dataReceipt.mandatory === "n") || (dataReceipt.mandatory === "N")) {
             updateCriterion.mandatory = false
         }
+    }
+
+    if (!!updateCriterion.transaction_timestamp) {
+        const convertTimestampMonth = new Date(updateCriterion.transaction_timestamp).getMonth()+1
+        const convertTimestampYear = new Date(updateCriterion.transaction_timestamp).getFullYear()
+        const modifyDate = Date.parse(`${convertTimestampMonth}/1/${convertTimestampYear}`)
+        updateCriterion.transaction_timestamp = modifyDate
     }
 
     if((bank_type === "c" && !!credit) || (bank_type === "d" && !!debit)) {

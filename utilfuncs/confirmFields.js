@@ -64,7 +64,15 @@ function checkTimeStatmp (timestamp) {
         }       
     }
 
-    if (parseInt(timestamp) < startDate) {
+    if (timestamp.includes('-')) {
+        const currentDate = Date.parse(new Date(timestamp))
+        if (currentDate < startDate) {
+            return {
+                code:400,
+                message: 'This API does not support entering records prior to Jan 1 2022'
+            }
+        }
+    } else if (parseInt(timestamp) < startDate) {
         return {
             code:400,
             message: 'This API does not support entering records prior to Jan 1 2022'
@@ -326,6 +334,49 @@ function confirmBankTranByDate (validationData) {
     return { code: 200}
 }
 
+//this function checks to see if all fields for posting a transaction are present and then chancks that they are in the right format
+function confirmTranferFields (validationData) {
+    const {amount, debit, credit, transaction_timestamp} = validationData
+
+    if (!amount || !debit || !credit || !transaction_timestamp) {
+        const errorList =[]
+        if (!amount) {errorList.push("amount")}
+        if (!debit) {errorList.push("debit")}
+        if (!credit) {errorList.push("credit")}
+        if (!transaction_timestamp) {errorList.push("transaction date is a madatory field")}
+        const errorString = errorList.join(", ")
+
+        return {
+            code: 400,
+            message: `The following fields are madatory: ${errorString}`
+        }
+    }
+   
+    const results = checkTimeStatmp(transaction_timestamp)
+
+    if (results.code === 400) {
+        return results
+    }
+
+    if (debit === credit) {
+        return {
+            code: 400,
+            message: `Debit and Credit fields cannot have the same value`
+        }
+    }
+
+    if (!parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+
+    return { code: 200 }
+
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
@@ -333,5 +384,6 @@ module.exports = {
     confirmTransactionFields,
     confirmTranPeriodFields,
     confirmUpdateTranFields,
-    confirmBankTranByDate
+    confirmBankTranByDate,
+    confirmTranferFields
 }

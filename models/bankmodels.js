@@ -118,7 +118,6 @@ function searchBudgetEntries (id, bankName) {
             })
         })
         .catch(err => {
-            console.log(err)
             reject({
                 status:400,
                 message:"We ran into difficulties searching for the requested information."
@@ -168,7 +167,6 @@ function getBankActivityByDate(id,bankName,searchDate) {
             })
         })
         .catch(err => {
-            console.log(err)
             reject({
                 status:400,
                 message:"We ran into issues executing your request."

@@ -27,6 +27,8 @@ function organizeTranInfo (dataReceipt) {
 
     if (!parseInt(transaction_timestamp)) {
         tranTS = Date.parse(transaction_timestamp)
+    } else if (transaction_timestamp.includes('-')) {
+        tranTS = Date.parse(new Date(transaction_timestamp))
     } else {
         tranTS = parseInt(transaction_timestamp)
     }
@@ -140,6 +142,8 @@ function organizeUpdateTranInfo (dataReceipt) {
     if (!!transaction_timestamp) {
         if (!parseInt(transaction_timestamp)) {
             updateObject.transaction_timestamp = Date.parse(transaction_timestamp)
+        } else if (transaction_timestamp.includes('-')) {
+            updateObject.transaction_timestamp = Date.parse(new Date(transaction_timestamp))
         } else {
             updateObject.transaction_timestamp = parseInt(transaction_timestamp)
         }
@@ -148,10 +152,44 @@ function organizeUpdateTranInfo (dataReceipt) {
     return updateObject
 }
 
+
+//supplementary function to organize data for posting tranfers
+function organizeTranferInfo (dataReceipt) {
+    const {id, amount, debit, credit, transaction_timestamp, description} = dataReceipt
+
+    let tranTS = 0
+    let amountInt = parseInt(amount)
+    const currentTime = Date.now()
+    let tranDes = ""
+
+    if (!parseInt(transaction_timestamp)) {
+        tranTS = Date.parse(transaction_timestamp)
+    } else if (transaction_timestamp.includes('-')) {
+        tranTS = Date.parse(new Date(transaction_timestamp))
+    } else {
+        tranTS = parseInt(transaction_timestamp)
+    }
+
+    if (description) { tranDes = description}
+
+    const transferInfo = {
+        amount: amountInt,
+        Debit: debit,
+        Credit: credit,
+        Description: tranDes,
+        transaction_timestamp: tranTS,
+        Record_timestamp: currentTime,
+        user_id: id
+    }
+    
+    return transferInfo
+}
+
 module.exports = {
     organizeTranInfo,
     arrangePeriodSearchInfo,
     arrangeTotalByPeriod,
     organizeTranInfo,
-    organizeUpdateTranInfo
+    organizeUpdateTranInfo,
+    organizeTranferInfo
 }
