@@ -1,4 +1,4 @@
-const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer} = require('../models/transfermodels');
+const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer, deleteSingleTransferRecord} = require('../models/transfermodels');
 
 const { confirmTranferFields } = require('../utilfuncs/confirmFields');
 const { organizeTranferInfo } = require('../utilfuncs/organizeInfo');
@@ -43,7 +43,23 @@ function getSingleTransfer(req, res) {
     })
 }
 
+function deleteSingleTransfer(req, res) {
+    const dataReceipt = {...req.query, ...req.user}
+    if (!dataReceipt.tranid) {
+        return res.status(400).json('Please provide the transaction  id')
+    }
+
+    deleteSingleTransferRecord(dataReceipt)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
 module.exports = {
     postTransfer,
-    getSingleTransfer
+    getSingleTransfer,
+    deleteSingleTransfer
 }

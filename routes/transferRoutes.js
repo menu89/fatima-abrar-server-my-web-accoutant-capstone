@@ -4,7 +4,7 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postTransfer, getSingleTransfer} = require('../controllers/transfers');
+const {postTransfer, getSingleTransfer, deleteSingleTransfer} = require('../controllers/transfers');
 
 router
     .route('/transaction-single')
@@ -17,6 +17,11 @@ router
         decodeJWT,
         validateCredentials,
         getSingleTransfer
+    )
+    .delete(
+        decodeJWT,
+        validateCredentials,
+        deleteSingleTransfer
     )
 
 module.exports = router;

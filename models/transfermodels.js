@@ -67,7 +67,7 @@ function findLastTransfer(id) {
     })
 }
 
-//this function searches for s single transaction in the transfers table.
+//this function searches for a single transaction in the transfers table.
 function findSingleTransfer(dataReceipt) {
     const {tranid, id} = dataReceipt
 
@@ -96,9 +96,39 @@ function findSingleTransfer(dataReceipt) {
     })
 } 
 
+//this function searches for a single transfer in the transfers table. 
+function deleteSingleTransferRecord(dataReceipt){
+    const {tranid, id} = dataReceipt
+
+    return new Promise ((resolve,reject) =>{
+        knex('transfers')
+        .where({user_id:id, id:tranid})
+        .del()
+        .then((info) => {
+            if (info === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            return resolve({
+                status:200,
+                message:`${info} record deleted`
+            })
+        })
+        .catch((err) => { 
+            return reject ({
+                status:400,
+                message:'Unknown Server Error'
+            })
+        })
+    })
+}
+
 module.exports = {
     findBankAccounts,
     addNewTransfer,
     findLastTransfer,
-    findSingleTransfer
+    findSingleTransfer,
+    deleteSingleTransferRecord
 }
