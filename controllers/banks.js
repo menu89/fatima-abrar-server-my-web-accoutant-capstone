@@ -1,4 +1,5 @@
-const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions} = require('../models/bankmodels');
+const { response } = require('express');
+const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions, getBankTransferTotalsByDate, searchTopFiveTransfers} = require('../models/bankmodels');
 
 const { confirmBankingFields, confirmBankTranByDate } = require('../utilfuncs/confirmFields');
 
@@ -79,7 +80,7 @@ const deleteBankAccount = (req, res) => {
     })
 }
 
-//gets a breakdown of debits and credits up-to a the specified date. It also returns the most recent transaction activity.
+//gets a breakdown of debits and credits up-to a the specified date from the actuals table. geta a breakdown of transfers up-to a specified date from the transfers table. It also returns the most recent transaction and transfer activity.
 const getTransactionsByDate = (req, res) => {
     const {id} = req.user
     const {bankid, balance_timestamp} = req.query
@@ -109,13 +110,27 @@ const getTransactionsByDate = (req, res) => {
     .then((response) => {
         responseData.money_paid = response.message[0][0]['CreditTotal']
         responseData.money_received = response.message[0][0]['DebitTotal']
+        return getBankTransferTotalsByDate(id,bankName,searchDate)
+        
+    })
+    .then(response => {
+        responseData.transfer_in = response.message[0][0]['TransferIn']
+        responseData.transfer_out = response.message[0][0]['TransferOut']
         return searchTopFiveActualTransactions(id,bankName, searchDate)
     })
     .then((response) => {
         if (response.message === "No matches found") {
-            responseData.top_five = []
+            responseData.recent_five_actuals = []
         } else {
-            responseData.top_five = [...response.message]
+            responseData.recent_five_actuals = [...response.message]
+        }
+        return searchTopFiveTransfers(id, bankName,searchDate)
+    })
+    .then((response) => {
+        if (response.message === "No matches found") {
+            responseData.recent_five_transfers = []
+        } else {
+            responseData.recent_five_transfers = [...response.message]
         }
         return res.status(response.status).json(responseData)
     })

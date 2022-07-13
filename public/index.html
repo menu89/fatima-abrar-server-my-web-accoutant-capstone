@@ -269,18 +269,18 @@
                     <p>An error is returned if the fields are missing.</p>
                     <p>If the user does not have a bank account with the specified id, then no records are returned.</p>
                     <p>This API does not support record/balance dates prior to Jan 1, 2022.</p>
-                    <p>The 'amount' variable is the initial amount the bank account was set up with. 'money_paid' refers to the payments that were made from the account (i.e. money spent). 'money_received' refers to the income and other cash received into the accounts. These figures are from the account set up date to the date provided in the parameters. </p>
+                    <p>The 'amount' variable is the initial amount the bank account was set up with. 'money_paid' refers to the payments that were made from the account (i.e. money spent). 'money_received' refers to the income and other cash received into the accounts. "transfer_in" refers to money moved into the account from other payment accounts. "transfer_out" refers to money moved into the account from other payment accounts. These figures are from the account set up date to the date provided in the parameters. </p>
                 </div>
                 <div>
                     <p>Required Request Headers: Content-Type: application/json</p>
                     <p>Authorization: Bearer 'JWT Token'</p>
                     <p class="bold">Example of parameters to send for request:</p>
                     <p>{
-                        <span>"bankid": "5",</span>
+                        <span>"bankid": "1",</span>
                         <span>"balance_timestamp": "July 1 2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/banks/account-details-by-date?bankid=5&balance_timestamp='July 1 2022'</span></p>
+                    <p><span>'/banks/account-details-by-date?bankid=1&balance_timestamp='July 1 2022'</span></p>
                 </div>
                 <div>
                 <details>
@@ -296,7 +296,9 @@
                         <span>"user_id": 1,</span>
                         <span>"money_paid": -1130,</span>
                         <span>"money_received": 2000,</span>
-                        <span>"top_five": [{
+                        <span>"transfer_in": 550,</span>
+                        <span>"transfer_out": -250,</span>
+                        <span>"recent_five_actuals": [{
                             <span> "id": 11,</span>
                             <span> "amount": 2000,</span>
                             <span> "Debit": "TD Bank", </span>
@@ -349,6 +351,36 @@
                             <span>"Description": "",</span>
                             <span>"Record_timestamp": 1655078103822,</span>
                             <span>"Transaction_timestamp": 1653364800000,</span>
+                            <span>"user_id": 1</span>
+                        }]</span>
+                        <span>"recent_five_transfers":[{
+                            <span>"id": 3,</span>
+                            <span>"amount": 550,</span>
+                            <span>"Debit": "TD Bank",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692911461,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 5,</span>
+                            <span>"amount": 150,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692960261,</span>
+                            <span>"Transaction_timestamp": 1652587200000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
                             <span>"user_id": 1</span>
                         }]</span>
                         }</p>
