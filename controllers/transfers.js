@@ -1,4 +1,4 @@
-const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer, deleteSingleTransferRecord, updateSingleTransfer, findSingleBankAccount} = require('../models/transfermodels');
+const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer, deleteSingleTransferRecord, updateSingleTransfer, findSingleBankAccount, findAllTransfers} = require('../models/transfermodels');
 
 const { confirmTranferFields, confirmUpdateTransferFields } = require('../utilfuncs/confirmFields');
 const { organizeTranferInfo, organizeUpdateTransferInfo } = require('../utilfuncs/organizeInfo');
@@ -131,9 +131,23 @@ function patchSingleTransfer(req,res) {
     }
 }
 
+//this function searches for and returns all the transfers for a given user.
+function getAllTransfers(req, res) {
+    const {id} = req.user
+
+    findAllTransfers(id)
+    .then(tranData => {
+        return res.status(200).json(tranData)
+    })
+    .catch(err => {
+        return res.status(err.status).json(err.message)
+    })
+}
+
 module.exports = {
     postTransfer,
     getSingleTransfer,
     deleteSingleTransfer,
-    patchSingleTransfer
+    patchSingleTransfer,
+    getAllTransfers
 }

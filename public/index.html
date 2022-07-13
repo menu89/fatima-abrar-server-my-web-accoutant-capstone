@@ -51,6 +51,9 @@
                 <li>
                     <a href="#update-single-transfer">PATCH /transfer/transaction-single</a>
                 </li>
+                <li>
+                    <a href="#transfers-all">GET /transfer/transaction-all</a>
+                </li>
             </ul>
             <ul> <!-- transaction related enquiries-->
                 <li>
@@ -499,6 +502,68 @@
                 </details>
                 </div>
             </article>
+
+            <article class="article__transfer"> <!-- Get a list of all transfers-->
+                <h3 id="transfers-all">GET /transfer/transactions-all</h3>
+                <div>
+                    <p>This endpoint allows you to access the all the transfer records for a particular user.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                            
+                        },
+                        {
+                            <span>"id": 3,</span>
+                            <span>"amount": 550,</span>
+                            <span>"Debit": "TD Bank",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692911461,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 4,</span>
+                            <span>"amount": 60,</span>
+                            <span>"Debit": "RBC",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692929962,</span>
+                            <span>"Transaction_timestamp": 1648785600000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 5,</span>
+                            <span>"amount": 150,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692960261,</span>
+                            <span>"Transaction_timestamp": 1652587200000,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </details>
+                </div>
+            </article>
+
         </section>
 
         <section> <!-- actual transaction related enquiries -->

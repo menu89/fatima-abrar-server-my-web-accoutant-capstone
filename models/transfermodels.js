@@ -174,6 +174,29 @@ function findSingleBankAccount(dataReceipt) {
     })
 }
 
+//this function searches for all transfers in the transfers table for a given user.
+function findAllTransfers(id) {
+    return new Promise((resolve, reject) => {
+        knex('transfers')
+        .where({user_id:id})
+        .then((info) =>{
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            resolve(info)
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
+    })
+}
+
 module.exports = {
     findBankAccounts,
     addNewTransfer,
@@ -181,5 +204,6 @@ module.exports = {
     findSingleTransfer,
     deleteSingleTransferRecord,
     updateSingleTransfer,
-    findSingleBankAccount
+    findSingleBankAccount,
+    findAllTransfers
 }
