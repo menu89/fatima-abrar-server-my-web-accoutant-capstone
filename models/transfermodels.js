@@ -197,6 +197,38 @@ function findAllTransfers(id) {
     })
 }
 
+//this function searches for transfers for a given user for a specified period.
+function findTransfersByPeriod(searchParameters) {
+    const {id, startDate, nextMonth} = searchParameters
+
+    return new Promise ((resolve, reject) => {
+        knex('transfers')
+        .where(function(){
+            this.where('user_id', id)
+                .andWhere('Transaction_timestamp', '>=',startDate)
+                .andWhere('Transaction_timestamp', '<', nextMonth)
+        })
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found.'
+                })
+            }
+            return resolve({
+                status:200,
+                message:info
+            })
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:'Failed to find the requested records.'
+            })
+        })
+    })
+}
+
 module.exports = {
     findBankAccounts,
     addNewTransfer,
@@ -205,5 +237,6 @@ module.exports = {
     deleteSingleTransferRecord,
     updateSingleTransfer,
     findSingleBankAccount,
-    findAllTransfers
+    findAllTransfers,
+    findTransfersByPeriod
 }

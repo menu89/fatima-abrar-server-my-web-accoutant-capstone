@@ -1,7 +1,7 @@
-const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer, deleteSingleTransferRecord, updateSingleTransfer, findSingleBankAccount, findAllTransfers} = require('../models/transfermodels');
+const {findBankAccounts, addNewTransfer, findLastTransfer, findSingleTransfer, deleteSingleTransferRecord, updateSingleTransfer, findSingleBankAccount, findAllTransfers, findTransfersByPeriod} = require('../models/transfermodels');
 
-const { confirmTranferFields, confirmUpdateTransferFields } = require('../utilfuncs/confirmFields');
-const { organizeTranferInfo, organizeUpdateTransferInfo } = require('../utilfuncs/organizeInfo');
+const { confirmTranferFields, confirmUpdateTransferFields, confirmTranPeriodFields } = require('../utilfuncs/confirmFields');
+const { organizeTranferInfo, organizeUpdateTransferInfo, arrangePeriodSearchInfo } = require('../utilfuncs/organizeInfo');
 
 //this function recieves the information for a new transfer, checks to see all mandatory fields are present and in the correct format. Then it checks to see if the two bank accounts actually exist. and if they do, it posts the transfer.
 function postTransfer (req, res) {
@@ -144,10 +144,30 @@ function getAllTransfers(req, res) {
     })
 }
 
+//this function searches for transactions for transfers for a given user for a specified period.
+function getTransfersByPeriod(req, res) {
+    const dataReceipt = {...req.query, ...req.user}
+    const returnMsg = confirmTranPeriodFields(dataReceipt)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).json(returnMsg.message)
+    }
+    
+    const result = arrangePeriodSearchInfo(dataReceipt)
+
+    findTransfersByPeriod(result)
+    .then(response => {
+        return res.status(response.status).json(response.message)
+    })
+    .catch(error=>{
+        return res.status(error.status).json(error.message)
+    })
+}
+
 module.exports = {
     postTransfer,
     getSingleTransfer,
     deleteSingleTransfer,
     patchSingleTransfer,
-    getAllTransfers
+    getAllTransfers,
+    getTransfersByPeriod
 }
