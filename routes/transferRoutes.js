@@ -4,13 +4,19 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postTransfer} = require('../controllers/transfers');
+const {postTransfer, getSingleTransfer} = require('../controllers/transfers');
 
 router
-    .post('/transaction-single',
+    .route('/transaction-single')
+    .post(
         decodeJWT,
         validateCredentials,
         postTransfer
+    )
+    .get(
+        decodeJWT,
+        validateCredentials,
+        getSingleTransfer
     )
 
 module.exports = router;

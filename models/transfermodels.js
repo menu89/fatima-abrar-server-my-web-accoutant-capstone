@@ -48,7 +48,7 @@ function addNewTransfer(transferInfo) {
     })
 }
 
-//this function takes a user if and searches for the last transfer posted by the user.
+//this function takes a user id and searches for the last transfer posted by the user.
 function findLastTransfer(id) {
     return new Promise((resolve, reject) => {
         knex('transfers')
@@ -67,8 +67,38 @@ function findLastTransfer(id) {
     })
 }
 
+//this function searches for s single transaction in the transfers table.
+function findSingleTransfer(dataReceipt) {
+    const {tranid, id} = dataReceipt
+
+    return new Promise((resolve, reject) => {
+        knex('transfers')
+        .where({user_id:id, id:tranid})
+        .then((info) => {
+            if (info.length === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+
+            return resolve({
+                status:200,
+                message:info
+            })
+        })
+        .catch((err) => { 
+            return reject({
+                status:400,
+                message:"Failed to find the requested records."
+            })
+        })
+    })
+} 
+
 module.exports = {
     findBankAccounts,
     addNewTransfer,
-    findLastTransfer
+    findLastTransfer,
+    findSingleTransfer
 }
