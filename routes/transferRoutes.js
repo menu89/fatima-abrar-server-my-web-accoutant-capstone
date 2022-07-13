@@ -7,7 +7,7 @@ const {validateCredentials} = require('../middleware/checkCredentials');
 const {postTransfer, getSingleTransfer, deleteSingleTransfer, patchSingleTransfer, getAllTransfers, getTransfersByPeriod} = require('../controllers/transfers');
 
 router
-    .route('/transaction-single')
+    .route('/single')
     .post(
         decodeJWT,
         validateCredentials,
@@ -30,12 +30,12 @@ router
     )
 
 router
-    .get('/transactions-all',
+    .get('/all',
         decodeJWT,
         validateCredentials,
         getAllTransfers
     )
-    .get('/transactions-by-period',
+    .get('/by-period',
         decodeJWT,
         validateCredentials,
         getTransfersByPeriod

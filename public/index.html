@@ -40,65 +40,65 @@
             </ul>
             <ul> <!--transfer related enquiries-->
                 <li>
-                    <a href="#post-single-transfer">POST /transfer/transaction-single</a>
+                    <a href="#post-single-transfer">POST /transfer/single</a>
                 </li>
                 <li>
-                    <a href="#get-single-transfer">GET /transfer/transaction-single</a>
+                    <a href="#get-single-transfer">GET /transfer/single</a>
                 </li>
                 <li>
-                    <a href="#delete-single-transfer">DELETE /transfer/transaction-single</a>
+                    <a href="#delete-single-transfer">DELETE /transfer/single</a>
                 </li>
                 <li>
-                    <a href="#update-single-transfer">PATCH /transfer/transaction-single</a>
+                    <a href="#update-single-transfer">PATCH /transfer/single</a>
                 </li>
                 <li>
-                    <a href="#transfers-all">GET /transfer/transactions-all</a>
+                    <a href="#transfers-all">GET /transfer/all</a>
                 </li>
                 <li>
-                    <a href="#transfers-by-period">GET /transfer/transactions-by-period</a>
+                    <a href="#transfers-by-period">GET /transfer/by-period</a>
                 </li>
             </ul>
             <ul> <!-- transaction related enquiries-->
                 <li>
-                    <a href="#transaction-by-period">GET /actual/transactions-by-period</a>
+                    <a href="#transaction-by-period">GET /actual/by-period</a>
                 </li>
                 <li>
-                    <a href="#total-by-period">GET /actual/total-by-period</a>
+                    <a href="#total-by-period">GET /actual/totals-by-period</a>
                 </li>
                 <li>
-                    <a href="#transactions-all">GET /actual/transactions-all</a>
+                    <a href="#transactions-all">GET /actual/all</a>
                 </li>
                 <li>
-                    <a href="#transaction">POST /actual/transaction-single</a>
+                    <a href="#transaction">POST /actual/single</a>
                 </li>
                 <li>
-                    <a href="#single-tran">GET /actual/transaction-single</a>
+                    <a href="#single-tran">GET /actual/single</a>
                 </li>
                 <li>
-                    <a href="#delete-single-tran">DELETE /actual/transaction-single</a>
+                    <a href="#delete-single-tran">DELETE /actual/single</a>
                 </li>
                 <li>
-                    <a href="#update-single-tran">PATCH /actual/transaction-single</a>
+                    <a href="#update-single-tran">PATCH /actual/single</a>
                 </li>
             </ul>
             <ul> <!-- budget transaction related enquiries-->
                 <li>
-                    <a href="#post-single-budget-tran">POST /budget/transaction-single</a>
+                    <a href="#post-single-budget-tran">POST /budget/single</a>
                 </li>
                 <li>
-                    <a href="#get-single-budget-tran">GET /budget/transaction-single</a>
+                    <a href="#get-single-budget-tran">GET /budget/single</a>
                 </li>
                 <li>
-                    <a href="#delete-single-budget-tran">DELETE /budget/transaction-single</a>
+                    <a href="#delete-single-budget-tran">DELETE /budget/single</a>
                 </li>
                 <li>
-                    <a href="#update-single-budget-tran">PATCH /budget/transaction-single</a>
+                    <a href="#update-single-budget-tran">PATCH /budget/single</a>
                 </li>
                 <li>
-                    <a href="#budget-records-all">GET /budget/transactions-all</a>
+                    <a href="#budget-records-all">GET /budget/all</a>
                 </li>
                 <li>
-                    <a href="#budget-records-by-period">GET /budget/transactions-by-period</a>
+                    <a href="#budget-records-by-period">GET /budget/by-period</a>
                 </li>
                 <li>
                     <a href="#budgetTotals-by-period">GET /budget/totals-by-period</a>
@@ -360,7 +360,7 @@
 
         <section> <!-- transfer related enquiries-->
             <article class="article__transfer"> <!-- Post a single transfer-->
-                <h3 id="post-single-transfer">POST /transfer/transaction-single</h3>
+                <h3 id="post-single-transfer">POST /transfer/single</h3>
                 <div>
                     <p>This endpoint allows you to add transfer records for a specific user. This is the movement between payment account. (i.e. a credit card payment using your chequeing account would fall under this category)</p>
                     <p>It has 4 mandatory fields: amount, debit, credit, transaction_timestamp</p>
@@ -402,7 +402,7 @@
             </article>
 
             <article class="article__transfer"> <!-- Get the record for a single transfer-->
-                <h3 id="get-single-transfer">GET /transfer/transaction-single</h3>
+                <h3 id="get-single-transfer">GET /transfer/single</h3>
                 <div>
                     <p>This endpoint seraches for transfers by id and returns the record that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -417,7 +417,7 @@
                         <span>"tranid": "1",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/transfer/trensaction-single?tranid=1</span></p>
+                    <p><span>'/transfer/single?tranid=1</span></p>
                 </div>
                 <div>
                 <details>
@@ -441,7 +441,7 @@
             </article>
 
             <article class="article__transfer"> <!-- Delete the record for a single transfer-->
-                <h3 id="delete-single-transfer">DELETE /transfer/transaction-single</h3>
+                <h3 id="delete-single-transfer">DELETE /transfer/single</h3>
                 <div>
                     <p>This endpoint seraches for transfer by id and deletes the record that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -456,7 +456,7 @@
                         <span>"tranid": "5",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/transfer/transaction-single?tranid=5</span></p>
+                    <p><span>'/transfer/single?tranid=5</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -467,7 +467,7 @@
             </article>
 
             <article class="article__transfer"> <!-- Update the record for a single transfer-->
-                <h3 id="update-single-transfer">PATCH /transfer/transaction-single</h3>
+                <h3 id="update-single-transfer">PATCH /transfer/single</h3>
                 <div>
                     <p>This endpoint searches for the transfer by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -507,7 +507,7 @@
             </article>
 
             <article class="article__transfer"> <!-- Get a list of all transfers-->
-                <h3 id="transfers-all">GET /transfer/transactions-all</h3>
+                <h3 id="transfers-all">GET /transfer/all</h3>
                 <div>
                     <p>This endpoint allows you to access the all the transfer records for a particular user.</p>
                 </div>
@@ -568,7 +568,7 @@
             </article>
 
             <article class="article__transfer"> <!-- Get a list of transfers by period-->
-                <h3 id="transfers-by-period">GET /transfer/transactions-by-period</h3>
+                <h3 id="transfers-by-period">GET /transfer/by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the transfer records for a particular user by month.</p>
                     <p>There are 2 mandatory fields: month, year.</p>
@@ -583,7 +583,7 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/transfer/transactions-by-period?month=05&year=2022</span></p>
+                    <p><span>'/transfer/by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
                 <details>
@@ -620,7 +620,7 @@
         <section> <!-- actual transaction related enquiries -->
 
             <article class="article__actual"> <!-- Get a list of transactions by period-->
-                <h3 id="transaction-by-period">GET /actual/transactions-by-period</h3>
+                <h3 id="transaction-by-period">GET /actual/by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the records for a particular user by month.</p>
                     <p>There are 2 mandatory fields: month, year.</p>
@@ -635,7 +635,7 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/transactions-by-period?month=05&year=2022</span></p>
+                    <p><span>'/actual/by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
                 <details>
@@ -660,7 +660,7 @@
             </article>
         
             <article class="article__actual"> <!-- Total by period for actuals-->
-                <h3 id="total-by-period">GET /actual/total-by-period</h3>
+                <h3 id="total-by-period">GET /actual/totals-by-period</h3>
                 <div>
                     <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
                     <p>There are 2 mandatory fields: month, year</p>
@@ -675,7 +675,7 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/total-by-period?month=05&year=2022</span></p>
+                    <p><span>'/actual/totals-by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
                 <details>
@@ -698,7 +698,7 @@
             </article>
     
             <article class="article__actual"> <!-- Get a list of all transactions-->
-                <h3 id="transactions-all">GET /actual/transactions-all</h3>
+                <h3 id="transactions-all">GET /actual/all</h3>
                 <div>
                     <p>This endpoint allows you to access the all the transaction records for a particular user.</p>
                 </div>
@@ -740,7 +740,7 @@
             </article>
     
             <article class="article__actual"> <!-- Post a transaction-->
-                <h3 id="transaction">POST /actual/transaction-single</h3>
+                <h3 id="transaction">POST /actual/single</h3>
                 <div>
                     <p>This endpoint allows you to add transaction records for a specific user.</p>
                     <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
@@ -789,7 +789,7 @@
             </article>
     
             <article class="article__actual"> <!-- Get the record for a single transaction-->
-                <h3 id="single-tran">GET /actual/transaction-single</h3>
+                <h3 id="single-tran">GET /actual/single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and returns the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -804,7 +804,7 @@
                         <span>"tranid": "1",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/transaction-single?tranid=1</span></p>
+                    <p><span>'/actual/single?tranid=1</span></p>
                 </div>
                 <div>
                 <details>
@@ -829,7 +829,7 @@
             </article>
     
             <article class="article__actual"> <!-- Delete the record for a single transaction-->
-                <h3 id="delete-single-tran">DELETE /actual/transaction-single</h3>
+                <h3 id="delete-single-tran">DELETE /actual/single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and deletes the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -844,7 +844,7 @@
                         <span>"tranid": "5",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/transaction-single?tranid=5</span></p>
+                    <p><span>'/actual/single?tranid=5</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -855,7 +855,7 @@
             </article>
     
             <article class="article__actual"> <!-- Update the record for a single transaction-->
-                <h3 id="update-single-tran">PATCH /actual/transaction-single</h3>
+                <h3 id="update-single-tran">PATCH /actual/single</h3>
                 <div>
                     <p>This endpoint searches for the transaction by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -900,7 +900,7 @@
         <section> <!-- budget related enquires-->
 
             <article class="article__budget"> <!-- POST a budget record/transaction -->
-                <h3 id="post-single-budget-tran">POST /budget/transaction-single</h3>
+                <h3 id="post-single-budget-tran">POST /budget/single</h3>
                 <div>
                     <p>This endpoint allows you to add budget transaction records for a specific user.</p>
                     <p>This endpoint functions in a similar manner to the endpoint for POST /actual/transactions except there is an additional optional field avaialble.</p>
@@ -954,7 +954,7 @@
             </article>
 
             <article class="article__budget"> <!-- Get the record for a single budget record-->
-                <h3 id="get-single-budget-tran">GET /budget/transaction-single</h3>
+                <h3 id="get-single-budget-tran">GET /budget/single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and returns the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -970,7 +970,7 @@
                         <span>"tranid": "3",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                    <p><span>'/budget/single?tranid=3</span></p>
                 </div>
                 <div>
                 <details>
@@ -996,7 +996,7 @@
             </article>
 
             <article class="article__budget"> <!-- Delete a single budget record-->
-                <h3 id="delete-single-budget-tran">DELETE /budget/transaction-single</h3>
+                <h3 id="delete-single-budget-tran">DELETE /budget/single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and deletes the record that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -1011,7 +1011,7 @@
                         <span>"tranid": "3",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/transaction-single?tranid=3</span></p>
+                    <p><span>'/budget/single?tranid=3</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -1022,7 +1022,7 @@
             </article>
 
             <article class="article__budget"> <!-- Update a single budget record-->
-                <h3 id="update-single-budget-tran">PATCH /budget/transaction-single</h3>
+                <h3 id="update-single-budget-tran">PATCH /budget/single</h3>
                 <div>
                     <p>This endpoint searches for the budget records by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -1065,7 +1065,7 @@
             </article>
 
             <article class="article__budget"> <!-- Get a list of all transactions-->
-                <h3 id="budget-records-all">GET /budget/transactions-all</h3>
+                <h3 id="budget-records-all">GET /budget/all</h3>
                 <div>
                     <p>This endpoint allows you to access all the budget records records for a particular user.</p>
                 </div>
@@ -1109,7 +1109,7 @@
             </article>
 
             <article class="article__budget"> <!-- Get a list of transactions by period-->
-                <h3 id="budget-records-by-period">GET /budget/transactions-by-period</h3>
+                <h3 id="budget-records-by-period">GET /budget/by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the budget records for a particular user by month.</p>
                     <p>There are 2 mandatory fields: month, year.</p>
@@ -1124,7 +1124,7 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/transaction-by-period?month=05&year=2022</span></p>
+                    <p><span>'/budget/by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
                 <details>
