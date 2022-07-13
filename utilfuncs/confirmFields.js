@@ -377,6 +377,59 @@ function confirmTranferFields (validationData) {
 
 }
 
+//this function is for updating a transfer item.
+//it checks to see if the fields required are present and in the right format.
+function confirmUpdateTransferFields(updateParams) {
+    const {amount, debit, credit, transaction_timestamp, accDesc, tranid} = updateParams
+
+    if (!tranid) {
+        return ({
+            code:400,
+            message:"Please provide the id of the transaction being updated."
+        })
+    }
+
+    if (!!tranid && !parseInt(tranid)) {
+        return {
+            code: 400,
+            message: 'Please recheck tranid entered.'
+        }
+    }
+
+    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+        return ({
+            code: 400,
+            message: "Please provide at least one field that you are looking to update."
+        })
+    }
+
+    if (!!debit && !!credit) {
+        if (debit === credit) {
+            return {
+                code: 400,
+                message: `Debit and Credit fields cannot have the same value`
+            }
+        }
+    }
+    
+    if (!!amount && !parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+    if (!!transaction_timestamp) {
+        const results = checkTimeStatmp(transaction_timestamp)
+
+        if (results.code === 400) {
+            return results
+        }
+    }
+
+    return ({code: 200})
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
@@ -385,5 +438,6 @@ module.exports = {
     confirmTranPeriodFields,
     confirmUpdateTranFields,
     confirmBankTranByDate,
-    confirmTranferFields
+    confirmTranferFields,
+    confirmUpdateTransferFields
 }

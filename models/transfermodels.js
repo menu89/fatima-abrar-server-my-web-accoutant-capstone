@@ -125,10 +125,61 @@ function deleteSingleTransferRecord(dataReceipt){
     })
 }
 
+//this function updates the transfer record in the transfers table for a given user.
+function updateSingleTransfer(tranId, id, updateCriterion) {
+    return new Promise((resolve, reject) => {
+        knex('transfers')
+        .where({user_id:id, id: tranId})
+        .update(updateCriterion)
+        .then( response => {
+            resolve(response)
+        })
+        .catch(err => {
+            return reject({
+                status:400,
+                message:"Failed to update the requested record."
+            })
+        })
+    })
+}
+
+//this function searches for a single bank account
+function findSingleBankAccount(dataReceipt) {
+    const {id, debit, credit} = dataReceipt
+
+    let searchAcc = ""
+
+    if (!!debit) { searchAcc = debit}
+    if (!!credit) { searchAcc = credit}
+    
+    return new Promise((resolve, reject) => {
+        knex('opening_bank_balances')
+        .where({user_id:id, acc_des: searchAcc})
+        .then( (userInfo) => {
+            if (userInfo.length === 0) {
+                return reject({
+                    status:400,
+                    message:'The specified account does not exist for the user mentioned'
+                })
+            }
+
+            return resolve({status:200});
+        })
+        .catch((err) => {
+            return reject({
+                status:400,
+                message:'We ran into difficulties searching for account info'
+            })
+        })
+    })
+}
+
 module.exports = {
     findBankAccounts,
     addNewTransfer,
     findLastTransfer,
     findSingleTransfer,
-    deleteSingleTransferRecord
+    deleteSingleTransferRecord,
+    updateSingleTransfer,
+    findSingleBankAccount
 }
