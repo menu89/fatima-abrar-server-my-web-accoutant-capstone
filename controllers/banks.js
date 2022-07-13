@@ -1,5 +1,4 @@
-const { response } = require('express');
-const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions, getBankTransferTotalsByDate, searchTopFiveTransfers} = require('../models/bankmodels');
+const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions, getBankTransferTotalsByDate, searchTopFiveTransfers, searchTopFiveBudgetRecords} = require('../models/bankmodels');
 
 const { confirmBankingFields, confirmBankTranByDate } = require('../utilfuncs/confirmFields');
 
@@ -131,6 +130,13 @@ const getTransactionsByDate = (req, res) => {
             responseData.recent_five_transfers = []
         } else {
             responseData.recent_five_transfers = [...response.message]
+        }
+        return searchTopFiveBudgetRecords(id,bankName,searchDate)
+    }).then((response) => {
+        if (response.message === "No matches found") {
+            responseData.recent_five_budget_records = []
+        } else {
+            responseData.recent_five_budget_records = [...response.message]
         }
         return res.status(response.status).json(responseData)
     })

@@ -27,8 +27,6 @@ function organizeTranInfo (dataReceipt) {
 
     if (!parseInt(transaction_timestamp)) {
         tranTS = Date.parse(transaction_timestamp)
-    } else if (transaction_timestamp.includes('-')) {
-        tranTS = Date.parse(new Date(transaction_timestamp))
     } else {
         tranTS = parseInt(transaction_timestamp)
     }
@@ -164,8 +162,6 @@ function organizeTranferInfo (dataReceipt) {
 
     if (!parseInt(transaction_timestamp)) {
         tranTS = Date.parse(transaction_timestamp)
-    } else if (transaction_timestamp.includes('-')) {
-        tranTS = Date.parse(new Date(transaction_timestamp))
     } else {
         tranTS = parseInt(transaction_timestamp)
     }

@@ -64,15 +64,7 @@ function checkTimeStatmp (timestamp) {
         }       
     }
 
-    if (timestamp.includes('-')) {
-        const currentDate = Date.parse(new Date(timestamp))
-        if (currentDate < startDate) {
-            return {
-                code:400,
-                message: 'This API does not support entering records prior to Jan 1 2022'
-            }
-        }
-    } else if (parseInt(timestamp) < startDate) {
+    if (parseInt(timestamp) < startDate) {
         return {
             code:400,
             message: 'This API does not support entering records prior to Jan 1 2022'

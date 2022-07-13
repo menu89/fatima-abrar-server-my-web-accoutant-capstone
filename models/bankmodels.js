@@ -267,6 +267,41 @@ function searchTopFiveTransfers (id, bankName,searchDate) {
     })
 }
 
+//this function searchs through budget entries table and returns the 5 most recent transactions (by transaction date, not record date).
+function searchTopFiveBudgetRecords (id, bankName,searchDate) {
+    return new Promise((resolve, reject) => {
+        knex('budget_entries')
+        .where(function(){
+            this.where('user_id',id)
+                .andWhere('Transaction_timestamp', '<=',searchDate)
+                .andWhere(function(){
+                    this.where('Debit', `${bankName}`)
+                        .orWhere('Credit', `${bankName}`)
+                })
+        })
+        .orderBy('Transaction_timestamp','desc')
+        .limit(5)
+        .then(response => {
+            if (response.length === 0) {
+                resolve({
+                    status:200,
+                    message:"No matches found"
+                })
+            }
+            resolve({
+                status:200,
+                message:response
+            })
+        })
+        .catch(err => {
+            reject({
+                status:400,
+                message:"We ran into difficulties searching for the requested information."
+            })
+        })
+    })
+}
+
 module.exports = {
     addBankAcc,
     findBankList,
@@ -277,5 +312,6 @@ module.exports = {
     getBankActivityByDate,
     searchTopFiveActualTransactions,
     getBankTransferTotalsByDate,
-    searchTopFiveTransfers
+    searchTopFiveTransfers,
+    searchTopFiveBudgetRecords
 }
