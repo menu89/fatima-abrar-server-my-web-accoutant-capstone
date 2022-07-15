@@ -35,6 +35,10 @@ article {
     background-color: lightgray;
 }
 
+.article__cashflow {
+    background-color: burlywood;
+}
+
 p {
     margin: 0rem;
     font-size: 0.75rem;

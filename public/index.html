@@ -104,6 +104,17 @@
                     <a href="#budgetTotals-by-period">GET /budget/totals-by-period</a>
                 </li>
             </ul>
+            <ul> <!--Cashflow Endpoints-->
+                <li>
+                    <a href="#cashflow-three-month">GET /cashflow/three-month</a>
+                </li>
+                <li>
+                    <a href="#cashflow-six-month">GET /cashflow/six-month</a>
+                </li>
+                <li>
+                    <a href="#cashflow-twelve-month">GET /cashflow/twelve-month</a>
+                </li>
+            </ul>
         </nav>
         
     </header>
@@ -1233,6 +1244,240 @@
 
         </section>
         
+        <section> <!--cashflow related enquiries-->
+
+            <article class="article__cashflow"> <!--Three month cashflow-->
+                <h3 id="cashflow-three-month">GET cashflow/three-month</h3>
+                <div>
+                    <p>This endpoint provides information for 3 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 3 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers:Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__cashflow"> <!--Six month cashflow-->
+                <h3 id="cashflow-six-month">GET /cashflow/six-month</h3>
+                <div>
+                    <p>This endpoint provides information for 6 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 6 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fourthMonth": {
+                            <span>"startDate": "2022-11-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-11-30T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fifthMonth": {
+                            <span>"startDate": "2022-12-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2022-12-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"sixthMonth": {
+                            <span>"startDate": "2023-01-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-01-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__cashflow"> <!--Twelve month cashflow-->
+                <h3 id="cashflow-twelve-month">GET /cashflow/twelve-month</h3>
+                <div>
+                    <p>This endpoint provides information for 12 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 12 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fourthMonth": {
+                            <span>"startDate": "2022-11-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-11-30T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fifthMonth": {
+                            <span>"startDate": "2022-12-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2022-12-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"sixthMonth": {
+                            <span>"startDate": "2023-01-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-01-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"seventhMonth": {
+                            <span>"startDate": "2023-02-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-02-28T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"eighthMonth": {
+                            <span>"startDate": "2023-03-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-03-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"ninethMonth": {
+                            <span>"startDate": "2023-04-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-04-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"tenthMonth": {
+                            <span>"startDate": "2023-05-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-05-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"eleventhMonth": {
+                            <span>"startDate": "2023-06-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-06-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"twelvethMonth": {
+                            <span>"startDate": "2023-07-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-07-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+        </section>
     </main>
 
     <aside>

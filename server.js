@@ -8,6 +8,7 @@ const bankRoutes = require('./routes/bankReoutes');
 const transactionRoutes = require('./routes/transactionsRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
 const transferRoutes = require('./routes/transferRoutes');
+const cashflowRoutes = require('./routes/cashflowRoutes');
 
 const testArea = require('./test.js');
 
@@ -27,6 +28,7 @@ server.use('/api/banks', bankRoutes)
 server.use('/api/actual', transactionRoutes);
 server.use('/api/budget', budgetRoutes)
 server.use('/api/transfer', transferRoutes);
+server.use('/api/cashflow', cashflowRoutes);
 
 server.use('/api/test', testArea)
 
