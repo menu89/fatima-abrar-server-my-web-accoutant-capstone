@@ -302,6 +302,32 @@ function searchTopFiveBudgetRecords (id, bankName,searchDate) {
     })
 }
 
+//this function checks to see if an account with the same description already exists.
+function checkBankExistance(id,accDesc) {
+    return new Promise((resolve, reject) => {
+        knex('opening_bank_balances')
+        .where({user_id:id,acc_des:accDesc})
+        .then( (bankInfo) => {
+            if (bankInfo.length === 0) {
+                resolve ({
+                    status:200,
+                    message:"No account with this description exists for this user."
+                })
+            }
+            reject ({
+                status:400,
+                message:"An account already exists with this description"
+            })
+        })
+        .catch((err) => {
+            reject ({
+                status:400,
+                message:"We ran into difficulties searching for account info"
+            })
+        })
+    })
+}
+
 module.exports = {
     addBankAcc,
     findBankList,
@@ -313,5 +339,6 @@ module.exports = {
     searchTopFiveActualTransactions,
     getBankTransferTotalsByDate,
     searchTopFiveTransfers,
-    searchTopFiveBudgetRecords
+    searchTopFiveBudgetRecords,
+    checkBankExistance
 }

@@ -192,10 +192,12 @@
                     <p>This endpoint is to set up the different types of payment methods</p>
                     <p>It has four mandatory endpoints: accType, accDesc, amount, balance_timestamp</p>
                     <p>You also require an authorization token to be able to use this end point. Reger to '/user/login' endpoint to get a toekn.</p>
-                    <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit'</p>
+                    <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit', 'savings', 'cash'</p>
+                    <p>Account description field cannot be longer then 24 characters. And must be unique. If an account with the given description already exists, then the API will return an error.</p>
                     <p>you must set up at least one account to proceed with the remaining endpoints</p>
                     <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints which will be introduced in the future.</p>
-                    <p>Specify the date of the balnce entered. (i.e. if you are using your credit card statment balnce, then use the statement end date.)</p>
+                    <p>Note: this API only accepts positive values. When setting up a 'credit-card' or 'line-of-credit', please use 0.</p>
+                    <p>Specify the date of the balance entered. (i.e. if you are using your savings statment balance, then use the statement end date.)</p>
                     <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple accounts if you set up more then one.</p>
                     <p>If you are missing any of the fields or there is a problem with the fields, the api will return a 400 response with some information regarding what went wrong.</p>
                 </div>
@@ -526,7 +528,7 @@
                 <div>
                     <p>This endpoint searches for the transfer by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
-                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
                     <p>Note that Debit and Credit cannot be the same account. (i.e. If you provide debit only for update, and it is the same as the credit for the transfer, then the update will be rejected.) If you provide both debit and credit for update, then previous values of the transfer will not be checked.</p>
                     <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
                     <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
@@ -914,7 +916,7 @@
                 <div>
                     <p>This endpoint searches for the transaction by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
-                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
                     <p>If the debit or credit fields are to be updated, then you must provide the bank_type as well. Note that bank_type cannot be changed so when changing the credit or debit accounts, you cannot switch the two. i.e. if credit was a payment account, then you can only update it to another payment account.</p>
                     <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
                     <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
@@ -961,8 +963,8 @@
                     <p>This endpoint functions in a similar manner to the endpoint for POST /actual/transactions except there is an additional optional field avaialble.</p>
                     <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
                     <p>There are two optional fields:</p>
-                         <span>'description' in which you can add details about the transaction if you want.</span>
-                         <span>'mandatory' is which you can specify is the expense is mandatory (i.e. it cannot be avoided).</span>
+                         <p><span>'description' in which you can add details about the transaction if you want.</span></p>
+                         <p><span>'mandatory' is which you can specify is the expense is mandatory (i.e. it cannot be avoided).</span></p>
                     <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
                     <p>The list of accounts that can be used for this request is limited. Please make a request to 'GET /account-list' for a full list of accounts. Some examples of accounts are as follows:</p>
                     <ul>
@@ -1081,7 +1083,7 @@
                 <div>
                     <p>This endpoint searches for the budget records by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
-                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp, mandatory. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp, mandatory. At least one of these optional fields must be provided with the tranid.</p>
                     <p>If the debit or credit fields are to be updated, then you must provide the bank_type as well. Note that bank_type cannot be changed so when changing the credit or debit accounts, you cannot switch the two. i.e. if credit was a payment account, then you can only update it to another payment account.</p>
                     <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
                     <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>

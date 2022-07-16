@@ -6,7 +6,6 @@ const { findLatestTransactionByTimestamp, compileListBreakdown, sumCurrentMonthI
 function getInformation(id, noOfMonths) {
     return new Promise((resolve, reject) => {    
         const {expenseList, incomeList, paymentAccTypes} = compileListBreakdown()
-
         const expenseListString = `'${expenseList.join("', '")}'`
         const incomeListString = `'${incomeList.join("', '")}'`
         let responseObj = {}
@@ -21,9 +20,14 @@ function getInformation(id, noOfMonths) {
 
         findLatestTransactionByTimestamp(id)
         .then(response => {
-            const {Transaction_timestamp} = response.response
-            latestMonthIndex = (new Date(Transaction_timestamp).getMonth())
-            latestYear = new Date(Transaction_timestamp).getFullYear()
+            let useTimestamp = 0
+            if (!response.response) {
+                useTimestamp = Date.now()
+            } else {
+                useTimestamp = response.response.Transaction_timestamp
+            }
+            latestMonthIndex = (new Date(useTimestamp).getMonth())
+            latestYear = new Date(useTimestamp).getFullYear()
 
             let monthOne = latestMonthIndex + 1
             let monthTwo = latestMonthIndex + 2

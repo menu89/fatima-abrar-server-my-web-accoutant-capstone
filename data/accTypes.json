@@ -85,7 +85,7 @@
     },
     {
         "type":"expense",
-        "name":"other",
+        "name":"other-expense",
         "description":"this category is a catch all for when you are unable to classify things anywhere else. (i.e. gifts purchased for firends, etc.)"
     },
     {
@@ -110,7 +110,7 @@
     },
     {
         "type":"income",
-        "name":"other",
+        "name":"other-income",
         "description":"same as misc-income category."
     },
     {

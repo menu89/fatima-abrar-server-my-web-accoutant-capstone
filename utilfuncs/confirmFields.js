@@ -91,6 +91,20 @@ function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
         }
     }
 
+    if (accDesc.length > 25) {
+        return {
+            code:400,
+            message:"Account description is too long. Please use 25 or less characters."
+        }
+    }
+
+    if ((accType !== 'cash') && (accType !== 'savings') && (accType !== 'line-of-credit') && (accType !== 'credit-card') && (accType !== 'chequeing')) {
+        return {
+            code:400,
+            message:"Please use a valid account type. Accepted account types are: 'chequeing', 'credit-card', 'line-of-credit', 'savings', 'cash'"
+        }
+    }
+
     const results = checkTimeStatmp(balance_timestamp)
 
     if (results.code === 400) {
@@ -214,7 +228,7 @@ function confirmTranPeriodFields(fieldParameters) {
 //this function is for updating a transaction or budget item.
 //it checks to see if the fields required are present and in the right format.
 function confirmUpdateTranFields(updateParams) {
-    const {amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = updateParams
+    const {amount, debit, credit, bank_type, transaction_timestamp, description, tranid} = updateParams
 
     if (!tranid) {
         return ({
@@ -230,7 +244,7 @@ function confirmUpdateTranFields(updateParams) {
         }
     }
 
-    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+    if (!amount && !debit && !credit && !transaction_timestamp && !description) {
         return ({
             code: 400,
             message: "Please provide at least one field that you are looking to update."
@@ -372,7 +386,7 @@ function confirmTranferFields (validationData) {
 //this function is for updating a transfer item.
 //it checks to see if the fields required are present and in the right format.
 function confirmUpdateTransferFields(updateParams) {
-    const {amount, debit, credit, transaction_timestamp, accDesc, tranid} = updateParams
+    const {amount, debit, credit, transaction_timestamp, description, tranid} = updateParams
 
     if (!tranid) {
         return ({
@@ -388,7 +402,7 @@ function confirmUpdateTransferFields(updateParams) {
         }
     }
 
-    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+    if (!amount && !debit && !credit && !transaction_timestamp && !description) {
         return ({
             code: 400,
             message: "Please provide at least one field that you are looking to update."

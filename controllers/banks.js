@@ -1,4 +1,4 @@
-const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions, getBankTransferTotalsByDate, searchTopFiveTransfers, searchTopFiveBudgetRecords} = require('../models/bankmodels');
+const {addBankAcc, findBankList, findOneBank, searchActualTransactions,searchBudgetEntries, deleteSingleBank, getBankActivityByDate, searchTopFiveActualTransactions, getBankTransferTotalsByDate, searchTopFiveTransfers, searchTopFiveBudgetRecords, checkBankExistance} = require('../models/bankmodels');
 
 const { confirmBankingFields, confirmBankTranByDate } = require('../utilfuncs/confirmFields');
 
@@ -28,7 +28,10 @@ const postBankInfo = (req, res) => {
         user_id: req.user.id
     };
 
-    addBankAcc(newAcc)
+    checkBankExistance(req.user.id,accDesc)
+    .then(() => {
+        return addBankAcc(newAcc)
+    })
     .then( response => {
         res.status(response.status).json(response.message)
     })

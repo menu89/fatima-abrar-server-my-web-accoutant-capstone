@@ -114,7 +114,7 @@ function arrangeTotalByPeriod (debitInfo,creditInfo,dataReceipt,searchPara) {
 
 //supplementary function for patchSingleTransaction
 function organizeUpdateTranInfo (dataReceipt) {
-    const {id, amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = dataReceipt
+    const {id, amount, debit, credit, bank_type, transaction_timestamp, description, tranid} = dataReceipt
     const updateObject = {}
 
     if (!!debit || !!credit) {
@@ -129,8 +129,8 @@ function organizeUpdateTranInfo (dataReceipt) {
         }
     }
 
-    if (!!accDesc) {
-        updateObject.description = accDesc
+    if (!!description) {
+        updateObject.description = description
     }
 
     if (!!amount) {
@@ -183,7 +183,7 @@ function organizeTranferInfo (dataReceipt) {
 
 //supplementary function for patchSingleTransfer
 function organizeUpdateTransferInfo (dataReceipt) {
-    const {amount, debit, credit, transaction_timestamp, accDesc} = dataReceipt
+    const {amount, debit, credit, transaction_timestamp, description} = dataReceipt
     const updateObject = {}
 
     if (!!debit) {
@@ -194,8 +194,8 @@ function organizeUpdateTransferInfo (dataReceipt) {
         updateObject.credit = credit
     }
 
-    if (!!accDesc) {
-        updateObject.description = accDesc
+    if (!!description) {
+        updateObject.description = description
     }
 
     if (!!amount) {
