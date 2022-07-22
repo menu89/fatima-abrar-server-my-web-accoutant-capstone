@@ -47,6 +47,82 @@ function confirmLoginFields(email, password) {
     return { code: 200}
 }
 
+//this function takes the verification fields and checks them
+function confirmCodeVerificationFields(email, verificationCode) {
+    const errorList = []
+    if (!email || !verificationCode) {
+        if (!email) {errorList.push('email')}
+        if (!verificationCode) {errorList.push('verification code')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    return { code: 200}
+}
+
+//this function takes the verification fields for forgotten passwords and checks them
+function confirmForgottenPasswordVerificationFields(dataReceipt) {
+    const { email, passwordVerificationCode, newPassword, confirmNewPassword } = dataReceipt
+
+    const errorList = []
+    if (!email || !passwordVerificationCode || !newPassword || !confirmNewPassword) {
+        if (!email) {errorList.push('email')}
+        if (!passwordVerificationCode) {errorList.push('password verification code')}
+        if (!newPassword) {errorList.push('the new password')}
+        if (!confirmNewPassword) {errorList.push('confirm new password')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    if (newPassword !== confirmNewPassword) {
+        return {
+            status:400,
+            message: "The passwords do not match."
+        }
+    }
+
+    return { code: 200}
+}
+
+//this function takes the verification fields for changing passwords and checks them.
+function confirmChangePasswordFields(dataReceipt) {
+    const { email, password, newPassword, confirmNewPassword } = dataReceipt
+
+    const errorList = []
+    if (!email || !password || !newPassword || !confirmNewPassword) {
+        if (!email) {errorList.push('email')}
+        if (!password) {errorList.push('current password')}
+        if (!newPassword) {errorList.push('the new password')}
+        if (!confirmNewPassword) {errorList.push('confirm new password')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    if (newPassword !== confirmNewPassword) {
+        return {
+            status:400,
+            message: "The passwords do not match."
+        }
+    }
+
+    return { code: 200}
+}
+
 //checking the format etc for the timestamp sent
 function checkTimeStatmp (timestamp) {
     if (!parseInt(timestamp)) {
@@ -445,5 +521,8 @@ module.exports = {
     confirmUpdateTranFields,
     confirmBankTranByDate,
     confirmTranferFields,
-    confirmUpdateTransferFields
+    confirmUpdateTransferFields,
+    confirmCodeVerificationFields,
+    confirmForgottenPasswordVerificationFields,
+    confirmChangePasswordFields
 }

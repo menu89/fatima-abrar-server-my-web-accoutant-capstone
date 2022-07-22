@@ -15,7 +15,7 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.string('acc_type').notNullable();
       table.string('acc_des').notNullable();
-      table.integer('amount').notNullable().defaultTo(0).unsigned();
+      table.integer('amount').notNullable().defaultTo(0);
       table.bigint('Balance_timestamp').notNullable();
       table
         .integer('user_id')

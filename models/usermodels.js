@@ -52,7 +52,26 @@ function findUser(email) {
     })
 }
 
+//this function updates information for the user.
+function updateUser(email, updateCriterion) {
+    return new Promise((resolve, reject) => {
+        knex('users_list')
+        .update(updateCriterion)
+        .where({email:email})
+        .then( response => {
+            resolve(response)
+        })
+        .catch(() => {
+            return reject({
+                status:400,
+                message:"Failed to update the requested record."
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewUser,
-    findUser
+    findUser,
+    updateUser
 }

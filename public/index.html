@@ -21,7 +21,22 @@
                     <a href="#register">POST /user/register</a>
                 </li>
                 <li>
+                    <a href="#verify-email">POST /user/verify-email</a>
+                </li>
+                <li>
+                    <a href="#resend-verification-code">GET /user/resend-code</a>
+                </li>
+                <li>
                     <a href="#login">**POST /user/login</a>
+                </li>
+                <li>
+                    <a href="#patch-change-password">PATCH /user/change-password</a>
+                </li>
+                <li>
+                    <a href="#get-forgot-password">GET /user/forgot-password</a>
+                </li>
+                <li>
+                    <a href="#patch-forgot-password">PATCH /user/forgot-password</a>
                 </li>
             </ul>
             <ul> <!-- bank related enquiries-->
@@ -136,7 +151,8 @@
                     <P>This endpoint is for registering a user for the first time.</P>
                     <p>It has 4 mandatory fields: username, email, password, confirmpassword</p>
                     <p>If any of the mandatory fields are missing, it will return an error.</p>
-                    <p>If the passwords do not match, it will return an error</p>
+                    <p>If the passwords do not match, it will return an error.</p>
+                    <p>An email with a verification code will be sent to the address provided. You must valdiate the email to proceed with login.</p>
                 </div>
                 <div>
                     <p>Required Request Headers: Content-Type: application/json</p>
@@ -151,6 +167,50 @@
                 <div>
                     <p class="bold">Response Body Example:</p>
                     <p>"Registration Successfull"</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--POST verify user email-->
+                <h3 id="verify-email">POST /user/verify-email</h3>
+                <div>
+                    <p>This endpoint is to validate a user email when they register for the first time.</p>
+                    <p>It has 2 mandatory fields: email, varificationCode</p>
+                    <p>If any of the mandatory fields are missing, it will return an error.</p>
+                    <p>You will not be able to proceed with the login until your email is verified.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gamil.com",</span>
+                        <span>"verificationCode":"868698539"</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Thank you! Your account is now verified."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--GET resend the verification code for verifying email -->
+                <h3 id="resend-verification-code">GET /user/resend-code</h3>
+                <div>
+                    <p>This endpoint is to request a new validation code for the requested email.</p>
+                    <p>It has 1 mandatory fields: email</p>
+                    <p>An email with a new verification code will be sent to the email address provided.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/user/resend-code?email=hello@gmail.com</span></p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Verification code resent. Check your email for the new code."</p>
                 </div>
             </article>
             
@@ -183,6 +243,76 @@
                     </p>
                 </div>
             </article>
+
+            <article class="article__users"> <!--PATCH change forgotten password -->
+                <h3 id="patch-change-password">PATCH /user/change-password</h3>
+                <div>
+                    <p>This endpoint is to change your password.</p>
+                    <p>It has 4 mandatory fields: email, password, newPassword, confirmNewPassword.</p>
+                    <p>An error is returned if any of the mandatory fields are missing.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com",</span>
+                        <span>"password": "test",</span>
+                        <span>"newPassword": "hello123",</span>
+                        <span>"confirmNewPassword": "hello123",</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Your password has been updated. You can now log in with your new password."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--GET send verification code to reset forgotten password-->
+                <h3 id="get-forgot-password">GET /user/forgot-password</h3>
+                <div>
+                    <p>This endpoint is request a verification code for resetting your password. This is for situaitons where you have forgotten your password. You can use the verification code to change your password using the "PATCH /user/forgot-password" endpoint.</p>
+                    <p>It has 1 mandatory fields: email</p>
+                    <p>An email with a new verification code will be sent to the email address provided.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/user/resend-code?email=hello@gmail.com</span></p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Verification code sent. Check your email for the code."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--PATCH change forgotten password -->
+                <h3 id="patch-forgot-password">PATCH /user/forgot-password</h3>
+                <div>
+                    <p>This endpoint is to reset your forgotten password.</p>
+                    <p>It has 4 mandatory fields: email, passwordVerificationCode, newPassword, confirmNewPassword.</p>
+                    <p>Use the 'GET /user/forgot-password' endpoint for the verification code.</p>
+                    <p>An error is returned if any of the mandatory fields are missing.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com",</span>
+                        <span>"passwordVerificationCode": "773548536",</span>
+                        <span>"newPassword": "hello123",</span>
+                        <span>"confirmNewPassword": "hello123",</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Your password has been updated. You can now log in with your new password."</p>
+                </div>
+            </article>
+
         </section>
         
         <section> <!-- bank related enquiries-->
@@ -195,8 +325,7 @@
                     <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit', 'savings', 'cash'</p>
                     <p>Account description field cannot be longer then 24 characters. And must be unique. If an account with the given description already exists, then the API will return an error.</p>
                     <p>you must set up at least one account to proceed with the remaining endpoints</p>
-                    <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints which will be introduced in the future.</p>
-                    <p>Note: this API only accepts positive values. When setting up a 'credit-card' or 'line-of-credit', please use 0.</p>
+                    <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints.</p>
                     <p>Specify the date of the balance entered. (i.e. if you are using your savings statment balance, then use the statement end date.)</p>
                     <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple accounts if you set up more then one.</p>
                     <p>If you are missing any of the fields or there is a problem with the fields, the api will return a 400 response with some information regarding what went wrong.</p>
