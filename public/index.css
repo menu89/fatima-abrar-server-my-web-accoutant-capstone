@@ -15,6 +15,19 @@ article {
     padding: 0rem 1rem 1rem 1rem;
 }
 
+.navigation-bar {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: fit-content;
+}
+
+.navigation-bar ul {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 0.5rem;
+    padding: 1rem 1rem 1rem 2rem;
+}
+
 .article__users {
     background-color: orchid;
 }
