@@ -38,6 +38,9 @@
                 <li>
                     <a href="#patch-forgot-password">PATCH /user/forgot-password</a>
                 </li>
+                <li>
+                    <a href="#delete-user">DELETE /user/single</a>
+                </li>
             </ul>
             <ul> <!-- bank related enquiries-->
                 <li>
@@ -310,6 +313,33 @@
                 <div>
                     <p class="bold">Response Body Example:</p>
                     <p>"Your password has been updated. You can now log in with your new password."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--Deletes a user-->
+                <h3 id="delete-user">DELETE /user/single</h3>
+                <div>
+                    <p>This endpoint deletes a user.</p>
+                    <p>It has 2 mandatory fields: email, password</p>
+                    <p>The endpoint will return an error if any of the fields are missing.</p>
+                    <p>The endpoint will return an error if there is no user registered with the email provided.</p>
+                    <p>The endpoint will return an error if the incorrect password is provided</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gamil.com",</span>
+                        <span>"password":"test"</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>
+                        {
+                            <span>"1 record deleted."</span>
+                        }
+                    </p>
                 </div>
             </article>
 

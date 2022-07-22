@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 
-const {userRegistration, userLogin, verifyEmail, changePassword, forgotPassword, resendVerificationCode, sendPasswordResetCode} = require('../controllers/usersignin');
+const {userRegistration, userLogin, verifyEmail, changePassword, forgotPassword, resendVerificationCode, sendPasswordResetCode, deleteUserRoute } = require('../controllers/usersignin');
 
 router
     .post('/register', 
@@ -27,6 +27,9 @@ router
     )
     .patch('/forgot-password',
         forgotPassword
+    )
+    .delete('/single',
+        deleteUserRoute
     )
 
 module.exports = router;

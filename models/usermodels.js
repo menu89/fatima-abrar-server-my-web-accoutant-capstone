@@ -70,8 +70,36 @@ function updateUser(email, updateCriterion) {
     })
 }
 
+//this function deletes the information for a user.
+function deleteUser(email) {
+    return new Promise((resolve, reject)=>{
+        knex('users_list')
+        .where({email: email})
+        .del()
+        .then( (info) => {
+            if (info === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            return resolve({
+                status:200,
+                message:`${info} record deleted`
+            })
+        })
+        .catch((err) => {
+            reject({
+                status:400,
+                message:"Unknown server error."
+            })
+        })
+    })
+}
+
 module.exports = {
     addNewUser,
     findUser,
-    updateUser
+    updateUser,
+    deleteUser
 }

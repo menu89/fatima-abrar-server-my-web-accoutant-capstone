@@ -1,4 +1,4 @@
-const {addNewUser, findUser, updateUser} = require('../models/usermodels');
+const {addNewUser, findUser, updateUser, deleteUser} = require('../models/usermodels');
 const { confirmRegisFields, confirmLoginFields, confirmCodeVerificationFields, confirmForgottenPasswordVerificationFields, confirmChangePasswordFields } = require('../utilfuncs/confirmFields');
 
 const bcrypt = require('bcryptjs');
@@ -359,6 +359,37 @@ const sendPasswordResetCode = (req, res) => {
     })
 }
 
+//this function validates the password and deletes the user
+const deleteUserRoute = (req, res) => {
+    const {email, password} = req.body
+
+    const returnMsg = confirmLoginFields(email, password)
+    if (returnMsg.code === 400) {
+        return res.status(returnMsg.code).send(returnMsg.message)
+    }
+
+    let doNotContinue = 0
+
+    findUser(email)
+    .then( foundUser => {
+        const isPasswordCorrect = bcrypt.compareSync( password, foundUser.password);
+        if (!isPasswordCorrect) {
+            doNotContinue = 1
+            return res.status(400).json("Invalid Password")
+        }
+    
+        return deleteUser(email)
+    })
+    .then(response => {
+        if (doNotContinue === 0) {
+            return res.status(200).json(response.message)
+        }
+    })
+    .catch(err => {
+        return res.status(err.status).json(err.message)
+    })
+}
+
 
 module.exports = {
     userRegistration,
@@ -367,5 +398,6 @@ module.exports = {
     changePassword,
     forgotPassword,
     resendVerificationCode,
-    sendPasswordResetCode
+    sendPasswordResetCode,
+    deleteUserRoute
 }
