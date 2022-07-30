@@ -18,10 +18,10 @@ Libraries utilized: Bcryptjs, Jsonwebtoken, Nodemailer, Knex
 
 # Deployment Details
 
-This API is deployed at www.my-web-accountant.dev using heroku (the related database also deployed through heroku utilizing firebase).
+This API is deployed at www.my-web-accountant.dev using heroku (the related database also deployed through heroku utilizing jawsdb).
 
 <a href="https://skillicons.dev">
-<img src="https://skillicons.dev/icons?i=heroku,firebase&perline=9" />
+<img src="https://skillicons.dev/icons?i=heroku&perline=9" />
 </a>
 
 <br />
