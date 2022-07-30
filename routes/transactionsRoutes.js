@@ -7,37 +7,37 @@ const {validateCredentials} = require('../middleware/checkCredentials');
 const {postTransaction, getTranPeriod, getPeriodTotal, getSingleTransaction, deleteSingleTransaction, getAllTransactions, patchSingleTransaction} = require('../controllers/transactions')
 
 router
-    .post('/transaction-single', 
+    .post('/single', 
         decodeJWT, 
         validateCredentials, 
         postTransaction
     )
-    .get('/transactions-by-period',
+    .get('/by-period',
         decodeJWT,
         validateCredentials,
         getTranPeriod
     )
-    .get('/total-by-period',
+    .get('/totals-by-period',
         decodeJWT,
         validateCredentials,
         getPeriodTotal
     )
-    .get('/transactions-all',
+    .get('/all',
         decodeJWT,
         validateCredentials,
         getAllTransactions
     )
-    .get('/transaction-single',
+    .get('/single',
         decodeJWT,
         validateCredentials,
         getSingleTransaction
     )
-    .patch('/transaction-single',
+    .patch('/single',
         decodeJWT,
         validateCredentials,
         patchSingleTransaction
     )
-    .delete('/transaction-single',
+    .delete('/single',
         decodeJWT,
         validateCredentials,
         deleteSingleTransaction

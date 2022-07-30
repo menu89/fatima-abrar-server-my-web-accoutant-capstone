@@ -112,9 +112,9 @@ function arrangeTotalByPeriod (debitInfo,creditInfo,dataReceipt,searchPara) {
     })
 }
 
-//supplementary function for putSingleTransaction
+//supplementary function for patchSingleTransaction
 function organizeUpdateTranInfo (dataReceipt) {
-    const {id, amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = dataReceipt
+    const {id, amount, debit, credit, bank_type, transaction_timestamp, description, tranid} = dataReceipt
     const updateObject = {}
 
     if (!!debit || !!credit) {
@@ -129,8 +129,8 @@ function organizeUpdateTranInfo (dataReceipt) {
         }
     }
 
-    if (!!accDesc) {
-        updateObject.description = accDesc
+    if (!!description) {
+        updateObject.description = description
     }
 
     if (!!amount) {
@@ -140,6 +140,73 @@ function organizeUpdateTranInfo (dataReceipt) {
     if (!!transaction_timestamp) {
         if (!parseInt(transaction_timestamp)) {
             updateObject.transaction_timestamp = Date.parse(transaction_timestamp)
+        } else if (transaction_timestamp.includes('-')) {
+            updateObject.transaction_timestamp = Date.parse(new Date(transaction_timestamp))
+        } else {
+            updateObject.transaction_timestamp = parseInt(transaction_timestamp)
+        }
+    }
+
+    return updateObject
+}
+
+
+//supplementary function to organize data for posting tranfers
+function organizeTranferInfo (dataReceipt) {
+    const {id, amount, debit, credit, transaction_timestamp, description} = dataReceipt
+
+    let tranTS = 0
+    let amountInt = parseInt(amount)
+    const currentTime = Date.now()
+    let tranDes = ""
+
+    if (!parseInt(transaction_timestamp)) {
+        tranTS = Date.parse(transaction_timestamp)
+    } else {
+        tranTS = parseInt(transaction_timestamp)
+    }
+
+    if (description) { tranDes = description}
+
+    const transferInfo = {
+        amount: amountInt,
+        Debit: debit,
+        Credit: credit,
+        Description: tranDes,
+        transaction_timestamp: tranTS,
+        Record_timestamp: currentTime,
+        user_id: id
+    }
+    
+    return transferInfo
+}
+
+//supplementary function for patchSingleTransfer
+function organizeUpdateTransferInfo (dataReceipt) {
+    const {amount, debit, credit, transaction_timestamp, description} = dataReceipt
+    const updateObject = {}
+
+    if (!!debit) {
+        updateObject.debit = debit
+    }
+
+    if (!!credit) {
+        updateObject.credit = credit
+    }
+
+    if (!!description) {
+        updateObject.description = description
+    }
+
+    if (!!amount) {
+        updateObject.amount = parseInt(amount)
+    }
+
+    if (!!transaction_timestamp) {
+        if (!parseInt(transaction_timestamp)) {
+            updateObject.transaction_timestamp = Date.parse(transaction_timestamp)
+        } else if (transaction_timestamp.includes('-')) {
+            updateObject.transaction_timestamp = Date.parse(new Date(transaction_timestamp))
         } else {
             updateObject.transaction_timestamp = parseInt(transaction_timestamp)
         }
@@ -153,5 +220,7 @@ module.exports = {
     arrangePeriodSearchInfo,
     arrangeTotalByPeriod,
     organizeTranInfo,
-    organizeUpdateTranInfo
+    organizeUpdateTranInfo,
+    organizeTranferInfo,
+    organizeUpdateTransferInfo
 }

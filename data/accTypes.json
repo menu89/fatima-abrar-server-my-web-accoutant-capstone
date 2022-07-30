@@ -1,7 +1,7 @@
 [
     {
         "type": "other",
-        "list": ["chequeing","credit-card","line-of-credit"]
+        "list": ["chequeing","credit-card","line-of-credit","cash","savings"]
     },
     {
         "type": "expense",
@@ -16,7 +16,102 @@
     {
         "type": "expense",
         "name": "rent",
-        "description": "this expense category covers rental income if you are renting a property from a landlord (i.e. you pay rent)."
+        "description": "this expense category covers rental expense if you are renting a property from a landlord (i.e. you pay rent)."
+    },
+    {
+        "type":"expense",
+        "name":"mortgage",
+        "description":"this expense category covers the payments you make towards your mortgage. note this API does not support splitting values into asset and expense categories."
+    },
+    {
+        "type":"expense",
+        "name":"insurance",
+        "description":"this expense category covers all insurance related payments (i.e. car insurance, home insurance, condo insurance, health insurance, etc)."
+    },
+    {
+        "type":"expense",
+        "name":"interest",
+        "description":"this expense category covers interest expenses that are charged to bank, credit-card, or line-of-credit accounts. you can also classify insurance premium and tax charges related to the payment accounts here as well."
+    },
+    {
+        "type":"expense",
+        "name":"transit/travel",
+        "description":"this expense category covers items like bus/TTC fares, uber/lyft/taxi rides (including tips), air plane tickets, etc."
+    },
+    {
+        "type":"expense",
+        "name":"laundry",
+        "description":"this expense category covers all expenses incurred related to laundry. this includes laundry power, charges for using laundry machines, dry cleaning charges, maintanence for laundry machines (if you have one), etc."
+    },
+    {
+        "type":"expense",
+        "name":"groceries-other",
+        "description":"this expense category covers all groceries that don't fall under food. this can include dish washing detergent, toilet cleaning detergent, soap, toothpaste, etc."
+    },
+    {
+        "type":"expense",
+        "name":"phone/communication",
+        "description":"this category covers expenses related to your home phone, cell phone, and internet."
+    },
+    {
+        "type":"expense",
+        "name":"charitable donations",
+        "description":"this category covers all charitable donations."
+    },
+    {
+        "type":"expense",
+        "name":"medical",
+        "description":"this category covers all medical related expenses (i.e. dental, optomitrist, medicine, physiotherapy, etc.)"
+    },
+    {
+        "type":"expense",
+        "name":"fitness-related",
+        "description":"this category covers all expenses you incur to stay active. this can include gym memberships, equipment purchase, dues for a softball team, etc."
+    },
+    {
+        "type":"expense",
+        "name":"personal/entertainment",
+        "description":"this category covers expense that were incurred for personal enjoyment. this can include things like movie tickets, perfume, etc."
+    },
+    {
+        "type":"expense",
+        "name":"large-expenses",
+        "description":"this category covers expenses incurred once in a while. it can include things like purchasing furniture."
+    },
+    {
+        "type":"expense",
+        "name":"education",
+        "description":"this category includes funds spent on tuition fees, books, conference fees, etc."
+    },
+    {
+        "type":"expense",
+        "name":"other-expense",
+        "description":"this category is a catch all for when you are unable to classify things anywhere else. (i.e. gifts purchased for firends, etc.)"
+    },
+    {
+        "type":"expense",
+        "name":"pet-food",
+        "description":"this category covers expenses for pet food and treats."
+    },
+    {
+        "type":"expense",
+        "name":"pet-other",
+        "description":"this category covers expenses for all other pet realted purchase. (i.e. water fountain, toys, etc.)"
+    },
+    {
+        "type":"expenses",
+        "name":"pet-medical",
+        "description":"this category covers expenses related to medical expenses for pets (i.e. VET visits, dental cleaning, medicines, etc.). you can also choose to classify pet insurance here."
+    },
+    {
+        "type":"expense",
+        "name":"third-party",
+        "description":"this is for expenses incurred on behalf of someone else."
+    },
+    {
+        "type":"income",
+        "name":"other-income",
+        "description":"same as misc-income category."
     },
     {
         "type": "income",

@@ -9,8 +9,12 @@
 <body>
     <header id="top">
         <h1>My Web Accountant - API Documentation</h1>
+        <section>
+            <p>This endpoint was designed specifically for the website: www.my-web-accountant.com.</p>
+            <p>However, you can utilize the following endpoints to build your own site.</p>
+        </section>
         <h2>Routes</h2>
-        <nav>
+        <nav class="navigation-bar">
             <ul> <!-- general endpoint-->
                 <li>
                     <a href="#acclist">GET /account-list</a>
@@ -21,59 +25,116 @@
                     <a href="#register">POST /user/register</a>
                 </li>
                 <li>
+                    <a href="#verify-email">POST /user/verify-email</a>
+                </li>
+                <li>
+                    <a href="#resend-verification-code">GET /user/resend-code</a>
+                </li>
+                <li>
                     <a href="#login">**POST /user/login</a>
                 </li>
                 <li>
-                    <a href="#initial-set-up">POST /user/initial-set-up</a>
+                    <a href="#patch-change-password">PATCH /user/change-password</a>
                 </li>
                 <li>
-                    <a href="#bank-list">GET /user/bank-list</a>
+                    <a href="#get-forgot-password">GET /user/forgot-password</a>
+                </li>
+                <li>
+                    <a href="#patch-forgot-password">PATCH /user/forgot-password</a>
+                </li>
+                <li>
+                    <a href="#delete-user">DELETE /user/single</a>
+                </li>
+            </ul>
+            <ul> <!-- bank related enquiries-->
+                <li>
+                    <a href="#add-bank-account">POST /banks/add-bank-account</a>
+                </li>
+                <li>
+                    <a href="#bank-list">GET /banks/list</a>
+                </li>
+                <li>
+                    <a href="#delete-single-bank">DELETE /banks/single-account</a>
+                </li>
+                <li>
+                    <a href="#get-bank-details">GET /banks/account-details-by-date</a>
+                </li>
+            </ul>
+            <ul> <!--transfer related enquiries-->
+                <li>
+                    <a href="#post-single-transfer">POST /transfer/single</a>
+                </li>
+                <li>
+                    <a href="#get-single-transfer">GET /transfer/single</a>
+                </li>
+                <li>
+                    <a href="#delete-single-transfer">DELETE /transfer/single</a>
+                </li>
+                <li>
+                    <a href="#update-single-transfer">PATCH /transfer/single</a>
+                </li>
+                <li>
+                    <a href="#transfers-all">GET /transfer/all</a>
+                </li>
+                <li>
+                    <a href="#transfers-by-period">GET /transfer/by-period</a>
                 </li>
             </ul>
             <ul> <!-- transaction related enquiries-->
                 <li>
-                    <a href="#transaction-by-period">GET /actual/transactions-by-period</a>
+                    <a href="#transaction-by-period">GET /actual/by-period</a>
                 </li>
                 <li>
-                    <a href="#total-by-period">GET /actual/total-by-period</a>
+                    <a href="#total-by-period">GET /actual/totals-by-period</a>
                 </li>
                 <li>
-                    <a href="#transactions-all">GET /actual/transactions-all</a>
+                    <a href="#transactions-all">GET /actual/all</a>
                 </li>
                 <li>
-                    <a href="#transaction">POST /actual/transaction-single</a>
+                    <a href="#transaction">POST /actual/single</a>
                 </li>
                 <li>
-                    <a href="#single-tran">GET /actual/transaction-single</a>
+                    <a href="#single-tran">GET /actual/single</a>
                 </li>
                 <li>
-                    <a href="#delete-single-tran">DELETE /actual/transaction-single</a>
+                    <a href="#delete-single-tran">DELETE /actual/single</a>
                 </li>
                 <li>
-                    <a href="#update-single-tran">PATCH /actual/transaction-single</a>
+                    <a href="#update-single-tran">PATCH /actual/single</a>
                 </li>
             </ul>
             <ul> <!-- budget transaction related enquiries-->
                 <li>
-                    <a href="#post-single-budget-tran">POST /budget/transaction-single</a>
+                    <a href="#post-single-budget-tran">POST /budget/single</a>
                 </li>
                 <li>
-                    <a href="#get-single-budget-tran">GET /budget/transaction-single</a>
+                    <a href="#get-single-budget-tran">GET /budget/single</a>
                 </li>
                 <li>
-                    <a href="#delete-single-budget-tran">DELETE /budget/transaction-single</a>
+                    <a href="#delete-single-budget-tran">DELETE /budget/single</a>
                 </li>
                 <li>
-                    <a href="#update-single-budget-tran">PATCH /budget/transaction-single</a>
+                    <a href="#update-single-budget-tran">PATCH /budget/single</a>
                 </li>
                 <li>
-                    <a href="#budget-records-all">GET /budget/transactions-all</a>
+                    <a href="#budget-records-all">GET /budget/all</a>
                 </li>
                 <li>
-                    <a href="#budget-records-by-period">GET /budget/transactions-by-period</a>
+                    <a href="#budget-records-by-period">GET /budget/by-period</a>
                 </li>
                 <li>
                     <a href="#budgetTotals-by-period">GET /budget/totals-by-period</a>
+                </li>
+            </ul>
+            <ul> <!--Cashflow Endpoints-->
+                <li>
+                    <a href="#cashflow-three-month">GET /cashflow/three-month</a>
+                </li>
+                <li>
+                    <a href="#cashflow-six-month">GET /cashflow/six-month</a>
+                </li>
+                <li>
+                    <a href="#cashflow-twelve-month">GET /cashflow/twelve-month</a>
                 </li>
             </ul>
         </nav>
@@ -97,7 +158,8 @@
                     <P>This endpoint is for registering a user for the first time.</P>
                     <p>It has 4 mandatory fields: username, email, password, confirmpassword</p>
                     <p>If any of the mandatory fields are missing, it will return an error.</p>
-                    <p>If the passwords do not match, it will return an error</p>
+                    <p>If the passwords do not match, it will return an error.</p>
+                    <p>An email with a verification code will be sent to the address provided. You must valdiate the email to proceed with login.</p>
                 </div>
                 <div>
                     <p>Required Request Headers: Content-Type: application/json</p>
@@ -112,6 +174,50 @@
                 <div>
                     <p class="bold">Response Body Example:</p>
                     <p>"Registration Successfull"</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--POST verify user email-->
+                <h3 id="verify-email">POST /user/verify-email</h3>
+                <div>
+                    <p>This endpoint is to validate a user email when they register for the first time.</p>
+                    <p>It has 2 mandatory fields: email, varificationCode</p>
+                    <p>If any of the mandatory fields are missing, it will return an error.</p>
+                    <p>You will not be able to proceed with the login until your email is verified.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gamil.com",</span>
+                        <span>"verificationCode":"868698539"</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Thank you! Your account is now verified."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--GET resend the verification code for verifying email -->
+                <h3 id="resend-verification-code">GET /user/resend-code</h3>
+                <div>
+                    <p>This endpoint is to request a new validation code for the requested email.</p>
+                    <p>It has 1 mandatory fields: email</p>
+                    <p>An email with a new verification code will be sent to the email address provided.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/user/resend-code?email=hello@gmail.com</span></p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Verification code resent. Check your email for the new code."</p>
                 </div>
             </article>
             
@@ -144,17 +250,117 @@
                     </p>
                 </div>
             </article>
-            
-            <article class="article__users"> <!--Initial Bank Set Up-->
-                <h3 id="initial-set-up">POST /user/initial-set-up</h3>
+
+            <article class="article__users"> <!--PATCH change forgotten password -->
+                <h3 id="patch-change-password">PATCH /user/change-password</h3>
+                <div>
+                    <p>This endpoint is to change your password.</p>
+                    <p>It has 4 mandatory fields: email, password, newPassword, confirmNewPassword.</p>
+                    <p>An error is returned if any of the mandatory fields are missing.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com",</span>
+                        <span>"password": "test",</span>
+                        <span>"newPassword": "hello123",</span>
+                        <span>"confirmNewPassword": "hello123",</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Your password has been updated. You can now log in with your new password."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--GET send verification code to reset forgotten password-->
+                <h3 id="get-forgot-password">GET /user/forgot-password</h3>
+                <div>
+                    <p>This endpoint is request a verification code for resetting your password. This is for situaitons where you have forgotten your password. You can use the verification code to change your password using the "PATCH /user/forgot-password" endpoint.</p>
+                    <p>It has 1 mandatory fields: email</p>
+                    <p>An email with a new verification code will be sent to the email address provided.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/user/resend-code?email=hello@gmail.com</span></p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Verification code sent. Check your email for the code."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--PATCH change forgotten password -->
+                <h3 id="patch-forgot-password">PATCH /user/forgot-password</h3>
+                <div>
+                    <p>This endpoint is to reset your forgotten password.</p>
+                    <p>It has 4 mandatory fields: email, passwordVerificationCode, newPassword, confirmNewPassword.</p>
+                    <p>Use the 'GET /user/forgot-password' endpoint for the verification code.</p>
+                    <p>An error is returned if any of the mandatory fields are missing.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gmail.com",</span>
+                        <span>"passwordVerificationCode": "773548536",</span>
+                        <span>"newPassword": "hello123",</span>
+                        <span>"confirmNewPassword": "hello123",</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>"Your password has been updated. You can now log in with your new password."</p>
+                </div>
+            </article>
+
+            <article class="article__users"> <!--Deletes a user-->
+                <h3 id="delete-user">DELETE /user/single</h3>
+                <div>
+                    <p>This endpoint deletes a user.</p>
+                    <p>It has 2 mandatory fields: email, password</p>
+                    <p>The endpoint will return an error if any of the fields are missing.</p>
+                    <p>The endpoint will return an error if there is no user registered with the email provided.</p>
+                    <p>The endpoint will return an error if the incorrect password is provided</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"email": "hello@gamil.com",</span>
+                        <span>"password":"test"</span>
+                    }</p>
+                </div>
+                <div>
+                    <p class="bold">Response Body Example:</p>
+                    <p>
+                        {
+                            <span>"1 record deleted."</span>
+                        }
+                    </p>
+                </div>
+            </article>
+
+        </section>
+        
+        <section> <!-- bank related enquiries-->
+            <article class="article__banks"> <!--Initial Bank Set Up-->
+                <h3 id="add-bank-account">POST /banks/add-bank-account</h3>
                 <div>
                     <p>This endpoint is to set up the different types of payment methods</p>
                     <p>It has four mandatory endpoints: accType, accDesc, amount, balance_timestamp</p>
                     <p>You also require an authorization token to be able to use this end point. Reger to '/user/login' endpoint to get a toekn.</p>
-                    <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit'</p>
+                    <p>accType must be one of the follow: 'chequeing', 'credit-card', 'line-of-credit', 'savings', 'cash'</p>
+                    <p>Account description field cannot be longer then 24 characters. And must be unique. If an account with the given description already exists, then the API will return an error.</p>
                     <p>you must set up at least one account to proceed with the remaining endpoints</p>
-                    <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints which will be introduced in the future.</p>
-                    <p>Specify the date of the balnce entered. (i.e. if you are using your credit card statment balnce, then use the statement end date.)</p>
+                    <p>The amount should be the balance at the time the relevant account is set up. This is to fascilitate cashflow features/endpoints.</p>
+                    <p>Specify the date of the balance entered. (i.e. if you are using your savings statment balance, then use the statement end date.)</p>
                     <p>Please do not include any sensitive account information in the description header. This is only to identify between multiple accounts if you set up more then one.</p>
                     <p>If you are missing any of the fields or there is a problem with the fields, the api will return a 400 response with some information regarding what went wrong.</p>
                 </div>
@@ -175,8 +381,8 @@
                 </div>
             </article>
             
-            <article class="article__users"> <!-- Get the list of banks-->
-                <h3 id="bank-list">GET /user/bank-list</h3>
+            <article class="article__banks"> <!-- Get the list of banks-->
+                <h3 id="bank-list">GET /banks/list</h3>
                 <div>
                     <p>This endpoint returns a list of accounts with initial set up balances for a given user.</p>
                 </div>
@@ -185,7 +391,10 @@
                     <p>Authorization: Bearer 'JWT Token'</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 3,</span>
@@ -196,15 +405,442 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__banks"> <!-- Delete the record for a single transaction-->
+                <h3 id="delete-single-bank">DELETE /banks/single-account</h3>
+                <div>
+                    <p>This endpoint searches for banks by id. It then searches the transaction and budget records to see if it has been used in the past. If it hasn't been used then the bank account is deleted.</p>
+                    <p>There is 1 mandatory field: bankid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a bank account with the specified id, then no records will be deleted.</p>
+                    <p>If the bank account has been used in the past in transaction or budget records, then no records will be deleted.</p>
+                    
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"bankid": "5",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/banks/single-account?bankid=5</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>
+                        <span>"1 record deleted"</span>
+                    </p>
+                </div>
+            </article>
+            
+            <article class="article__banks"> <!--Get detailed informaiton for a specific bank-->
+                <h3 id="get-bank-details">GET /banks/account-details-by-date</h3>
+                <div>
+                    <p>This endpoint searches for a single bank by id and provides its related information up to the date provided.</p>
+                    <p>There are 2 mandatory fields: bankid, balance_timestamp.</p>
+                    <p>An error is returned if the fields are missing.</p>
+                    <p>If the user does not have a bank account with the specified id, then no records are returned.</p>
+                    <p>This API does not support record/balance dates prior to Jan 1, 2022.</p>
+                    <p>The 'amount' variable is the initial amount the bank account was set up with. 'money_paid' refers to the payments that were made from the account (i.e. money spent). 'money_received' refers to the income and other cash received into the accounts. "transfer_in" refers to money moved into the account from other payment accounts. "transfer_out" refers to money moved into the account from other payment accounts. These figures are from the account set up date to the date provided in the parameters. </p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"bankid": "1",</span>
+                        <span>"balance_timestamp": "July 1 2022"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/banks/account-details-by-date?bankid=1&balance_timestamp='July 1 2022'</span></p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span> "id": 1,</span>
+                        <span>"acc_type": "chequeing",</span>
+                        <span>"acc_des": "TD Bank",</span>
+                        <span>"amount": 50,</span>
+                        <span>"Balance_timestamp": 1648785600000,</span>
+                        <span>"user_id": 1,</span>
+                        <span>"money_paid": -1130,</span>
+                        <span>"money_received": 2000,</span>
+                        <span>"transfer_in": 550,</span>
+                        <span>"transfer_out": -250,</span>
+                        <span>"recent_five_actuals": [{
+                            <span> "id": 11,</span>
+                            <span> "amount": 2000,</span>
+                            <span> "Debit": "TD Bank", </span>
+                            <span> "Credit": "employment-income", </span>
+                            <span> "Bank_type": "d", </span>
+                            <span> "Description": "Pay received Friday June 24", </span>
+                            <span>"Record_timestamp": 1656367961073, </span>
+                            <span>"Transaction_timestamp": 1656028800000, </span>
+                            <span> "user_id": 1 </span>
+                        },</span>
+                        <span>{
+                            <span>"id": 7,</span>
+                            <span>"amount": 500,</span>
+                            <span>"Debit": "rent",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655078197680,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },</span>
+                        <span>{
+                            <span>"id": 10, </span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "groceries-food",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "testing",</span>
+                            <span>"Record_timestamp": 1655256246240,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },</span>
+                        <span>{
+                            <span>"id": 4,</span>
+                            <span>"amount": 10,</span>
+                            <span>"Debit": "utilities",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655078088080,</span>
+                            <span>"Transaction_timestamp": 1653364800000,</span>
+                            <span>"user_id": 1</span>
+                        },</span>
+                        <span>{
+                            <span>"id": 5,</span>
+                            <span>"amount": 20,</span>
+                            <span>"Debit": "groceries-food",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1655078103822,</span>
+                            <span>"Transaction_timestamp": 1653364800000,</span>
+                            <span>"user_id": 1</span>
+                        }]</span>
+                        <span>"recent_five_transfers":[{
+                            <span>"id": 3,</span>
+                            <span>"amount": 550,</span>
+                            <span>"Debit": "TD Bank",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692911461,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 5,</span>
+                            <span>"amount": 150,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692960261,</span>
+                            <span>"Transaction_timestamp": 1652587200000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                        }]</span>
+                        <span>"recent_five_budget_records":[{
+                            <span>"id": 2,</span>
+                            <span>"amount": 200,</span>
+                            <span>"Debit": "rent",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Bank_type": "c",</span>
+                            <span>"Description": "april",</span>
+                            <span>"Record_timestamp": 1656964341576,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"mandatory":0,</span>
+                            <span>"user_id": 1</span>
+                        }]</span>
+                        }</p>
+                </details>
                 </div>
             </article>
 
         </section>
 
+        <section> <!-- transfer related enquiries-->
+            <article class="article__transfer"> <!-- Post a single transfer-->
+                <h3 id="post-single-transfer">POST /transfer/single</h3>
+                <div>
+                    <p>This endpoint allows you to add transfer records for a specific user. This is the movement between payment account. (i.e. a credit card payment using your chequeing account would fall under this category)</p>
+                    <p>It has 4 mandatory fields: amount, debit, credit, transaction_timestamp</p>
+                    <p>There is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                    <p>Only Payment accounts can be used for debit or credit.</p>
+                    <p>Note: This API does not support records older then Jan 1, 2022.</p>
+                    <p>If any of the mandatory fields are missing, then the endpoint will retunr an error with some information about what went wrong.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of data to send for request:</p>
+                    <p>{
+                        <span>"debit": "RBC",</span>
+                        <span>"credit":"TD Bank",</span>
+                        <span>"transaction_timestamp": "May 1, 2022",</span>
+                        <span>"amount": "200"</span>
+                    }</p>
+                </div>
+                <div>
+                    <details>
+                        <summary>
+                            <p  class="bold">Response Body Example:</p>
+                        </summary>
+                        <p>[
+                            {
+                                <span>"id": 1,</span>
+                                <span>"amount": 200,</span>
+                                <span>"Debit": "RBC",</span>
+                                <span>"Credit": "TD Bank",</span>
+                                <span>"Description": "",</span>
+                                <span>"Record_timestamp": 1657680197080,</span>
+                                <span>"Transaction_timestamp": 1651377600000,</span>
+                                <span>"user_id": 1</span>
+                            }
+                        ]</p>
+                    </details>
+                    </div>
+            </article>
+
+            <article class="article__transfer"> <!-- Get the record for a single transfer-->
+                <h3 id="get-single-transfer">GET /transfer/single</h3>
+                <div>
+                    <p>This endpoint seraches for transfers by id and returns the record that matches the id provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a transaction with the specified id, then no records will be returned.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"tranid": "1",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/transfer/single?tranid=1</span></p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 200,</span>
+                            <span>"Debit": "RBC",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680197080,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__transfer"> <!-- Delete the record for a single transfer-->
+                <h3 id="delete-single-transfer">DELETE /transfer/single</h3>
+                <div>
+                    <p>This endpoint seraches for transfer by id and deletes the record that matches the id provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>An error is returned if the field is missing.</p>
+                    <p>If the the user does not have a transaction with the specified id, then no records will be deleted.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"tranid": "5",</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/transfer/single?tranid=5</span></p>
+                </div>
+                <div>
+                    <p  class="bold">Response Body Example:</p>
+                    <p>
+                        <span>"1 record deleted"</span>
+                    </p>
+                </div>
+            </article>
+
+            <article class="article__transfer"> <!-- Update the record for a single transfer-->
+                <h3 id="update-single-transfer">PATCH /transfer/single</h3>
+                <div>
+                    <p>This endpoint searches for the transfer by id and updates the parameters provided.</p>
+                    <p>There is 1 mandatory field: tranid</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>Note that Debit and Credit cannot be the same account. (i.e. If you provide debit only for update, and it is the same as the credit for the transfer, then the update will be rejected.) If you provide both debit and credit for update, then previous values of the transfer will not be checked.</p>
+                    <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
+                    <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of body to send for request:</p>
+                    <p>{
+                        <span>"tranid": "1",</span>
+                        <span>"amount": "50",</span>
+                    }</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 50,</span>
+                            <span>"Debit": "RBC",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__transfer"> <!-- Get a list of all transfers-->
+                <h3 id="transfers-all">GET /transfer/all</h3>
+                <div>
+                    <p>This endpoint allows you to access the all the transfer records for a particular user.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                            
+                        },
+                        {
+                            <span>"id": 3,</span>
+                            <span>"amount": 550,</span>
+                            <span>"Debit": "TD Bank",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692911461,</span>
+                            <span>"Transaction_timestamp": 1654056000000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 4,</span>
+                            <span>"amount": 60,</span>
+                            <span>"Debit": "RBC",</span>
+                            <span>"Credit": "walmart rewards",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692929962,</span>
+                            <span>"Transaction_timestamp": 1648785600000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 5,</span>
+                            <span>"amount": 150,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692960261,</span>
+                            <span>"Transaction_timestamp": 1652587200000,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__transfer"> <!-- Get a list of transfers by period-->
+                <h3 id="transfers-by-period">GET /transfer/by-period</h3>
+                <div>
+                    <p>This endpoint allows you to access the transfer records for a particular user by month.</p>
+                    <p>There are 2 mandatory fields: month, year.</p>
+                    <p>If any of the fields are missing or incorrect then the API will return an error with some information about what went wrong.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                    <p class="bold">Example of parameters to send for request:</p>
+                    <p>{
+                        <span>"month": "05",</span>
+                        <span>"year":"2022"</span>
+                    }</p>
+                    <p class="bold">Alternatively add params to end of URL</p>
+                    <p><span>'/transfer/by-period?month=05&year=2022</span></p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>[
+                        {
+                            <span>"id": 1,</span>
+                            <span>"amount": 100,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657680046193,</span>
+                            <span>"Transaction_timestamp": 1651377600000,</span>
+                            <span>"user_id": 1</span>
+                        },
+                        {
+                            <span>"id": 5,</span>
+                            <span>"amount": 150,</span>
+                            <span>"Debit": "walmart rewards",</span>
+                            <span>"Credit": "TD Bank",</span>
+                            <span>"Description": "",</span>
+                            <span>"Record_timestamp": 1657692960261,</span>
+                            <span>"Transaction_timestamp": 1652587200000,</span>
+                            <span>"user_id": 1</span>
+                        }
+                    ]</p>
+                </details>
+                </div>
+            </article>
+        </section>
+
         <section> <!-- actual transaction related enquiries -->
 
             <article class="article__actual"> <!-- Get a list of transactions by period-->
-                <h3 id="transaction-by-period">GET /actual/transactions-by-period</h3>
+                <h3 id="transaction-by-period">GET /actual/by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the records for a particular user by month.</p>
                     <p>There are 2 mandatory fields: month, year.</p>
@@ -219,10 +855,13 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/transaction-by-period?month=05&year=2022</span></p>
+                    <p><span>'/actual/by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 8,</span>
@@ -236,11 +875,12 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
         
             <article class="article__actual"> <!-- Total by period for actuals-->
-                <h3 id="total-by-period">GET /actual/total-by-period</h3>
+                <h3 id="total-by-period">GET /actual/totals-by-period</h3>
                 <div>
                     <p>This endpoint takes all the transactions in a given period for a specific user and returns totals by categories.</p>
                     <p>There are 2 mandatory fields: month, year</p>
@@ -255,10 +895,13 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/total-by-period?month=05&year=2022</span></p>
+                    <p><span>'/actual/totals-by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>{
                         <span>"income": [],</span>
                         <span>"expense": [
@@ -270,11 +913,12 @@
                         <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
                         <span>"enquiry": "actual"</span>
                     }</p>
+                </details>
                 </div>
             </article>
     
             <article class="article__actual"> <!-- Get a list of all transactions-->
-                <h3 id="transactions-all">GET /actual/transactions-all</h3>
+                <h3 id="transactions-all">GET /actual/all</h3>
                 <div>
                     <p>This endpoint allows you to access the all the transaction records for a particular user.</p>
                 </div>
@@ -283,7 +927,10 @@
                     <p>Authorization: Bearer 'JWT Token'</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 8,</span>
@@ -308,15 +955,16 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
     
             <article class="article__actual"> <!-- Post a transaction-->
-                <h3 id="transaction">POST /actual/transaction-single</h3>
+                <h3 id="transaction">POST /actual/single</h3>
                 <div>
                     <p>This endpoint allows you to add transaction records for a specific user.</p>
                     <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
-                    <p>The is an optional field 'description' in which you can add details about the transaction if you want.</p>
+                    <p>There is an optional field 'description' in which you can add details about the transaction if you want.</p>
                     <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
                     <p>The list of accounts that can be used for this request is limited. Please make a request to 'GET /account-list' for a full list of accounts. Some examples of accounts are as follows:</p>
                     <ul>
@@ -339,7 +987,10 @@
                     }</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 1,</span>
@@ -353,11 +1004,12 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
     
             <article class="article__actual"> <!-- Get the record for a single transaction-->
-                <h3 id="single-tran">GET /actual/transaction-single</h3>
+                <h3 id="single-tran">GET /actual/single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and returns the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -372,10 +1024,13 @@
                         <span>"tranid": "1",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/total-by-period?tranid=1</span></p>
+                    <p><span>'/actual/single?tranid=1</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 1,</span>
@@ -389,11 +1044,12 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
     
             <article class="article__actual"> <!-- Delete the record for a single transaction-->
-                <h3 id="delete-single-tran">DELETE /actual/transaction-single</h3>
+                <h3 id="delete-single-tran">DELETE /actual/single</h3>
                 <div>
                     <p>This endpoint seraches for transaction by id and deletes the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -408,7 +1064,7 @@
                         <span>"tranid": "5",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/actual/total-by-period?tranid=5</span></p>
+                    <p><span>'/actual/single?tranid=5</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -419,11 +1075,11 @@
             </article>
     
             <article class="article__actual"> <!-- Update the record for a single transaction-->
-                <h3 id="update-single-tran">PATCH /actual/transaction-single</h3>
+                <h3 id="update-single-tran">PATCH /actual/single</h3>
                 <div>
                     <p>This endpoint searches for the transaction by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
-                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp. At least one of these optional fields must be provided with the tranid.</p>
                     <p>If the debit or credit fields are to be updated, then you must provide the bank_type as well. Note that bank_type cannot be changed so when changing the credit or debit accounts, you cannot switch the two. i.e. if credit was a payment account, then you can only update it to another payment account.</p>
                     <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
                     <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
@@ -438,7 +1094,10 @@
                     }</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 10,</span>
@@ -452,6 +1111,7 @@
                             <span>"user_id": 9</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
     
@@ -460,14 +1120,14 @@
         <section> <!-- budget related enquires-->
 
             <article class="article__budget"> <!-- POST a budget record/transaction -->
-                <h3 id="post-single-budget-tran">POST /budget/transaction-single</h3>
+                <h3 id="post-single-budget-tran">POST /budget/single</h3>
                 <div>
                     <p>This endpoint allows you to add budget transaction records for a specific user.</p>
                     <p>This endpoint functions in a similar manner to the endpoint for POST /actual/transactions except there is an additional optional field avaialble.</p>
                     <p>It has 5 mandatory fields: amount, debit, credit, bank_type, transaction_timestamp</p>
                     <p>There are two optional fields:</p>
-                         <span>'description' in which you can add details about the transaction if you want.</span>
-                         <span>'mandatory' is which you can specify is the expense is mandatory (i.e. it cannot be avoided).</span>
+                         <p><span>'description' in which you can add details about the transaction if you want.</span></p>
+                         <p><span>'mandatory' is which you can specify is the expense is mandatory (i.e. it cannot be avoided).</span></p>
                     <p>One account that was set up via the intial-set-up endpoint must be in either the debit or credit header. Also specify 'c' or 'd' for bank_type according to whether you used credit or debit for the account used for payment.</p>
                     <p>The list of accounts that can be used for this request is limited. Please make a request to 'GET /account-list' for a full list of accounts. Some examples of accounts are as follows:</p>
                     <ul>
@@ -491,7 +1151,10 @@
                     }</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 2,</span>
@@ -506,11 +1169,12 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
 
             <article class="article__budget"> <!-- Get the record for a single budget record-->
-                <h3 id="get-single-budget-tran">GET /budget/transaction-single</h3>
+                <h3 id="get-single-budget-tran">GET /budget/single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and returns the transaction that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -526,10 +1190,13 @@
                         <span>"tranid": "3",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                    <p><span>'/budget/single?tranid=3</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 3,</span>
@@ -544,11 +1211,12 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
 
             <article class="article__budget"> <!-- Delete a single budget record-->
-                <h3 id="delete-single-budget-tran">DELETE /budget/transaction-single</h3>
+                <h3 id="delete-single-budget-tran">DELETE /budget/single</h3>
                 <div>
                     <p>This endpoint seraches for budget records by id and deletes the record that matches the id provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
@@ -563,7 +1231,7 @@
                         <span>"tranid": "3",</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/total-by-period?tranid=3</span></p>
+                    <p><span>'/budget/single?tranid=3</span></p>
                 </div>
                 <div>
                     <p  class="bold">Response Body Example:</p>
@@ -574,11 +1242,11 @@
             </article>
 
             <article class="article__budget"> <!-- Update a single budget record-->
-                <h3 id="update-single-budget-tran">PATCH /budget/transaction-single</h3>
+                <h3 id="update-single-budget-tran">PATCH /budget/single</h3>
                 <div>
                     <p>This endpoint searches for the budget records by id and updates the parameters provided.</p>
                     <p>There is 1 mandatory field: tranid</p>
-                    <p>The following optional fields can be updated: amount, debit, credit, accDesc, transaction_timestamp, mandatory. At least one of these optional fields must be provided with the tranid.</p>
+                    <p>The following optional fields can be updated: amount, debit, credit, description, transaction_timestamp, mandatory. At least one of these optional fields must be provided with the tranid.</p>
                     <p>If the debit or credit fields are to be updated, then you must provide the bank_type as well. Note that bank_type cannot be changed so when changing the credit or debit accounts, you cannot switch the two. i.e. if credit was a payment account, then you can only update it to another payment account.</p>
                     <p>The API does not support maintianing records prior to Jan 1, 2022.</p>
                     <p>The API will respond back with the updated information for the transaction in question for a successfull request.</p>
@@ -594,7 +1262,10 @@
                     }</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 2,</span>
@@ -609,11 +1280,12 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
 
             <article class="article__budget"> <!-- Get a list of all transactions-->
-                <h3 id="budget-records-all">GET /budget/transactions-all</h3>
+                <h3 id="budget-records-all">GET /budget/all</h3>
                 <div>
                     <p>This endpoint allows you to access all the budget records records for a particular user.</p>
                 </div>
@@ -622,7 +1294,10 @@
                     <p>Authorization: Bearer 'JWT Token'</p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 1,</span>
@@ -649,11 +1324,12 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
 
             <article class="article__budget"> <!-- Get a list of transactions by period-->
-                <h3 id="budget-records-by-period">GET /budget/transactions-by-period</h3>
+                <h3 id="budget-records-by-period">GET /budget/by-period</h3>
                 <div>
                     <p>This endpoint allows you to access the budget records for a particular user by month.</p>
                     <p>There are 2 mandatory fields: month, year.</p>
@@ -668,10 +1344,13 @@
                         <span>"year":"2022"</span>
                     }</p>
                     <p class="bold">Alternatively add params to end of URL</p>
-                    <p><span>'/budget/transaction-by-period?month=05&year=2022</span></p>
+                    <p><span>'/budget/by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>[
                         {
                             <span>"id": 1,</span>
@@ -686,6 +1365,7 @@
                             <span>"user_id": 1</span>
                         }
                     ]</p>
+                </details>
                 </div>
             </article>
 
@@ -708,7 +1388,10 @@
                     <p><span>'/budget/totals-by-period?month=05&year=2022</span></p>
                 </div>
                 <div>
-                    <p  class="bold">Response Body Example:</p>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
                     <p>{
                         <span>"income": [],</span>
                         <span>"expense": [
@@ -720,11 +1403,246 @@
                         <span>"period": "Sun May 01 2022 00:00:00 GMT-0400 (Eastern Daylight Saving Time)",</span>
                         <span>"enquiry": "budget"</span>
                     }</p>
+                </details>
                 </div>
             </article>
 
         </section>
         
+        <section> <!--cashflow related enquiries-->
+
+            <article class="article__cashflow"> <!--Three month cashflow-->
+                <h3 id="cashflow-three-month">GET cashflow/three-month</h3>
+                <div>
+                    <p>This endpoint provides information for 3 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 3 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers:Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__cashflow"> <!--Six month cashflow-->
+                <h3 id="cashflow-six-month">GET /cashflow/six-month</h3>
+                <div>
+                    <p>This endpoint provides information for 6 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 6 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fourthMonth": {
+                            <span>"startDate": "2022-11-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-11-30T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fifthMonth": {
+                            <span>"startDate": "2022-12-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2022-12-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"sixthMonth": {
+                            <span>"startDate": "2023-01-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-01-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+            <article class="article__cashflow"> <!--Twelve month cashflow-->
+                <h3 id="cashflow-twelve-month">GET /cashflow/twelve-month</h3>
+                <div>
+                    <p>This endpoint provides information for 12 month cashflow projections. The current period information pertains to the latest period for which transactions are avaialble. It also provides 12 months of expense and income budget information. Finally it takes the payment account opening balances, adjusts them activity up-to the start of the current period information and provides opening balances.</p>
+                </div>
+                <div>
+                    <p>Required Request Headers: Content-Type: application/json</p>
+                    <p>Authorization: Bearer 'JWT Token'</p>
+                </div>
+                <div>
+                <details>
+                    <summary>
+                        <p  class="bold">Response Body Example:</p>
+                    </summary>
+                    <p>{
+                        <span>"currentPeriod": {
+                            <span>"startDate": "2022-07-01T04:00:00.000Z",</span>
+                            <span>"actual_expense": 50,</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"actual_income": -2500,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+
+                        <span>"firstMonth": {
+                            <span>"startDate": "2022-08-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-08-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"secondMonth": {
+                            <span>"startDate": "2022-09-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-09-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"thirdMonth": {
+                            <span>"startDate": "2022-10-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-10-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fourthMonth": {
+                            <span>"startDate": "2022-11-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2022-11-30T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"fifthMonth": {
+                            <span>"startDate": "2022-12-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2022-12-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"sixthMonth": {
+                            <span>"startDate": "2023-01-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-01-31T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"seventhMonth": {
+                            <span>"startDate": "2023-02-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-02-28T05:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"eighthMonth": {
+                            <span>"startDate": "2023-03-01T05:00:00.000Z",</span>
+                            <span>"endDate": "2023-03-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"ninethMonth": {
+                            <span>"startDate": "2023-04-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-04-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"tenthMonth": {
+                            <span>"startDate": "2023-05-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-05-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"eleventhMonth": {
+                            <span>"startDate": "2023-06-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-06-30T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"twelvethMonth": {
+                            <span>"startDate": "2023-07-01T04:00:00.000Z",</span>
+                            <span>"endDate": "2023-07-31T04:00:00.000Z",</span>
+                            <span>"budget_expense": 0,</span>
+                            <span>"budget_income": 0</span>
+                        },</span>
+                        <span>"opening_account_balances": {
+                            <span>"chequeing": -1450,</span>
+                            <span>"credit-card": -400,</span>
+                            <span>"line-of-credit": 0,</span>
+                            <span>"cash": 0,</span>
+                            <span>"savings": 0</span>
+                        }</span>
+                    }</p>
+                </details>
+                </div>
+            </article>
+
+        </section>
     </main>
 
     <aside>

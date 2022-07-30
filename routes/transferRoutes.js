@@ -4,46 +4,41 @@ const router = express.Router();
 const decodeJWT = require('../middleware/decodeJWT');
 const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {postBudgetTransaction, getSingleBudgetTran, deleteSingleBudgetTranansation, patchSingleBudgetTransaction, getAllBudgetRecords, getBudgetRecordsByPeriod, getBudgetTotalsByPeriod} = require('../controllers/budget');
+const {postTransfer, getSingleTransfer, deleteSingleTransfer, patchSingleTransfer, getAllTransfers, getTransfersByPeriod} = require('../controllers/transfers');
 
 router
     .route('/single')
     .post(
         decodeJWT,
         validateCredentials,
-        postBudgetTransaction
+        postTransfer
     )
     .get(
         decodeJWT,
         validateCredentials,
-        getSingleBudgetTran
-    )
-    .patch(
-        decodeJWT,
-        validateCredentials,
-        patchSingleBudgetTransaction
+        getSingleTransfer
     )
     .delete(
         decodeJWT,
         validateCredentials,
-        deleteSingleBudgetTranansation
+        deleteSingleTransfer
+    )
+    .patch(
+        decodeJWT,
+        validateCredentials,
+        patchSingleTransfer
     )
 
 router
-    .get('/by-period',
-        decodeJWT,
-        validateCredentials,
-        getBudgetRecordsByPeriod
-    )
-    .get('/totals-by-period',
-        decodeJWT,
-        validateCredentials,
-        getBudgetTotalsByPeriod
-    )
     .get('/all',
         decodeJWT,
         validateCredentials,
-        getAllBudgetRecords
+        getAllTransfers
+    )
+    .get('/by-period',
+        decodeJWT,
+        validateCredentials,
+        getTransfersByPeriod
     )
 
 module.exports = router;

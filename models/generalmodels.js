@@ -1,6 +1,7 @@
 const fs = require('fs');
 const accList = './data/accTypes.json';
 
+//this function reads the data in the accTypes.json file and returns it.
 function readAccountList() {
     const readList = fs.readFileSync(accList)
     return readList

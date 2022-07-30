@@ -6,10 +6,22 @@ This API is developed specifically for the client side app but documentation for
 
 # Tech Stack
 
-NodeJS, Express, Knex, MySQL, HTML, CSS, JavaScript
+NodeJS, Express, MySQL, HTML, CSS, JavaScript
 
 <a href="https://skillicons.dev">
-<img src="https://skillicons.dev/icons?i=html,css,js,nodejs,express,mysql&perline=9" />
+<img src="https://skillicons.dev/icons?i=nodejs,express,mysql,html,css,js&perline=9" />
+</a>
+
+Libraries utilized: Bcryptjs, Jsonwebtoken, Nodemailer, Knex
+
+<br/>
+
+# Deployment Details
+
+This API is deployed at www.my-web-accountant.dev using heroku (the related database also deployed through heroku utilizing firebase).
+
+<a href="https://skillicons.dev">
+<img src="https://skillicons.dev/icons?i=heroku,firebase&perline=9" />
 </a>
 
 <br />
@@ -19,11 +31,19 @@ NodeJS, Express, Knex, MySQL, HTML, CSS, JavaScript
 This end point allows you to:
 
 - Register a user.
+- Change passwords.
+- Delete a user.
+
+<br/>
+To login, the user needs to first validate their email address.
 
 Individual Users can log in and have access to the follow:
 
 - Set up payment account information,
 - View a list of payment accounts set up,
+- View details for a single payment account,
+- Delete a single payment account,
+
 - View a breakdown of expenses by category and period,
 - View a list of transactions by period,
 - Record, View, Edit, or Delete a transaction,
@@ -34,7 +54,13 @@ Individual Users can log in and have access to the follow:
 - Record, View, Edit, or Delete a budget record,
 - View all budget records for a specific user,
 
-- Users only have access to information for their own user only.
+- View a list of transfer records by period,
+- Record, View, Edit, or Delete a transfer record,
+- View all transfer records for a specific user,
+
+- Get cashflow inflow for 3 month, 6 month, or 12 month periods.
+
+- Users have access to information for their own user only.
 
 <br />
 
@@ -45,9 +71,10 @@ Individual Users can log in and have access to the follow:
 3. Run 'npm i' to download the necessary node modules.
 4. Create a database by the name: 'my_web_accountant'.
 5. Create a .env file using the 'envexample' as reference. Your database username and password will be entered here as well as the Port you are using.
-6. Run the following command line in terminal to generate a key: node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
-7. Update the .env file with the Key generated in point 6.
-8. Refer to temp data files for test data to be included.
+6. This endpoint utilizes sending emails from a mail service provider. Take a look at the .env example and update the required information.
+7. Run the following command line in terminal to generate a key: node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
+8. Update the .env file with the Key generated in point 7.
+9. Refer to temp data files for test data to be included.
 
 <br />
 

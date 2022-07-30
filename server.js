@@ -4,8 +4,13 @@ const cors = require('cors');
 
 const generalRoutes = require('./routes/generalRoutes');
 const userRoutes = require('./routes/userRoutes');
+const bankRoutes = require('./routes/bankReoutes');
 const transactionRoutes = require('./routes/transactionsRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
+const transferRoutes = require('./routes/transferRoutes');
+const cashflowRoutes = require('./routes/cashflowRoutes');
+
+const testArea = require('./test.js');
 
 
 //middleware
@@ -19,8 +24,13 @@ server.use(express.json())
 //routes
 server.use('/api', generalRoutes);
 server.use('/api/user', userRoutes);
+server.use('/api/banks', bankRoutes)
 server.use('/api/actual', transactionRoutes);
 server.use('/api/budget', budgetRoutes)
+server.use('/api/transfer', transferRoutes);
+server.use('/api/cashflow', cashflowRoutes);
+
+server.use('/api/test', testArea)
 
 //initialize server
 server.listen(PORT, () => {

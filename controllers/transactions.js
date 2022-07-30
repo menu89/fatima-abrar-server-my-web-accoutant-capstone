@@ -2,8 +2,8 @@ const { findBankAcc, addNewTran, findTranByPeriod, findDebitByPeriod, findCredit
 
 const {organizeTranInfo, arrangePeriodSearchInfo, arrangeTotalByPeriod, organizeUpdateTranInfo} = require('../utilfuncs/organizeInfo')
 const {confirmTransactionFields, confirmTranPeriodFields, confirmUpdateTranFields} = require('../utilfuncs/confirmFields');
-//const { response } = require('express');
 
+//this function checks the parameters received to see if anything is missing or in the wrong format. next it checks to see if the bank account specified exists. It then posts the new transaction, then searches for the most recent posted transaction for the given user and returns it in the response body example.
 function postTransaction (req, res) {
     const dataReceipt = {...req.body, ...req.user}
     const returnMsg = confirmTransactionFields(dataReceipt)
@@ -26,6 +26,7 @@ function postTransaction (req, res) {
     })
 }
 
+//this function searches for transactions for actuals for a given user for a specified period.
 function getTranPeriod (req,res) {
     const dataReceipt = {...req.query, ...req.user}
     const returnMsg = confirmTranPeriodFields(dataReceipt)
@@ -44,6 +45,7 @@ function getTranPeriod (req,res) {
     })
 }
 
+//this function takes the totals of the 'amount' column for each distinct heading under 'debit' and 'credit' and then nets the two to arrive and one set of totals.
 function getPeriodTotal(req, res) {
     const dataReceipt = {...req.query, ...req.user}
     const returnMsg = confirmTranPeriodFields(dataReceipt)
@@ -73,6 +75,7 @@ function getPeriodTotal(req, res) {
     })
 }
 
+//this function searches for all the transactions for a given user and returns them.
 function getAllTransactions (req, res) {
     const {id} = req.user
 
@@ -85,6 +88,7 @@ function getAllTransactions (req, res) {
     })
 }
 
+//this function searches for a record for a given user by the specified transaction id.
 function getSingleTransaction (req,res) {
     const dataReceipt = {...req.query, ...req.user}
     if (!dataReceipt.tranid) {
@@ -100,6 +104,10 @@ function getSingleTransaction (req,res) {
     })
 }
 
+//this function takes the edit parameters for an entry. checks to see if the parameters meet certain conditions. There are then three possible situations.
+//if a debit or credit is changed, then it checks to see if we are changing the bank account. if it is, then it checks to see if the new bank account specified exists for the given user. if it exists, it then searches for the given budget record. checks to see if bank type is being switched( this is not supported ). if the bank type is not being switched, then updates the specified record, finds the updated record and returns it as a response.
+//if the bank account is not the one being changed, then it skips the step of looking for the bank account and the reaminder of the steps remain the same.
+//if fields other the debit and credit are being updated, then it updates the record and returns the updated record as a response.
 function patchSingleTransaction (req,res) {
     const dataReceipt  = {...req.user, ...req.body}
     const returnMsg = confirmUpdateTranFields(dataReceipt)
@@ -164,6 +172,7 @@ function patchSingleTransaction (req,res) {
     }
 }
 
+//this function searches for a single transaction for a given user and deletes it.
 function deleteSingleTransaction (req,res) {
     const dataReceipt = {...req.query, ...req.user}
     if (!dataReceipt.tranid) {

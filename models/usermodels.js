@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this function adds a new user to the users table.
 function addNewUser(userInfo) {
 
     return new Promise((resolve,reject) => {
@@ -26,6 +27,7 @@ function addNewUser(userInfo) {
     })
 }
 
+//this function looks for a user by id in the users table.
 function findUser(email) {
     
     return new Promise((resolve, reject)=>{
@@ -50,42 +52,46 @@ function findUser(email) {
     })
 }
 
-function findBankList (id) {
+//this function updates information for the user.
+function updateUser(email, updateCriterion) {
     return new Promise((resolve, reject) => {
-        knex('opening_bank_balances')
-        .where({user_id:id})
-        .then( (userInfo) => {
-            if (userInfo.length === 0) {
-                reject ({
-                    status:400,
-                    message:"The specified account does not exist for the user mentioned"
-                })
-            }
-            resolve(userInfo)
+        knex('users_list')
+        .update(updateCriterion)
+        .where({email:email})
+        .then( response => {
+            resolve(response)
         })
-        .catch((err) => {
-            reject ({
+        .catch(() => {
+            return reject({
                 status:400,
-                message:"We ran into difficulties searching for account info"
+                message:"Failed to update the requested record."
             })
         })
     })
 }
 
-function addBankAcc (newAcc) {
-    return new Promise ((resolve, reject) =>{
-        knex('opening_bank_balances')
-        .insert(newAcc)
-        .then(() => { 
-            resolve({
-                status:201,
-                message:"Account added Successfully"
+//this function deletes the information for a user.
+function deleteUser(email) {
+    return new Promise((resolve, reject)=>{
+        knex('users_list')
+        .where({email: email})
+        .del()
+        .then( (info) => {
+            if (info === 0) {
+                return reject({
+                    status:400,
+                    message:'No Records Found'
+                })
+            }
+            return resolve({
+                status:200,
+                message:`${info} record deleted`
             })
         })
-        .catch((err) => { 
+        .catch((err) => {
             reject({
                 status:400,
-                message:"Failed to add the requested record."
+                message:"Unknown server error."
             })
         })
     })
@@ -94,6 +100,6 @@ function addBankAcc (newAcc) {
 module.exports = {
     addNewUser,
     findUser,
-    addBankAcc,
-    findBankList
+    updateUser,
+    deleteUser
 }

@@ -1,28 +1,35 @@
 const express = require('express');
 const router = express.Router();
 
-const decodeJWT = require('../middleware/decodeJWT');
-const {validateCredentials} = require('../middleware/checkCredentials');
 
-const {userRegistration, userLogin, addBankInfo, findBanks} = require('../controllers/usersignin');
+
+const {userRegistration, userLogin, verifyEmail, changePassword, forgotPassword, resendVerificationCode, sendPasswordResetCode, deleteUserRoute } = require('../controllers/usersignin');
 
 router
     .post('/register', 
         userRegistration
     )
+    .get('/resend-code',
+        resendVerificationCode
+    )
+    .post('/verify-email',
+        verifyEmail
+    ) 
     //get
     .post('/login', 
         userLogin
     )
-    .post('/initial-set-up', 
-        decodeJWT, 
-        validateCredentials, 
-        addBankInfo
+    .patch('/change-password',
+        changePassword
     )
-    .get('/bank-list',
-        decodeJWT,
-        validateCredentials,
-        findBanks
+    .get('/forgot-password',
+        sendPasswordResetCode
+    )
+    .patch('/forgot-password',
+        forgotPassword
+    )
+    .delete('/single',
+        deleteUserRoute
     )
 
 module.exports = router;

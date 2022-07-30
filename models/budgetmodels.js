@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+//this function adds a specific budget record to the 'budget_entries' table
 function addNewBudgetTran(tranInfo) {
     return new Promise ((resolve, reject) => {
         knex('budget_entries')
@@ -19,6 +20,7 @@ function addNewBudgetTran(tranInfo) {
     })
 }
 
+//this function searches for the most recent record added for a user and returns it.
 function findLastBudgetTran(id) {
     return new Promise((resolve, reject) =>{
         knex('budget_entries')
@@ -37,6 +39,7 @@ function findLastBudgetTran(id) {
     })
 }
 
+//this function searches for a specific budget record by id for a given user.
 function findSingleBudgetTran(dataReceipt) {
     const {tranid, id} = dataReceipt
 
@@ -65,6 +68,7 @@ function findSingleBudgetTran(dataReceipt) {
     })
 }
 
+//this function searches for a specific record and deletes it.
 function deleteSingleBudgetTran(dataReceipt) {
     const {tranid, id} = dataReceipt
 
@@ -93,6 +97,7 @@ function deleteSingleBudgetTran(dataReceipt) {
     })
 }
 
+//this function searches fpr a specific record and updates given criterion.
 function updateSingleBudgetTran (tranId, id, updateCriterion) {
     return new Promise((resolve, reject) => {
         knex('budget_entries')
@@ -110,6 +115,7 @@ function updateSingleBudgetTran (tranId, id, updateCriterion) {
     })
 }
 
+//this function searches for all records for a user and returns them.
 function findAllBudgetRecords(id) {
     return new Promise ((resolve, reject) => {
         knex('budget_entries')
@@ -133,6 +139,7 @@ function findAllBudgetRecords(id) {
     })
 }
 
+//this function searches for records for a given user for a specified period.
 function findBudgetRecordsByPeriod(searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 
@@ -164,6 +171,7 @@ function findBudgetRecordsByPeriod(searchParameters) {
     })
 }
 
+//this function sums up the 'amount' column for debit fields for each distinct heading.
 function findDebitByPeriodForBudgets(searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 
@@ -196,6 +204,7 @@ function findDebitByPeriodForBudgets(searchParameters) {
     })
 }
 
+//this function sums up the 'amount' column for credit fields for each distinct heading.
 function findCreditByPeriodForBudgets(searchParameters) {
     const {id, startDate, nextMonth} = searchParameters
 

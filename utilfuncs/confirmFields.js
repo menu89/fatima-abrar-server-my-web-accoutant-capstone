@@ -2,6 +2,7 @@ const accountListData = require('../data/accTypes.json');
 const accList = accountListData.filter((acc) => ( acc.type !== "other"))
 const startDate = Date.parse("Jan 1 2022")
 
+//this function takes tot fields provided for a new user registration and checks to see if they are all there and that they meet certain criterion.
 function confirmRegisFields(username, email, password, confirmpassword) {
     if ( !username || !email || !password || !confirmpassword) {
         const errorList = []
@@ -28,6 +29,7 @@ function confirmRegisFields(username, email, password, confirmpassword) {
     return { code: 200}
 }
 
+//this function takes the log in fields and checks them.
 function confirmLoginFields(email, password) {
     const errorList = []
     if (!email || !password) {
@@ -39,6 +41,82 @@ function confirmLoginFields(email, password) {
         return { 
             code: 400, 
             message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    return { code: 200}
+}
+
+//this function takes the verification fields and checks them
+function confirmCodeVerificationFields(email, verificationCode) {
+    const errorList = []
+    if (!email || !verificationCode) {
+        if (!email) {errorList.push('email')}
+        if (!verificationCode) {errorList.push('verification code')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    return { code: 200}
+}
+
+//this function takes the verification fields for forgotten passwords and checks them
+function confirmForgottenPasswordVerificationFields(dataReceipt) {
+    const { email, passwordVerificationCode, newPassword, confirmNewPassword } = dataReceipt
+
+    const errorList = []
+    if (!email || !passwordVerificationCode || !newPassword || !confirmNewPassword) {
+        if (!email) {errorList.push('email')}
+        if (!passwordVerificationCode) {errorList.push('password verification code')}
+        if (!newPassword) {errorList.push('the new password')}
+        if (!confirmNewPassword) {errorList.push('confirm new password')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    if (newPassword !== confirmNewPassword) {
+        return {
+            status:400,
+            message: "The passwords do not match."
+        }
+    }
+
+    return { code: 200}
+}
+
+//this function takes the verification fields for changing passwords and checks them.
+function confirmChangePasswordFields(dataReceipt) {
+    const { email, password, newPassword, confirmNewPassword } = dataReceipt
+
+    const errorList = []
+    if (!email || !password || !newPassword || !confirmNewPassword) {
+        if (!email) {errorList.push('email')}
+        if (!password) {errorList.push('current password')}
+        if (!newPassword) {errorList.push('the new password')}
+        if (!confirmNewPassword) {errorList.push('confirm new password')}
+
+        const errorString = errorList.join(", ")
+        
+        return { 
+            code: 400, 
+            message:`Please enter all the required fields. The following fields are missing: ${errorString}`
+        }
+    }
+
+    if (newPassword !== confirmNewPassword) {
+        return {
+            status:400,
+            message: "The passwords do not match."
         }
     }
 
@@ -73,6 +151,7 @@ function checkTimeStatmp (timestamp) {
 
 }
 
+//this function checks bank account fields to see if they are missing or in the wrong formation. (for posting a new bank account.)
 function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
     const errorList = []
     if (!accType || !accDesc || !amount || !balance_timestamp) {
@@ -88,6 +167,20 @@ function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
         }
     }
 
+    if (accDesc.length > 25) {
+        return {
+            code:400,
+            message:"Account description is too long. Please use 25 or less characters."
+        }
+    }
+
+    if ((accType !== 'cash') && (accType !== 'savings') && (accType !== 'line-of-credit') && (accType !== 'credit-card') && (accType !== 'chequeing')) {
+        return {
+            code:400,
+            message:"Please use a valid account type. Accepted account types are: 'chequeing', 'credit-card', 'line-of-credit', 'savings', 'cash'"
+        }
+    }
+
     const results = checkTimeStatmp(balance_timestamp)
 
     if (results.code === 400) {
@@ -97,6 +190,7 @@ function confirmBankingFields(accType, accDesc, amount, balance_timestamp) {
     return { code: 200}
 }
 
+////this function checks the transaction/budget fields to see if they are missing or in the wrong formation. (for posting a new transaction/record.)
 function confirmTransactionFields(transactionObject) {
     const {amount, debit, credit, bank_type, transaction_timestamp} = transactionObject
 
@@ -165,6 +259,7 @@ function confirmTransactionFields(transactionObject) {
 
 }
 
+//this function checks to see that the parameters provided for an endpoint that searches for information by period, meets certain criterion.
 function confirmTranPeriodFields(fieldParameters) {
     const {month, year} = fieldParameters
 
@@ -206,8 +301,10 @@ function confirmTranPeriodFields(fieldParameters) {
     return {code: 200}
 }
 
+//this function is for updating a transaction or budget item.
+//it checks to see if the fields required are present and in the right format.
 function confirmUpdateTranFields(updateParams) {
-    const {amount, debit, credit, bank_type, transaction_timestamp, accDesc, tranid} = updateParams
+    const {amount, debit, credit, bank_type, transaction_timestamp, description, tranid} = updateParams
 
     if (!tranid) {
         return ({
@@ -223,7 +320,7 @@ function confirmUpdateTranFields(updateParams) {
         }
     }
 
-    if (!amount && !debit && !credit && !transaction_timestamp && !accDesc) {
+    if (!amount && !debit && !credit && !transaction_timestamp && !description) {
         return ({
             code: 400,
             message: "Please provide at least one field that you are looking to update."
@@ -293,11 +390,139 @@ function confirmUpdateTranFields(updateParams) {
     return ({code: 200})
 }
 
+//this function checks the parameters for searches bank transactions by date to see if they meet certain criterion.
+function confirmBankTranByDate (validationData) {
+    const {bankid, balance_timestamp} = validationData
+    if (!bankid || !balance_timestamp) {
+        return({
+            code:400,
+            message:"Please provide all mandatory fields."
+        })
+    }
+
+    if (!parseInt(bankid)) {
+        return({
+            code:400,
+            message:"Please provide a valid id."
+        })
+    }
+    
+    const results = checkTimeStatmp(balance_timestamp)
+
+    if (results.code === 400) {
+        return results
+    }
+
+    return { code: 200}
+}
+
+//this function checks to see if all fields for posting a transaction are present and then chancks that they are in the right format
+function confirmTranferFields (validationData) {
+    const {amount, debit, credit, transaction_timestamp} = validationData
+
+    if (!amount || !debit || !credit || !transaction_timestamp) {
+        const errorList =[]
+        if (!amount) {errorList.push("amount")}
+        if (!debit) {errorList.push("debit")}
+        if (!credit) {errorList.push("credit")}
+        if (!transaction_timestamp) {errorList.push("transaction date is a madatory field")}
+        const errorString = errorList.join(", ")
+
+        return {
+            code: 400,
+            message: `The following fields are madatory: ${errorString}`
+        }
+    }
+   
+    const results = checkTimeStatmp(transaction_timestamp)
+
+    if (results.code === 400) {
+        return results
+    }
+
+    if (debit === credit) {
+        return {
+            code: 400,
+            message: `Debit and Credit fields cannot have the same value`
+        }
+    }
+
+    if (!parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+
+    return { code: 200 }
+
+}
+
+//this function is for updating a transfer item.
+//it checks to see if the fields required are present and in the right format.
+function confirmUpdateTransferFields(updateParams) {
+    const {amount, debit, credit, transaction_timestamp, description, tranid} = updateParams
+
+    if (!tranid) {
+        return ({
+            code:400,
+            message:"Please provide the id of the transaction being updated."
+        })
+    }
+
+    if (!!tranid && !parseInt(tranid)) {
+        return {
+            code: 400,
+            message: 'Please recheck tranid entered.'
+        }
+    }
+
+    if (!amount && !debit && !credit && !transaction_timestamp && !description) {
+        return ({
+            code: 400,
+            message: "Please provide at least one field that you are looking to update."
+        })
+    }
+
+    if (!!debit && !!credit) {
+        if (debit === credit) {
+            return {
+                code: 400,
+                message: `Debit and Credit fields cannot have the same value`
+            }
+        }
+    }
+    
+    if (!!amount && !parseInt(amount)) {
+        return {
+            code: 400,
+            message: 'Please recheck amount entered'
+        }
+    }
+
+    if (!!transaction_timestamp) {
+        const results = checkTimeStatmp(transaction_timestamp)
+
+        if (results.code === 400) {
+            return results
+        }
+    }
+
+    return ({code: 200})
+}
+
 module.exports = {
     confirmRegisFields,
     confirmLoginFields,
     confirmBankingFields,
     confirmTransactionFields,
     confirmTranPeriodFields,
-    confirmUpdateTranFields
+    confirmUpdateTranFields,
+    confirmBankTranByDate,
+    confirmTranferFields,
+    confirmUpdateTransferFields,
+    confirmCodeVerificationFields,
+    confirmForgottenPasswordVerificationFields,
+    confirmChangePasswordFields
 }
