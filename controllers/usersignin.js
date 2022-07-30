@@ -51,9 +51,9 @@ const userRegistration = (req,res) => {
         [`verification-code`]: generateCode
     }
 
-    let messageText = `Hello ${username}, To log into my-web-accountant you'll need to verify your email account. Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-account. From the support team at My Web Accountnat`
+    let messageText = `Hello ${username}, To log into my-web-accountant you'll need to verify your email account. Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-email. From the support team at My Web Accountnat`
 
-    let messageHTML =`<html><p>Hello ${username},</p> <p>To log into my-web-accountant you'll need to verify your email account.</p> <p>Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-account.</p> <p>From the support team at My Web Accountnat</p></html>`
+    let messageHTML =`<html><p>Hello ${username},</p> <p>To log into my-web-accountant you'll need to verify your email account.</p> <p>Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-email.</p> <p>From the support team at My Web Accountnat</p></html>`
 
     const mailPackage = {
         from: process.env.MAILER_USER,
@@ -97,8 +97,13 @@ const userLogin = (req,res) => {
             JWT_KEY,
             { expiresIn: '24h'}
         )
+
+        const returnObj = {
+            token:token,
+            username:foundUser.username
+        }
     
-        res.status(200).json({token})
+        res.status(200).json({returnObj})
     })
     .catch(err => {
         return res.status(err.status).json(err.message)
@@ -290,9 +295,9 @@ const resendVerificationCode = (req,res) => {
     })
     .then(() => {
         if (doNotContinue === 0) {
-            let messageText = `Hello ${username}, To log into my-web-accountant you'll need to verify your email account. Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-account. From the support team at My Web Accountnat`
+            let messageText = `Hello ${username}, To log into my-web-accountant you'll need to verify your email account. Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-email. From the support team at My Web Accountnat`
 
-            let messageHTML =`<html><p>Hello ${username},</p> <p>To log into my-web-accountant you'll need to verify your email account.</p> <p>Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-account.</p> <p>From the support team at My Web Accountnat</p></html>`
+            let messageHTML =`<html><p>Hello ${username},</p> <p>To log into my-web-accountant you'll need to verify your email account.</p> <p>Please use this verificate code:${generateCode} at ${CLIENT_WEBSITE}/verify-email.</p> <p>From the support team at My Web Accountnat</p></html>`
     
             const mailPackage = {
                 from: process.env.MAILER_USER,
@@ -337,9 +342,9 @@ const sendPasswordResetCode = (req, res) => {
         return updateUser(email, updateCriterion)
     })
     .then(() => {
-        let messageText = `Hello ${username}, A request for a forgotten password was made for this email address. Please use the following verification code to create a new password:${generateCode} at ${CLIENT_WEBSITE}/forgotten-password. From the support team at My Web Accountnat`
+        let messageText = `Hello ${username}, A request for a forgotten password was made for this email address. Please use the following verification code to create a new password:${generateCode} at ${CLIENT_WEBSITE}/forgot-password. From the support team at My Web Accountnat`
 
-        let messageHTML =`<html><p>Hello ${username},</p> <p>A request for a forgotten password was made for this email address. </p> <p>Please use the following verification code to create a new password:${generateCode} at ${CLIENT_WEBSITE}/forgotten-password.</p> <p>From the support team at My Web Accountnat</p></html>`
+        let messageHTML =`<html><p>Hello ${username},</p> <p>A request for a forgotten password was made for this email address. </p> <p>Please use the following verification code to create a new password:${generateCode} at ${CLIENT_WEBSITE}/forgot-password.</p> <p>From the support team at My Web Accountnat</p></html>`
     
         const mailPackage = {
             from: process.env.MAILER_USER,
