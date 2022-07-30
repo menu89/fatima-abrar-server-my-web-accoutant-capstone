@@ -22,7 +22,6 @@ server.use(express.json())
 
 
 //routes
-server.get('/', (req,res) => {res.send(<h1>Welcome to the web accountant server site.</h1>)})
 server.use('/api', generalRoutes);
 server.use('/api/user', userRoutes);
 server.use('/api/banks', bankRoutes)
