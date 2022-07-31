@@ -10,9 +10,6 @@ const budgetRoutes = require('./routes/budgetRoutes');
 const transferRoutes = require('./routes/transferRoutes');
 const cashflowRoutes = require('./routes/cashflowRoutes');
 
-const testArea = require('./test.js');
-
-
 //middleware
 require('dotenv').config();
 const PORT = process.env.PORT || 8000;
@@ -29,8 +26,6 @@ server.use('/api/actual', transactionRoutes);
 server.use('/api/budget', budgetRoutes)
 server.use('/api/transfer', transferRoutes);
 server.use('/api/cashflow', cashflowRoutes);
-
-server.use('/api/test', testArea)
 
 //initialize server
 server.listen(PORT, () => {
