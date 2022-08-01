@@ -140,8 +140,6 @@ function organizeUpdateTranInfo (dataReceipt) {
     if (!!transaction_timestamp) {
         if (!parseInt(transaction_timestamp)) {
             updateObject.transaction_timestamp = Date.parse(transaction_timestamp)
-        } else if (transaction_timestamp.includes('-')) {
-            updateObject.transaction_timestamp = Date.parse(new Date(transaction_timestamp))
         } else {
             updateObject.transaction_timestamp = parseInt(transaction_timestamp)
         }
@@ -204,11 +202,9 @@ function organizeUpdateTransferInfo (dataReceipt) {
 
     if (!!transaction_timestamp) {
         if (!parseInt(transaction_timestamp)) {
-            updateObject.transaction_timestamp = Date.parse(transaction_timestamp)
-        } else if (transaction_timestamp.includes('-')) {
-            updateObject.transaction_timestamp = Date.parse(new Date(transaction_timestamp))
+            updateObject.Transaction_timestamp = Date.parse(transaction_timestamp)
         } else {
-            updateObject.transaction_timestamp = parseInt(transaction_timestamp)
+            updateObject.Transaction_timestamp = parseInt(transaction_timestamp)
         }
     }
 
