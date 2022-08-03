@@ -17,6 +17,7 @@ function getInformation(id, noOfMonths) {
             
         let latestMonthIndex = 0
         let latestYear = 0
+        let successfulCompletion = 0
 
         findLatestTransactionByTimestamp(id)
         .then(response => {
@@ -98,50 +99,58 @@ function getInformation(id, noOfMonths) {
             } else if (noOfMonths === 12) {
                 promiseArray = [...monthOnetoThree, ...monthFourtoSix, ...monthSeventoTwelve]
             }
-
+            
+            successfulCompletion = 1
             return Promise.all([...currentPeriodInformation,...promiseArray])
                 
         })
-        .then(response => {
-            
-            let combineArrays = []
-            let organizePeriodData = {}
-
-            response.forEach(oneRes => {
-                combineArrays.push(oneRes.message)
-            })
-
-            combineArrays.forEach((oneArray) => {
-                if (!organizePeriodData[oneArray['period']]) {
-                    organizePeriodData[oneArray['period']] = {
-                        startDate:oneArray['startDate'],
-                        endDate:oneArray['endDate']
+        .then(response => {   
+            if (successfulCompletion === 1) {
+                let combineArrays = []
+                let organizePeriodData = {}
+    
+                response.forEach(oneRes => {
+                    combineArrays.push(oneRes.message)
+                })
+    
+                combineArrays.forEach((oneArray) => {
+                    if (!organizePeriodData[oneArray['period']]) {
+                        organizePeriodData[oneArray['period']] = {
+                            startDate:oneArray['startDate'],
+                            endDate:oneArray['endDate']
+                        }
                     }
-                }
-                organizePeriodData[oneArray['period']][oneArray['type']] = oneArray['amount']  
-            })
+                    organizePeriodData[oneArray['period']][oneArray['type']] = oneArray['amount']  
+                })
+                
+                responseObj = {...organizePeriodData}
+                successfulCompletion = 2
+                return Promise.all([
+                    sumBankActivity(id, 'actual', latestMonthIndex, latestYear),
+                    sumBankActivity(id, 'transfers', latestMonthIndex, latestYear),
+                    sumBankInitialBalances(id)
+                ])
+            }
+            
+        })
+        .then(response => {            
+            if (successfulCompletion === 2) {
+                let combineResponseArrays = []
 
-            responseObj = {...organizePeriodData}
-            return Promise.all([
-                sumBankActivity(id, 'actual', latestMonthIndex, latestYear),
-                sumBankActivity(id, 'transfers', latestMonthIndex, latestYear),
-                sumBankInitialBalances(id)
-            ])
-        }).then(response => {
-            let combineResponseArrays = []
-
-            response.forEach(oneObj => {
-                const addedArray = [ ...combineResponseArrays, ...oneObj.message]
-                combineResponseArrays = [...addedArray]
-            })
-
-            combineResponseArrays.forEach((oneArray) => {
-                organizeAccTypeList[oneArray['acc_type']] += oneArray['sumTotal']
-            })
-
-            responseObj['opening_account_balances'] = {...organizeAccTypeList}
-
-            return resolve(responseObj)
+                response.forEach(oneObj => {
+                    const addedArray = [ ...combineResponseArrays, ...oneObj.message]
+                    combineResponseArrays = [...addedArray]
+                })
+    
+                combineResponseArrays.forEach((oneArray) => {
+                    organizeAccTypeList[oneArray['acc_type']] += oneArray['sumTotal']
+                })
+    
+                responseObj['opening_account_balances'] = {...organizeAccTypeList}
+    
+                return resolve(responseObj)
+            }
+            
         })
         .catch(err => {
             return reject({status:400})
@@ -155,7 +164,7 @@ function getThreeMonthCashflow (req, res) {
 
     getInformation(id, 3)
     .then(response => {
-        res.status(200).json(response)
+        return res.status(200).json(response)
     })
     .catch((err) => {
         return res.status(400).json("We couldn't complete the reqest.")    
@@ -169,7 +178,7 @@ function getSixMonthCashFlow(req, res) {
 
     getInformation(id, 6)
     .then(response => {
-        res.status(200).json(response)
+        return res.status(200).json(response)
     })
     .catch((err) => {
         return res.status(400).json("We couldn't complete the reqest.")    
@@ -182,7 +191,7 @@ function getTwelveMonthCashFlow(req, res) {
 
     getInformation(id, 12)
     .then(response => {
-        res.status(200).json(response)
+        return res.status(200).json(response)
     })
     .catch((err) => {
         return res.status(400).json("We couldn't complete the reqest.")    
