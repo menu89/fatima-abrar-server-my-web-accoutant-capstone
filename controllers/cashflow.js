@@ -144,7 +144,7 @@ function getInformation(id, noOfMonths) {
             return resolve(responseObj)
         })
         .catch(err => {
-            return reject
+            return reject({status:400})
         })
     })
 }

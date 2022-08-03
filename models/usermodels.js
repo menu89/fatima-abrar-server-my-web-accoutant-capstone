@@ -16,7 +16,7 @@ function addNewUser(userInfo) {
             if (err.code === 'ER_DUP_ENTRY') {
                 reject({
                     status:400,
-                    "message":"A user is already registered with this email"
+                    message:"A user is already registered with this email"
                 })
             }
             reject ({
